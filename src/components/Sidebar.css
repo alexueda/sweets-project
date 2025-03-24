@@ -2,8 +2,8 @@
 .sidebar {
     width: 20%;
     padding: 1rem;
-    background-color: #f9f9f9;
-    border-right: 1px solid #ccc;
+    background-color: #FFE6EC; /* Light Pink */
+    border-right: 1px solid #D8A7B1; /* Dusty Rose */
   }
   
   .filter-group {
@@ -17,8 +17,8 @@
     align-items: center;
     margin: 1rem 0;
     padding: 0.5rem;
-    background-color: #fff;
-    border: 1px solid #ddd;
+    background-color: #FFFFFF; /* White card background */
+    border: 1px solid #D8A7B1; /* Dusty Rose border */
     border-radius: 4px;
   }
   

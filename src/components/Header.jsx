@@ -2,7 +2,11 @@
 import React from 'react';
 import './Header.css';
 
-function Header() {
+function Header({ onSearchChange }) {
+  const handleInputChange = (e) => {
+    onSearchChange(e.target.value);
+  };
+
   return (
     <header className="header">
       <div className="header-left">
@@ -11,6 +15,7 @@ function Header() {
           type="text"
           placeholder="Search by dessert..."
           className="search-input"
+          onChange={handleInputChange}
         />
       </div>
       <nav className="nav-links">

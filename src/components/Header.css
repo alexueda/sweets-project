@@ -4,8 +4,8 @@
     justify-content: space-between;
     align-items: center;
     padding: 1rem;
-    background-color: #f6f6f6;
-    border-bottom: 1px solid #ccc;
+    background-color: #FADADD; /* Milk Pink */
+    border-bottom: 1px solid #D8A7B1; /* Dusty Rose */
   }
   
   .header-left {
@@ -15,11 +15,15 @@
   
   .site-title {
     margin: 0 1rem 0 0;
+    color: #FFFFFF; /* White text */
   }
   
   .search-input {
     padding: 0.5rem;
     font-size: 1rem;
+    background-color: #FFFFFF; /* White search bar */
+    border: 2px solid #7B4B39; /* Cocoa Brown border */
+    border-radius: 4px;
   }
   
   .nav-links {
@@ -29,6 +33,6 @@
   
   .nav-link {
     text-decoration: none;
-    color: blue;
+    color: #C2E7D9; /* Mint Green */
   }
   

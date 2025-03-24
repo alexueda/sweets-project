@@ -1,8 +1,9 @@
 /* src/components/Tag.css */
 .tag {
     padding: 0.3rem 0.6rem;
-    background-color: #ddd;
+    background-color: #7B4B39; /* Cocoa Brown */
     border-radius: 12px;
     font-size: 0.9rem;
+    color: #FFFFFF; /* White text */
   }
   
