@@ -26,13 +26,13 @@
     border-radius: 4px;
   }
   
-  .nav-links {
-    display: flex;
-    gap: 1rem;
+  .nav-link {
+    text-decoration: none;
+    color: #7B4B39; /* Changed from Mint Green to Black for better contrast */
   }
   
   .nav-link {
     text-decoration: none;
-    color: #C2E7D9; /* Mint Green */
+    color: #7B4B39; /* Mint Green */
   }
   
