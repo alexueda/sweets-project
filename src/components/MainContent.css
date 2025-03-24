@@ -5,12 +5,18 @@
     background-color: #FFFFFF; /* White background */
   }
   
-  .map-placeholder {
-    height: 300px;
-    border: 2px dashed #D8A7B1; /* Dusty Rose */
+  .map-container {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 1rem 0;
+  }
+  
+  .map-image {
+    max-width: 100%;
+    height: auto;
+    border: 2px dashed #D8A7B1; /* Dusty Rose for border */
+    border-radius: 4px;
   }
   
   .search-result {
