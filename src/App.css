@@ -1,12 +1,9 @@
+/* src/App.css */
 .App {
   font-family: Arial, sans-serif;
 }
 
-h1, h2, h3 {
-  margin: 0.5rem 0;
-}
-
-a {
-  color: blue;
-  text-decoration: none;
+.main-container {
+  display: flex;
+  min-height: 80vh;
 }
