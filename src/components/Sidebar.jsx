@@ -1,7 +1,7 @@
 // src/components/Sidebar.jsx
 import React from 'react';
 import Tag from './Tag';
-import './Sidebar.css';
+import '../css/Sidebar.css';
 
 function Sidebar() {
   return (
@@ -14,20 +14,6 @@ function Sidebar() {
         <label><input type="checkbox" /> Distance</label>
         <label><input type="checkbox" /> Price</label>
         <label><input type="checkbox" /> Rating</label>
-      </div>
-
-      <h2>Dessert Name</h2>
-      <div className="dessert-card">
-        <img
-          src="https://via.placeholder.com/80"
-          alt="Dessert"
-          className="dessert-image"
-        />
-        <div className="dessert-info">
-          <h3>Sample Dessert</h3>
-          <p>Rating: ★★★★☆</p>
-          <p>Rank: #1 in Provo</p>
-        </div>
       </div>
 
       <h3>Example Tags:</h3>
