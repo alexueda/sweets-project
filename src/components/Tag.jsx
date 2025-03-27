@@ -1,6 +1,6 @@
 // src/components/Tag.jsx
 import React from 'react';
-import './Tag.css';
+import '../css/Tag.css';
 
 function Tag({ name }) {
   return (

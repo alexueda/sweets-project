@@ -1,6 +1,6 @@
 // src/components/Header.jsx
 import React from 'react';
-import './Header.css';
+import '../css/Header.css';
 
 function Header({ onSearchChange }) {
   const handleInputChange = (e) => {

@@ -1,14 +1,18 @@
 // src/components/MainContent.jsx
 import React from 'react';
-import OpenStreetMap from "./OpenStreetMap";
-import './MainContent.css';
+import mapImage from '../assets/map-placeholder.png';
+import FilteredCards from './FilteredCards';
+import '../css/MainContent.css';
 
 function MainContent({ searchQuery }) {
   return (
     <main className="main-content">
-      <h2>Map of Sweets in Provo, UT</h2>
+      <div className="card-container">
+        <FilteredCards />
+      </div>
       <div className="map-container">
-        <OpenStreetMap /> 
+        <h2>Map of Sweets in Provo, UT</h2>
+        <img src={mapImage} alt="Map of Sweets in Provo" className="map-image" />
       </div>
       {searchQuery && (
         <div className="search-result">

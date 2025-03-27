@@ -1,6 +1,6 @@
 // src/components/PopupMenu.jsx
 import React from 'react';
-import './PopupMenu.css';
+import '../css/PopupMenu.css';
 
 function PopupMenu() {
   return (

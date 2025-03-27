@@ -1,0 +1,48 @@
+/* src/components/MainContent.css */
+.main-content {
+  width: 60%;
+  padding: 1rem;
+  background-color: #FFFFFF;
+  display: grid;
+  column-gap: 10px;
+  row-gap: 10px;
+  grid-template-columns: 60% 40%; /* Defines two equal columns */
+  height: 100vh; /* Make sure the whole main content fits the viewport height */
+}
+
+.card-container {
+  grid-column: 1;
+  grid-row-start: 1;
+  max-height: 100vh; /* Limit the height to the viewport height */
+  overflow-y: auto; /* Makes the card container scrollable */
+}
+
+.map-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: top;
+  align-items: center;
+  margin: 1rem 0;
+  grid-column: 2;
+  grid-row: 1;
+  position: sticky;
+  top: 0; /* Keeps the map container fixed at the top */
+  height: 100vh; /* Map container takes up the full viewport height */
+}
+
+  
+  .map-image {
+    max-width: 100%;
+    height: auto;
+    border: 2px dashed #D8A7B1; /* Dusty Rose for border */
+    border-radius: 4px;
+  }
+  
+  .search-result {
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: #FFE6EC; /* Light Pink */
+    border: 1px solid #D8A7B1;
+    border-radius: 4px;
+  }
+  
