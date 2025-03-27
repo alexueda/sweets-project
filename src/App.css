@@ -1,4 +1,6 @@
 /* src/App.css */
+@import 'leaflet/dist/leaflet.css';
+
 .App {
   font-family: Arial, sans-serif;
 }
