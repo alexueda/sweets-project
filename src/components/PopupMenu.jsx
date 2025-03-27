@@ -5,7 +5,7 @@ import '../css/PopupMenu.css';
 function PopupMenu() {
   return (
     <div className="popup-menu">
-      <h3>Popup Menu</h3>
+      <h3>Menu</h3>
       <ul className="popup-menu-list">
         <li><a href="#profile" className="popup-link">Profile</a></li>
         <li><a href="#settings" className="popup-link">Settings</a></li>

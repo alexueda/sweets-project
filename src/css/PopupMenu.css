@@ -1,19 +1,38 @@
-/* src/components/PopupMenu.css */
+/* src/css/PopupMenu.css */
+
 .popup-menu {
-    width: 20%;
-    padding: 1rem;
-    background-color: #FFE6EC; /* Light Pink */
-    border-left: 1px solid #D8A7B1; /* Dusty Rose */
-  }
-  
-  .popup-menu-list {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .popup-link {
-    text-decoration: none;
-    color: #000000; /* Changed from Mint Green to Black for better contrast */
-  }
-  
-  
+  position: absolute;
+  top: 100%;  /* Directly below the header-right area */
+  right: 0;
+  width: 200px;
+  padding: 1rem;
+  background-color: #FFE6EC; /* Light Pink */
+  border: 1px solid #D8A7B1; /* Dusty Rose */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+}
+
+.popup-menu h3 {
+  margin-top: 0;
+  font-size: 1.1rem;
+  color: #7B4B39;
+}
+
+.popup-menu-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.popup-menu-list li {
+  margin-bottom: 0.5rem;
+}
+
+.popup-link {
+  text-decoration: none;
+  color: #000000;
+}
+
+.popup-link:hover {
+  text-decoration: underline;
+}
