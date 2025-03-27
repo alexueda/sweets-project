@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+// src/components/FilteredCards.jsx
+import React from "react";
 import DessertCard from "./DessertCard";
-import "../css/filteredCards.css"
+import "../css/filteredCards.css";
 
-const FilteredCards = () => {
-
-    return (
+const FilteredCards = ({ searchQuery }) => {
+  return (
     <div>
-        <DessertCard />
+      <DessertCard searchQuery={searchQuery} />
     </div>
-    );
+  );
 };
 
 export default FilteredCards;
