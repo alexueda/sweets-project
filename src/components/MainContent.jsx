@@ -1,6 +1,6 @@
 // src/components/MainContent.jsx
 import React from 'react';
-import mapImage from '../assets/map-placeholder.png';
+import OpenStreetMap from './OpenStreetMap';
 import FilteredCards from './FilteredCards';
 import '../css/MainContent.css';
 
@@ -12,7 +12,7 @@ function MainContent({ searchQuery }) {
       </div>
       <div className="map-container">
         <h2>Map of Sweets in Provo, UT</h2>
-        <img src={mapImage} alt="Map of Sweets in Provo" className="map-image" />
+        <OpenStreetMap/>
       </div>
       {searchQuery && (
         <div className="search-result">
