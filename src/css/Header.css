@@ -1,10 +1,12 @@
-/* src/components/Header.css */
+/* src/css/Header.css */
+
+/* The entire header container */
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem;
-    background-color: #f8adb5; /* Milk Pink */
+    padding: 1rem 2rem;
+    background-color: #FADADD; /* Milk Pink */
     border-bottom: 1px solid #D8A7B1; /* Dusty Rose */
   }
   
