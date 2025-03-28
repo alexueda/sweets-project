@@ -14,7 +14,38 @@
   grid-column: 1;
   grid-row-start: 1;
   max-height: 100vh; /* Limit the height to the viewport height */
-  overflow-y: auto; /* Makes the card container scrollable */
+  overflow-y: auto; /* Make the card container scrollable */
+  padding-right: 10px; /* Extra space for the scrollbar */
+}
+
+/* Webkit-based browsers (Chrome, Safari, Edge) */
+.card-container::-webkit-scrollbar {
+  width: 8px; /* Adjust width of the scrollbar */
+}
+
+.card-container::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3); /* The thumb (scroll handle) color */
+  border-radius: 4px; /* Round the corners of the scrollbar thumb */
+  transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+.card-container::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.5); /* Change the thumb color on hover */
+}
+
+.card-container::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1); /* Track color */
+  border-radius: 4px; /* Rounded corners for the track */
+}
+
+/* Hide the scrollbar initially and show only when user interacts with the container */
+.card-container::-webkit-scrollbar {
+  opacity: 0; /* Make the scrollbar invisible initially */
+  transition: opacity 0.3s ease; /* Smooth transition */
+}
+
+.card-container:hover::-webkit-scrollbar {
+  opacity: 0.5; /* Make the scrollbar visible on hover */
 }
 
 .map-container {

@@ -10,7 +10,7 @@ function Header({ onSearchChange }) {
   return (
     <header className="header">
       <div className="header-left">
-        <h1 className="site-title">Sweets Project</h1>
+        <h1 className="site-title">Sweet Tooth</h1>
         <input
           type="text"
           placeholder="Search by dessert..."

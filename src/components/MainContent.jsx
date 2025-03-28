@@ -1,14 +1,21 @@
 // src/components/MainContent.jsx
-import React from 'react';
+import React, {useState} from 'react';
 import OpenStreetMap from './OpenStreetMap';
 import FilteredCards from './FilteredCards';
 import '../css/MainContent.css';
 
 function MainContent({ searchQuery }) {
+  const [selectedFlavor, setSelectedFlavor] = useState([]);
+
+  console.log(selectedFlavor);
+
   return (
     <main className="main-content">
       <div className="card-container">
-        <FilteredCards />
+        <FilteredCards
+          selectedFlavor={selectedFlavor}
+          setSelectedFlavor={setSelectedFlavor}
+        />
       </div>
       <div className="map-container">
         <h2>Map of Sweets in Provo, UT</h2>

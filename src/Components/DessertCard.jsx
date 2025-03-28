@@ -33,7 +33,7 @@ const DessertCard = () => {
 
     return (
     <div className="card-generator">
-        <button onClick={dessertCard}>Generate Card</button>
+        
         <div className="cards-container">
         {cards.map((card) => (
             <div key={card.id} className="card">
