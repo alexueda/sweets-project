@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import OpenStreetMap from './OpenStreetMap';
 import FilteredCards from './FilteredCards';
 import '../css/MainContent.css';
+import DessertCard from './DessertCard';
 
 function MainContent({ searchQuery }) {
   const [selectedFlavor, setSelectedFlavor] = useState([]);
@@ -12,7 +13,7 @@ function MainContent({ searchQuery }) {
   return (
     <main className="main-content">
       <div className="card-container">
-        <FilteredCards
+        <DessertCard
           selectedFlavor={selectedFlavor}
           setSelectedFlavor={setSelectedFlavor}
           searchQuery={searchQuery} 

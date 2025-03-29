@@ -1,57 +1,34 @@
 // src/components/DessertCard.jsx
 import React, { useState } from "react";
 import "../css/dessertCard.css";
+import dessertData from "../contextsGlobal/dessertData"; // Import the dessert data
 
 const DessertCard = ({ searchQuery }) => {
-  const [cards, setCards] = useState([]);
-
-  // Function to generate a random card (unchanged)
-  const dessertCard = () => {
-    const titles = [
-      "Awesome Title",
-      "Cool Design",
-      "React Rocks",
-      "Amazing Card",
-      "Dynamic Content"
-    ];
-    const descriptions = [
-      "This is a random description. You can add your custom content here!",
-      "Keep building awesome stuff with React!",
-      "This card is randomly generated, you can use it for anything!",
-      "React makes UI development easy and fun.",
-      "Start adding dynamic content to your app."
-    ];
-
-    const randomTitle = titles[Math.floor(Math.random() * titles.length)];
-    const randomDescription =
-      descriptions[Math.floor(Math.random() * descriptions.length)];
-
-    const newCard = {
-      id: Date.now(), // Use timestamp as a unique ID
-      title: randomTitle,
-      description: randomDescription,
-    };
-
-    setCards((prevCards) => [...prevCards, newCard]); // Add new card to the cards state
-  };
+  const [cards, setCards] = useState(dessertData); // Set dessertData as the initial state
 
   // Filter cards if a search query is provided (ignoring case)
   const displayedCards = searchQuery
     ? cards.filter(
         (card) =>
-          card.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          card.description.toLowerCase().includes(searchQuery.toLowerCase())
+          card["dessert title"]
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase()) ||
+          card["restaurant"].toLowerCase().includes(searchQuery.toLowerCase())
       )
     : cards;
 
   return (
     <div className="card-generator">
-      <button onClick={dessertCard}>Generate Card</button>
       <div className="cards-container">
         {displayedCards.map((card) => (
-          <div key={card.id} className="card">
-            <h3>{card.title}</h3>
-            <p>{card.description}</p>
+          <div key={card["dessert title"]} className="card">
+            <h3>{card["dessert title"]}</h3>
+            <p><strong>Restaurant:</strong> {card["restaurant"]}</p>
+            <p><strong>Flavor:</strong> {card["flavor"]}</p>
+            <p><strong>Stars:</strong> {card["stars"]}</p>
+            <p><strong>Deals:</strong> {card["deals"].join(", ")}</p>
+            <p><strong>Dietary Friendly:</strong> {card["dietary friendly"].join(", ") || "None"}</p>
+            {card["image"].length > 0 && <img src={card["image"][0]} alt={card["dessert title"]} />}
           </div>
         ))}
       </div>
