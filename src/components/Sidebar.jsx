@@ -62,7 +62,7 @@ export default function Sidebar({
   };
 
   const handleCheckboxChange = (value, selectedValues, setSelectedValues) => {
-    if (Array.isArray(selectedValues) && selectedValues.includes(value)) {
+    if (selectedValues.includes(value)) {
       setSelectedValues(selectedValues.filter((v) => v !== value));
     } else {
       setSelectedValues([...selectedValues, value]);
@@ -80,26 +80,77 @@ export default function Sidebar({
       <hr/>
 
       <div className="buffer">
-      <button onClick={toggleFlavor} className="dropdown-button">
-        <div>Flavor</div>
-        <i className={`dropper ${flavorOpen ? "down" : "up"}`}></i> 
-      </button>
-      {flavorOpen && (
-        <div className="filter-type">
-          {["Chocolate", "Vanilla", "Strawberry", "Mint", "Caramel", "Cherry", "Cinnamon"].map((flavor) => (
-            <label key={flavor} className="dropdown-items">
-              <input
-                type="checkbox"
-                checked={selectedFlavor?.includes(flavor)}
-                onChange={(e) => {
-                  handleCheckboxChange(flavor, selectedFlavor, setSelectedFlavor);
-                }}
-              />
-              {flavor}
-            </label>
-        ))}
-        </div>
-        )}
+        <button onClick={toggleFlavor} className="dropdown-button">
+          <div>Flavor</div>
+          <i className={`dropper ${flavorOpen ? "down" : "up"}`}></i> 
+        </button>
+        {flavorOpen && (
+          <div className="filter-type">
+            {["Almond", "Banana", "Blueberry", "Caramel", "Chocolate", "Cinnamon", 
+            "Coconut", "Cookies and Cream", "Lemon", "Mango", "Mint", "Peanut Butter", "Pistachio", 
+            "Raspberry", "Strawberry", "Toffee", "Ube", "Vanilla"].map((flavor) => (
+              <label key={flavor} className="dropdown-items">
+                <input
+                  type="checkbox"
+                  checked={selectedFlavor?.includes(flavor)}
+                  onChange={() => {
+                    handleCheckboxChange(flavor, selectedFlavor, setSelectedFlavor);
+                  }}
+                />
+                {flavor}
+              </label>
+          ))}
+          </div>
+          )}
+      </div>
+      <hr/>
+
+      <div className="buffer">
+        <button onClick={toggleDessert} className="dropdown-button">
+          <div>Dessert Type</div>
+          <i className={`dropper ${dessertOpen ? "down" : "up"}`}></i> 
+        </button>
+        {dessertOpen && (
+          <div className="filter-type">
+            {["Bread", "Brownie", "Cake", "Cookie", "Crepe", "Donut", "Fudge", 
+            "Ice Cream", "Pie", "Pudding", "Soda"].map((type) => (
+              <label key={type} className="dropdown-items">
+                <input
+                  type="checkbox"
+                  checked={selectedDessert?.includes(type)}
+                  onChange={() => {
+                    handleCheckboxChange(type, selectedDessert, setSelectedDessert);
+                  }}
+                />
+                {type}
+              </label>
+          ))}
+          </div>
+          )}
+      </div>
+      <hr/>
+
+      <div className="buffer">
+        <button onClick={toggleDietary} className="dropdown-button">
+          <div>Dietary Preferences</div>
+          <i className={`dropper ${dietaryOpen ? "down" : "up"}`}></i> 
+        </button>
+        {dietaryOpen && (
+          <div className="filter-type">
+            {["dairy-free", "egg-free", "gluten-free", "nut-free"].map((diet) => (
+              <label key={diet} className="dropdown-items">
+                <input
+                  type="checkbox"
+                  checked={selectedDietary?.includes(diet)}
+                  onChange={() => {
+                    handleCheckboxChange(diet, selectedDietary, setSelectedDietary);
+                  }}
+                />
+                {diet}
+              </label>
+          ))}
+          </div>
+          )}
       </div>
       <hr/>
 {/*

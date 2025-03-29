@@ -7,6 +7,10 @@ import './App.css';
 
 function App() {
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedFlavor, setSelectedFlavor] = useState([]);
+  const [selectedDessert, setSelectedDessert] = useState([]);
+  const [selectedDietary, setSelectedDietary] = useState([]);
+
 
   const handleSearchChange = (query) => {
     setSearchQuery(query);
@@ -16,8 +20,20 @@ function App() {
     <div className="App">
       <Header onSearchChange={handleSearchChange} />
       <div className="main-container">
-        <Sidebar />
-        <MainContent searchQuery={searchQuery} />
+        <Sidebar 
+          selectedFlavor={selectedFlavor}
+          setSelectedFlavor={setSelectedFlavor}
+          selectedDessert={selectedDessert}
+          setSelectedDessert={setSelectedDessert}
+          selectedDietary={selectedDietary}
+          setSelectedDietary={setSelectedDietary}
+        />
+        <MainContent 
+          searchQuery={searchQuery} 
+          selectedFlavor={selectedFlavor}
+          selectedDessert={selectedDessert}
+          selectedDietary={selectedDietary}
+        />
       </div>
     </div>
   );

@@ -3,36 +3,86 @@ import React, { useState } from "react";
 import "../css/dessertCard.css";
 import dessertData from "../contextsGlobal/dessertData"; // Import the dessert data
 
-const DessertCard = ({ searchQuery }) => {
-  const [cards, setCards] = useState(dessertData); // Set dessertData as the initial state
+const DessertCard = ({ selectedFlavor, selectedDessert, selectedDietary, searchQuery }) => {
+  const [desserts, setDesserts] = useState(dessertData); // Set dessertData as the initial state
 
   // Filter cards if a search query is provided (ignoring case)
-  const displayedCards = searchQuery
-    ? cards.filter(
-        (card) =>
-          card["dessert title"]
-            .toLowerCase()
-            .includes(searchQuery.toLowerCase()) ||
-          card["restaurant"].toLowerCase().includes(searchQuery.toLowerCase())
+  const displayedDesserts = searchQuery
+  ? desserts.filter((dessert) =>
+      // First part: search query logic
+      (
+        dessert["dessert title"]
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
+        dessert["restaurant"].toLowerCase().includes(searchQuery.toLowerCase()) ||
+        dessert["flavor"].some((flavor) =>
+          flavor.toLowerCase().includes(searchQuery.toLowerCase())
+        ) ||
+        dessert["dessert type"].toLowerCase().includes(searchQuery.toLowerCase())
+      ) &&
+      // Second part: selected filter logic
+      (
+        (
+          selectedFlavor.length === 0 || // If no flavors are selected, include all desserts
+          selectedFlavor.some((selected) =>
+            dessert["flavor"].some((flavor) =>
+              flavor.toLowerCase().includes(selected.toLowerCase())
+            )
+          )
+        ) && 
+        (
+          selectedDessert.length === 0 || // If no flavors are selected, include all desserts
+          selectedDessert.some((selected) =>
+            dessert["dessert type"].toLowerCase().includes(selected.toLowerCase())
+          )
+        ) &&
+        (
+          selectedDietary.length === 0 || // If no flavors are selected, include all desserts
+          selectedDietary.some((selected) =>
+            dessert["dietary friendly"].some((dietary) =>
+              dietary.toLowerCase().includes(selected.toLowerCase())
+            )
+          )
+        )
       )
-    : cards;
+    )
+  : desserts.filter((dessert) =>
+      // If no search query, just filter by selected flavors
+      (selectedFlavor.length === 0 || // If no flavors are selected, include all desserts
+      selectedFlavor.some((selected) =>
+        dessert["flavor"].some((flavor) =>
+          flavor.toLowerCase().includes(selected.toLowerCase())
+        )
+      )) &&
+      (selectedDessert.length === 0 || // If no flavors are selected, include all desserts
+        selectedDessert.some((selected) =>
+          dessert["dessert type"].toLowerCase().includes(selected.toLowerCase()))
+      ) &&
+      (selectedDietary.length === 0 || 
+        selectedDietary.some((selected) =>
+          dessert["dietary friendly"].some((diet) =>
+            diet.toLowerCase().includes(selected.toLowerCase())
+          )
+        ))
+  );
+
 
   return (
-    <div className="card-generator">
-      <div className="cards-container">
-        {displayedCards.map((card) => (
-          <div key={card["dessert title"]} className="card">
-            <h3>{card["dessert title"]}</h3>
-            <p><strong>Restaurant:</strong> {card["restaurant"]}</p>
-            <p><strong>Flavor:</strong> {card["flavor"]}</p>
-            <p><strong>Stars:</strong> {card["stars"]}</p>
-            <p><strong>Deals:</strong> {card["deals"].join(", ")}</p>
-            <p><strong>Dietary Friendly:</strong> {card["dietary friendly"].join(", ") || "None"}</p>
-            {card["image"].length > 0 && <img src={card["image"][0]} alt={card["dessert title"]} />}
+    <div className="dessert-generator">
+      <div className="dessert-container">
+        {displayedDesserts.map((dessert) => (
+          <div key={dessert["dessert title"]} className="dessert">
+            <h3>{dessert["dessert title"]}</h3>
+            <p><strong>Restaurant:</strong> {dessert["restaurant"]}</p>
+            <p><strong>Flavor:</strong> {dessert["flavor"].join(", ")}</p>
+            <p><strong>Stars:</strong> {dessert["stars"]}</p>
+            <p><strong>Deals:</strong> {dessert["deals"].join(", ")}</p>
+            <p><strong>Dietary Preferences:</strong> {dessert["dietary friendly"].join(", ") || "None"}</p>
+            {dessert["image"].length > 0 && <img src={dessert["image"][0]} alt={dessert["dessert title"]} />}
           </div>
         ))}
       </div>
-      {searchQuery && displayedCards.length === 0 && (
+      {searchQuery && displayedDesserts.length === 0 && (
         <div className="no-results">
           <h3>Search Results for: "{searchQuery}"</h3>
           <p>No results found.</p>
