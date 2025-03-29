@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import "../css/dessertCard.css";
 import dessertData from "../contextsGlobal/dessertData"; // Import the dessert data
+import RenderStars from "./Stars";
 
 const DessertCard = ({ selectedFlavor, selectedDessert, selectedDietary, searchQuery }) => {
   const [desserts, setDesserts] = useState(dessertData); // Set dessertData as the initial state
@@ -73,9 +74,11 @@ const DessertCard = ({ selectedFlavor, selectedDessert, selectedDietary, searchQ
         {displayedDesserts.map((dessert) => (
           <div key={dessert["dessert title"]} className="dessert">
             <h3>{dessert["dessert title"]}</h3>
+            <p><strong>Stars:</strong> <RenderStars
+            rating={dessert.stars}
+            /></p>
             <p><strong>Restaurant:</strong> {dessert["restaurant"]}</p>
             <p><strong>Flavor:</strong> {dessert["flavor"].join(", ")}</p>
-            <p><strong>Stars:</strong> {dessert["stars"]}</p>
             <p><strong>Deals:</strong> {dessert["deals"].join(", ")}</p>
             <p><strong>Dietary Preferences:</strong> {dessert["dietary friendly"].join(", ") || "None"}</p>
             {dessert["image"].length > 0 && <img src={dessert["image"][0]} alt={dessert["dessert title"]} />}

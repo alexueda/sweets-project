@@ -22,25 +22,16 @@ export default function Sidebar({
   const [flavorOpen, setFlavorOpen] = useState(false);
   const [dessertOpen, setDessertOpen] = useState(false);
   const [dietaryOpen, setDietaryOpen] = useState(false);
-  /*const [courseLevelOpen, setCourseLevelOpen] = useState(false);
-  const [departmentOpen, setDepartmentOpen] = useState(false);
-  const [requirementOpen, setRequirementOpen] = useState(false);*/
   const [allFilters, setAllFilters] = useState(true);
 
   const toggleFlavor = () => setFlavorOpen(!flavorOpen);
   const toggleDessert = () => setDessertOpen(!dessertOpen);
   const toggleDietary = () => setDietaryOpen(!dietaryOpen);
-  /*const toggleCourseLevel = () => setCourseLevelOpen(!courseLevelOpen);
-  const toggleDepartment = () => setDepartmentOpen(!departmentOpen);
-  const toggleRequirement = () => setRequirementOpen(!requirementOpen);*/
 
   const dropdownAll = () => {
     setFlavorOpen(allFilters);
     setDessertOpen(allFilters);
     setDietaryOpen(allFilters);
-    /*setCourseLevelOpen(allFilters);
-    setDepartmentOpen(allFilters);
-    setRequirementOpen(allFilters);*/
     setAllFilters(!allFilters)
   }
 
@@ -48,17 +39,9 @@ export default function Sidebar({
     setSelectedFlavor([]);
     setSelectedDessert([]);
     setSelectedDietary([]);
-    /*setSelectedCourseLevel([]);
-    setSelectedDepartment([]);
-    setSelectedDegreeRequirement([]);
-    setShowLabCourses(false);
-    setShowNoPrerequisites(false);*/
     setFlavorOpen(false);
     setDessertOpen(false);
     setDietaryOpen(false);
-    /*setCourseLevelOpen(false);
-    setDepartmentOpen(false);
-    setRequirementOpen(false);*/
   };
 
   const handleCheckboxChange = (value, selectedValues, setSelectedValues) => {
@@ -74,7 +57,7 @@ export default function Sidebar({
       <div className="filter-header">
         <h3>Filters</h3>
         <button className="dropdown-all" onClick={dropdownAll}>
-          {allFilters ? "+" : "-"}
+          <i className={`bi ${allFilters ? "bi-chevron-up" : "bi-chevron-down"}`}></i>
         </button>
       </div>
       <hr/>
@@ -82,7 +65,7 @@ export default function Sidebar({
       <div className="buffer">
         <button onClick={toggleFlavor} className="dropdown-button">
           <div>Flavor</div>
-          <i className={`dropper ${flavorOpen ? "down" : "up"}`}></i> 
+          <i className={`bi ${flavorOpen ? "bi-chevron-up" : "bi-chevron-down"}`}></i>
         </button>
         {flavorOpen && (
           <div className="filter-type">
@@ -99,16 +82,16 @@ export default function Sidebar({
                 />
                 {flavor}
               </label>
-          ))}
+            ))}
           </div>
-          )}
+        )}
       </div>
       <hr/>
 
       <div className="buffer">
         <button onClick={toggleDessert} className="dropdown-button">
           <div>Dessert Type</div>
-          <i className={`dropper ${dessertOpen ? "down" : "up"}`}></i> 
+          <i className={`bi ${dessertOpen ? "bi-chevron-up" : "bi-chevron-down"}`}></i>
         </button>
         {dessertOpen && (
           <div className="filter-type">
@@ -124,16 +107,16 @@ export default function Sidebar({
                 />
                 {type}
               </label>
-          ))}
+            ))}
           </div>
-          )}
+        )}
       </div>
       <hr/>
 
       <div className="buffer">
         <button onClick={toggleDietary} className="dropdown-button">
           <div>Dietary Preferences</div>
-          <i className={`dropper ${dietaryOpen ? "down" : "up"}`}></i> 
+          <i className={`bi ${dietaryOpen ? "bi-chevron-up" : "bi-chevron-down"}`}></i>
         </button>
         {dietaryOpen && (
           <div className="filter-type">
@@ -148,153 +131,11 @@ export default function Sidebar({
                 />
                 {diet}
               </label>
-          ))}
+            ))}
           </div>
-          )}
-      </div>
-      <hr/>
-{/*
-      <div className="buffer">
-      <button onClick={toggleModality} className="dropdown-button">
-        <div>Modality</div>
-        <i className={`dropper ${modalityOpen ? "down" : "up"}`}></i> 
-      </button>
-      {modalityOpen && (
-        <div className="filter-type">
-          {["Online", "In-Person", "Hybrid"].map((modality) => (
-            <label key={modality} className="dropdown-items">
-              <input
-                type="checkbox"
-                checked={selectedModality.includes(modality)}
-                onChange={(e) => {
-                  handleCheckboxChange(modality, selectedModality, setSelectedModality);
-                }}
-              />
-              {modality}
-            </label>
-        ))}
-        </div>
         )}
       </div>
       <hr/>
-      
-      <div className="buffer">
-        <button onClick={toggleSemester} className="dropdown-button">
-          <div>Semester</div>
-          <i className={`dropper ${semesterOpen ? "down" : "up"}`}></i> 
-        </button>
-        {semesterOpen && (
-        <div className="filter-type">
-          {["Fall/Winter", "Fall", "Winter", "Spring", "Ongoing", "Varies"].map((semester) => (
-            <label key={semester} className="dropdown-items">
-              <input
-                type="checkbox"
-                checked={selectedSemester.includes(semester)}
-                onChange={(e) => {
-                  handleCheckboxChange(semester, selectedSemester, setSelectedSemester);
-                }}
-              />
-              {semester}
-            </label>
-        ))}
-        </div>
-        )}
-      </div>
-      <hr/>
-      
-      <div className="buffer">
-        <button onClick={toggleCreditHours} className="dropdown-button">
-          <div>Credit Hours</div>
-          <i className={`dropper ${creditHoursOpen ? "down" : "up"}`}></i> 
-        </button>
-        {creditHoursOpen && (
-        <div className="filter-type">
-          {[1,2,3,4, 5].map((creditHours) => (
-            <label key={creditHours} className="dropdown-items">
-              <input
-                type="checkbox"
-                checked={selectedCreditHours.includes(creditHours)}
-                onChange={(e) => {
-                  handleCheckboxChange(creditHours, selectedCreditHours, setSelectedCreditHours);
-                }}
-              />
-              {creditHours}
-            </label>
-        ))}
-        </div>
-        )}
-      </div>
-      <hr/>
-
-      <div className="buffer">
-        <button onClick={toggleCourseLevel} className="dropdown-button">
-          <div>Course Level</div>
-          <i className={`dropper ${courseLevelOpen ? "down" : "up"}`}></i> 
-        </button>
-        {courseLevelOpen && (
-        <div className="filter-type">
-          {["100 Level", "200 Level", "300 Level", "400 Level", "500 Level"].map((courseLevel) => (
-            <label key={courseLevel} className="dropdown-items">
-              <input
-                type="checkbox"
-                checked={selectedCourseLevel.includes(courseLevel)}
-                onChange={(e) => {
-                  handleCheckboxChange(courseLevel, selectedCourseLevel, setSelectedCourseLevel);
-                }}
-              />
-              {courseLevel}
-            </label>
-        ))}
-        </div>
-        )}
-      </div>
-      <hr/>
-
-      <div className="buffer">
-      <button onClick={toggleRequirement} className="dropdown-button">
-        <div>Requirement</div>
-        <i className={`dropper ${requirementOpen ? "down" : "up"}`}></i> 
-      </button>
-      {requirementOpen && (
-        <div className="filter-type">
-          {["Major", "General", "Elective"].map((requirement) => (
-            <label key={requirement} className="dropdown-items">
-              <input
-                type="checkbox"
-                checked={selectedDegreeRequirement.includes(requirement)}
-                onChange={(e) => {
-                  handleCheckboxChange(requirement, selectedDegreeRequirement, setSelectedDegreeRequirement);
-                }}
-              />
-              {requirement}
-            </label>
-        ))}
-        </div>
-        )}
-      </div>
-      <hr/>
-
-      <div className="buffer">
-        <label>Lab Hours Required</label>
-        <input
-          type="checkbox"
-          checked={showLabCourses}
-          onChange={() => setShowLabCourses(!showLabCourses)}
-        />
-      </div>
-
-      <hr/>
-
-      <div className="buffer">
-        <label>No Prerequisites</label>
-        <input
-          type="checkbox"
-          checked={showNoPrerequisites}
-          onChange={() => setShowNoPrerequisites(!showNoPrerequisites)}
-        />
-      </div>
-
-      <hr/>*/}
 
       {/* Reset Button */}
       <button
@@ -307,4 +148,3 @@ export default function Sidebar({
     </aside>
   );
 }
-
