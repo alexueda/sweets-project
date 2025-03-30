@@ -8,7 +8,7 @@ import DessertCard from './DessertCard';
 function MainContent({ 
   searchQuery, 
   selectedFlavor, 
-  selectedDessert,
+  selectedType,
   selectedDietary,
 }) {
  
@@ -17,7 +17,7 @@ function MainContent({
       <div className="card-container">
         <DessertCard
           selectedFlavor={selectedFlavor}
-          selectedDessert={selectedDessert}
+          selectedDessertType={selectedType}
           selectedDietary={selectedDietary}
           searchQuery={searchQuery} 
           />

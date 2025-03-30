@@ -10,7 +10,7 @@ import './App.css';
 function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedFlavor, setSelectedFlavor] = useState([]);
-  const [selectedDessert, setSelectedDessert] = useState([]);
+  const [selectedType, setSelectedType] = useState([]);
   const [selectedDietary, setSelectedDietary] = useState([]);
 
 
@@ -25,15 +25,15 @@ function App() {
         <Sidebar 
           selectedFlavor={selectedFlavor}
           setSelectedFlavor={setSelectedFlavor}
-          selectedDessert={selectedDessert}
-          setSelectedDessert={setSelectedDessert}
+          selectedType={selectedType}
+          setSelectedType={setSelectedType}
           selectedDietary={selectedDietary}
           setSelectedDietary={setSelectedDietary}
         />
         <MainContent 
           searchQuery={searchQuery} 
           selectedFlavor={selectedFlavor}
-          selectedDessert={selectedDessert}
+          selectedType={selectedType}
           selectedDietary={selectedDietary}
         />
       </div>

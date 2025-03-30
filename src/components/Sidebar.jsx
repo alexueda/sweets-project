@@ -6,41 +6,35 @@ import '../css/Sidebar.css';
 export default function Sidebar({
   selectedFlavor,
   setSelectedFlavor,
-  selectedDessert,
-  setSelectedDessert,
+  selectedType,
+  setSelectedType,
   selectedDietary,
-  setSelectedDietary,
-  selectedDegreeRequirement,
-  setSelectedDegreeRequirement,
-  showLabCourses,
-  setShowLabCourses,
-  showNoPrerequisites,
-  setShowNoPrerequisites
+  setSelectedDietary
 }) {
 
   console.log(selectedFlavor);
   const [flavorOpen, setFlavorOpen] = useState(false);
-  const [dessertOpen, setDessertOpen] = useState(false);
+  const [typeOpen, setTypeOpen] = useState(false);
   const [dietaryOpen, setDietaryOpen] = useState(false);
   const [allFilters, setAllFilters] = useState(true);
 
   const toggleFlavor = () => setFlavorOpen(!flavorOpen);
-  const toggleDessert = () => setDessertOpen(!dessertOpen);
+  const toggleType = () => setTypeOpen(!typeOpen);
   const toggleDietary = () => setDietaryOpen(!dietaryOpen);
 
   const dropdownAll = () => {
     setFlavorOpen(allFilters);
-    setDessertOpen(allFilters);
+    setTypeOpen(allFilters);
     setDietaryOpen(allFilters);
     setAllFilters(!allFilters)
   }
 
   const handleReset = () => {
     setSelectedFlavor([]);
-    setSelectedDessert([]);
+    setSelectedType([]);
     setSelectedDietary([]);
     setFlavorOpen(false);
-    setDessertOpen(false);
+    setTypeOpen(false);
     setDietaryOpen(false);
   };
 
@@ -89,20 +83,20 @@ export default function Sidebar({
       <hr/>
 
       <div className="buffer">
-        <button onClick={toggleDessert} className="dropdown-button">
+        <button onClick={toggleType} className="dropdown-button">
           <div>Dessert Type</div>
-          <i className={`bi ${dessertOpen ? "bi-chevron-up" : "bi-chevron-down"}`}></i>
+          <i className={`bi ${typeOpen ? "bi-chevron-up" : "bi-chevron-down"}`}></i>
         </button>
-        {dessertOpen && (
+        {typeOpen && (
           <div className="filter-type">
             {["Bread", "Brownie", "Cake", "Cookie", "Crepe", "Donut", "Fudge", 
             "Ice Cream", "Pie", "Pudding", "Soda"].map((type) => (
               <label key={type} className="dropdown-items">
                 <input
                   type="checkbox"
-                  checked={selectedDessert?.includes(type)}
+                  checked={selectedType?.includes(type)}
                   onChange={() => {
-                    handleCheckboxChange(type, selectedDessert, setSelectedDessert);
+                    handleCheckboxChange(type, selectedType, setSelectedType);
                   }}
                 />
                 {type}
