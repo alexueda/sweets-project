@@ -1,7 +1,7 @@
 // src/components/MainContent.jsx
 import React, {useState} from 'react';
 import OpenStreetMap from './OpenStreetMap';
-import FilteredCards from './FilteredCards';
+import FilteredCards from './FilteredCards'
 import '../css/MainContent.css';
 import DessertCard from './DessertCard';
 

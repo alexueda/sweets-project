@@ -35,4 +35,28 @@
   }
   
 
+  .modal-content > div {
+    margin-top: 15px;
+  }
+  
+  .modal-content textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  .modal-content button:not(.close-btn) {
+    padding: 8px 15px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+  }
+  
+  .modal-content button:not(.close-btn):hover {
+    background-color: #eee;
+  }
   
