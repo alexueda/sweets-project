@@ -30,14 +30,7 @@
   
   .nav-link {
     text-decoration: none;
-    color: #7B4B39; /* Changed from Mint Green to Black for better contrast */
-  }
-  
-  .nav-link {
-    text-decoration: none;
     color: #7B4B39; /* Mint Green */
-  }
-  .nav-link {
     cursor: pointer; /* Ensures the pointer cursor */
     text-decoration: none; /* Optional: Removes underline */
     padding: 5px 10px; /* Optional: Adds some spacing */
@@ -45,6 +38,6 @@
   }
   
   .nav-link:hover {
-    color: #007bff; /* Optional: Change color on hover */
+    color: #5a5a5a00; /* Optional: Change color on hover */
   }
   

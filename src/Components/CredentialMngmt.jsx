@@ -6,11 +6,13 @@ function CredentialMngmt({ isLoggedIn, setIsLoggedIn }) {
   const [error, setError] = useState('');
   const [isRegistering, setIsRegistering] = useState(false);
 
+  // Check if the user is logged in by reading localStorage
   useEffect(() => {
     const storedUser = localStorage.getItem("isLoggedIn");
     if (storedUser === "true") setIsLoggedIn(true);
   }, []);
 
+  // Save login state to localStorage when it changes
   useEffect(() => {
     localStorage.setItem("isLoggedIn", isLoggedIn);
   }, [isLoggedIn]);
@@ -38,61 +40,31 @@ function CredentialMngmt({ isLoggedIn, setIsLoggedIn }) {
     if (existingUsers[username] === password) {
       setIsLoggedIn(true);
       setError('');
+      localStorage.setItem("isLoggedIn", "true"); // Store login state in localStorage
       window.location.hash = 'home'; // Navigate to home after successful login
     } else {
       setError('Invalid username or password.');
     }
   };
 
+  // Handle log out
   const handleLogout = () => {
+    // Remove login data and set state to logged out
     setIsLoggedIn(false);
     setUsername('');
     setPassword('');
-    window.location.hash = 'home'; // Navigate to home after logout
+    localStorage.removeItem("isLoggedIn");  // Clear login state from localStorage
+    window.location.reload();  // Refresh the page to reset the UI
   };
 
   return (
     <div>
-      <h3>{isLoggedIn ? "Settings" : isRegistering ? "Create Account" : "Login"}</h3>
-      {isLoggedIn ? (
-        <ul>
-          <li><a href="#account">Account</a></li>
-          <li><a href="#preferences">Preferences</a></li>
-          <li><button onClick={handleLogout}>Log Out</button></li>
-        </ul>
-      ) : (
-        <ul>
-          <li>
-            <input
-              type="text"
-              placeholder="Username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-          </li>
-          <li>
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </li>
-          {error && <li style={{ color: 'red' }}>{error}</li>}
-          <li>
-            {isRegistering ? (
-              <button onClick={handleRegister}>Create Account</button>
-            ) : (
-              <button onClick={handleLogin}>Login</button>
-            )}
-          </li>
-          <li>
-            <button onClick={() => setIsRegistering(!isRegistering)}>
-              {isRegistering ? "Already have an account? Login" : "New user? Create an account"}
-            </button>
-          </li>
-        </ul>
-      )}
+      <h3>Settings</h3>
+      <ul className="popup-menu-list">
+        <li><a href="#account" className="menu-link">Account</a></li>
+        <li><a href="#preferences" className="menu-link">Preferences</a></li>
+        <li><a onClick={handleLogout} className="menu-link">Log Out</a></li> {/* Log out action */}
+      </ul>
     </div>
   );
 }

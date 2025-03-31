@@ -31,13 +31,12 @@ function Header({ onSearchChange, setIsLoggedIn, isLoggedIn }) {
     setMenuOpen((prev) => !prev);
   };
 
-  // Function to handle login or logout action
+  // Update to show settings when logged in
   const handleLoginClick = () => {
     if (isLoggedIn) {
-      setIsLoggedIn(false); // Log out
-      window.location.hash = 'home'; // Navigate to home after logout
+      toggleMenu(); // Show settings menu when logged in
     } else {
-      window.location.hash = 'login'; // Navigate to login page
+      window.location.hash = 'login'; // Navigate to login page if not logged in
     }
   };
 
@@ -59,7 +58,7 @@ function Header({ onSearchChange, setIsLoggedIn, isLoggedIn }) {
           <a href="#roulette" className="nav-link" onClick={() => window.location.hash = 'roulette'}>Roulette</a>
           <a href="#personal" className="nav-link" onClick={() => window.location.hash = 'personal'}>Personal</a>
           <span className="nav-link" onClick={handleLoginClick}>
-            {isLoggedIn ? 'Log Out' : 'Log In'} {/* Toggle login/logout */}
+            {isLoggedIn ? 'Settings' : 'Log In'} {/* Show Settings instead of Log Out */}
           </span>
         </nav>
         {menuOpen && <PopupMenu menuRef={menuRef} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />}
@@ -69,4 +68,3 @@ function Header({ onSearchChange, setIsLoggedIn, isLoggedIn }) {
 }
 
 export default Header;
-
