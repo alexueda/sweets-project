@@ -1,0 +1,39 @@
+.register-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 300px;
+}
+
+.register-input {
+  padding: 8px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.register-button {
+  padding: 10px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  background-color: #f0a500;
+  color: white;
+}
+
+.register-button:hover {
+  background-color: #e08e00;
+}
+
+.error-text {
+  color: red;
+  font-size: 0.9rem;
+}

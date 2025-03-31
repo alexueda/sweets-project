@@ -1,0 +1,40 @@
+/* src/css/Roulette.css */
+.roulette-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.spin-button {
+  padding: 10px 20px;
+  font-size: 1.2em;
+  cursor: pointer;
+  margin-top: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+}
+
+.spin-button:hover {
+  background-color: #e0e0e0;
+}
+
+.spin-button:disabled {
+  background-color: #ddd;
+  cursor: not-allowed;
+}
+
+.spinning {
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.roulette-result {
+  margin-top: 30px;
+  text-align: center;
+}

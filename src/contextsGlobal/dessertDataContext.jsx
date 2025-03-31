@@ -1,14 +1,13 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import dessertsData from "../contextsGLOBAL/dessertData"; // Assuming this imports your data
-
+import dessertData from "./dessertData";
 const dessertDataContextContext = createContext();
 export const DessertDataContext = ({ children }) => {
  const [filteredList, setFilteredList] = useState([]);
  useEffect(() => {
   // Load data from dessertData and initialize filteredList
-  if (dessertsData && Array.isArray(dessertsData)) {
+  if (dessertData && Array.isArray(dessertData)) {
    // Create a copy of dessertsData to initialize filteredList
-   setFilteredList([...dessertsData]);
+   setFilteredList([...dessertData]);
   } else {
    console.warn("dessertsData is not an array or is undefined. Check your data source.");
    // Optionally initialize with an empty array or handle the error differently
