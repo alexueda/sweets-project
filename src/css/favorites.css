@@ -1,0 +1,56 @@
+/* Styles for the overall layout */
+.favorites-page {
+    display: flex;           /* Enable flexbox layout */
+    justify-content: space-between;  /* Space between the two sections */
+    padding: 20px;
+  }
+  
+  /* Style for the left side (favorite desserts) */
+  .favorites-left {
+    flex: 1;                 /* Take up equal space */
+    padding: 20px;
+    margin-right: 20px;      /* Space between left and right side */
+    border-right: 2px solid #ccc;  /* Optional: a border between the left and right */
+  }
+  
+  /* Style for the right side (reviews or other content) */
+  .favorites-right {
+    flex: 1;                 /* Take up equal space */
+    padding: 20px;
+  }
+  
+  /* Style for the dessert container */
+  .dessert-container {
+    display: flex;
+    flex-direction: column;  /* Arrange desserts in a vertical column */
+    gap: 20px;               /* Space between each dessert card */
+  }
+  
+  /* Style for individual dessert cards */
+  .dessert {
+    background-color: #f9f9f9;  /* Light background color */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  /* Hover effect for dessert cards */
+  .dessert:hover {
+    transform: scale(1.05);  /* Slightly enlarge the card on hover */
+  }
+  
+  /* Style for images inside dessert cards */
+  .dessert img {
+    width: 100%;            /* Make the image take up the full width of the container */
+    border-radius: 8px;
+  }
+  
+  /* Styling for the no-results message */
+  .no-results {
+    text-align: center;
+    font-size: 18px;
+    color: #777;
+  }
+  

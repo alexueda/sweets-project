@@ -4,11 +4,20 @@ import dessertData from "../contextsGlobal/dessertData"; // Import the dessert d
 import RenderStars from "./Stars";
 import DessertModal from "./DessertModal";
 
-const DessertCard = ({ selectedFlavor, selectedDessertType, selectedDietary, searchQuery }) => {
+const DessertCard = ({
+  selectedFlavor,
+  selectedDessertType,
+  selectedDietary,
+  selectedRating,
+  searchQuery,
+  displayOnlyFavorites,
+}) => {
   const [selectedDessertCard, setSelectedDessertCard] = useState(null); // Store clicked dessert
 
   // Filter cards if a search query is provided (ignoring case)
-  const displayedDesserts = searchQuery
+  const displayedDesserts = displayOnlyFavorites
+    ? dessertData.filter((dessert) => dessert.favorite === true) // Only show favorites if displayOnlyFavorites is true
+    : searchQuery
     ? dessertData.filter((dessert) =>
         // First part: search query logic
         (
@@ -35,7 +44,10 @@ const DessertCard = ({ selectedFlavor, selectedDessertType, selectedDietary, sea
             dessert["dietary friendly"].some((dietary) =>
               dietary.toLowerCase().includes(selected.toLowerCase())
             )
-          ))
+          )) &&
+          (selectedRating.length === 0 || selectedRating.some((selected) =>
+            dessert["rating"].toLowerCase().includes(selected.toLowerCase())
+          )) 
         )
       )
     : dessertData.filter((dessert) =>
@@ -51,6 +63,9 @@ const DessertCard = ({ selectedFlavor, selectedDessertType, selectedDietary, sea
           dessert["dietary friendly"].some((diet) =>
             diet.toLowerCase().includes(selected.toLowerCase())
           )
+        )) &&
+        (selectedRating.length === 0 || selectedRating.some((selected) =>
+          dessert["rating"].toLowerCase().includes(selected.toLowerCase())
         ))
       );
 
