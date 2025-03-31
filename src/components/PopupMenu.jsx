@@ -1,14 +1,13 @@
-// src/components/PopupMenu.jsx
 import React from 'react';
 import '../css/PopupMenu.css';
 
-function PopupMenu() {
+function PopupMenu({ menuRef }) {
   return (
-    <div className="popup-menu">
-      <h3>Menu</h3>
+    <div className="popup-menu" ref={menuRef}>
+      <h3>Settings</h3>
       <ul className="popup-menu-list">
-        <li><a href="#profile" className="popup-link">Profile</a></li>
-        <li><a href="#settings" className="popup-link">Settings</a></li>
+        <li><a href="#account" className="popup-link">Account</a></li>
+        <li><a href="#preferences" className="popup-link">Preferences</a></li>
         <li><a href="#logout" className="popup-link">Log Out</a></li>
       </ul>
     </div>

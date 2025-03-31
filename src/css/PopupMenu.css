@@ -1,5 +1,14 @@
 /* src/css/PopupMenu.css */
 
+.header-right {
+  position: relative; /* Ensures .popup-menu is positioned relative to this */
+}
+
+.menu-link {
+  cursor: pointer; /* Ensures pointer cursor on hover */
+}
+
+
 .popup-menu {
   position: absolute;
   top: 100%;  /* Directly below the header-right area */
