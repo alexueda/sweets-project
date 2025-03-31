@@ -19,24 +19,28 @@ function Login({ setIsLoggedIn }) {
   return (
     <div className="login-page">
       <h1>Login</h1>
-      <div className="login-form">
-        <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        {error && <p className="error-text">{error}</p>}
-        <button onClick={handleLogin}>Log In</button>
-        <p>
-          New here? <a href="#register">Create an account</a>
-        </p>
+      <div className="form-container">
+        <div className="login-form">
+          <input
+            className="form-input"
+            type="text"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <input
+            className="form-input"
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          {error && <p className="error-text">{error}</p>}
+          <button className="form-button" onClick={handleLogin}>Log In</button>
+          <p>
+            New here? <a href="#register">Create an account</a>
+          </p>
+        </div>
       </div>
     </div>
   );
