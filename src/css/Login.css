@@ -52,3 +52,13 @@
 p {
   margin-top: 10px;
 }
+
+.register-link {
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.register-link:hover {
+  color: darkblue;
+}

@@ -37,3 +37,12 @@
   color: red;
   font-size: 0.9rem;
 }
+.login-link {
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.login-link:hover {
+  color: darkblue;
+}

@@ -1,6 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-// src/components/Header.jsx
-import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PopupMenu from './PopupMenu';
 import '../css/Header.css';
@@ -8,39 +6,40 @@ import '../css/Header.css';
 function Header({ onSearchChange, setIsLoggedIn, isLoggedIn }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
+  const navigate = useNavigate();
 
-  const handleClickOutside = (event) => {
-    if (menuRef.current && !menuRef.current.contains(event.target)) {
-      setMenuOpen(false);
-    }
-  };
-
+  // Handle clicks outside the menu to close it
   useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setMenuOpen(false);
+      }
+    };
+
     if (menuOpen) {
       document.addEventListener('mousedown', handleClickOutside);
-    } else {
-      document.removeEventListener('mousedown', handleClickOutside);
     }
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [menuOpen]);
-  const navigate = useNavigate();
 
+  // Handle search input change
   const handleInputChange = (e) => {
     onSearchChange(e.target.value);
   };
 
+  // Toggle menu open/close
   const toggleMenu = () => {
     setMenuOpen((prev) => !prev);
   };
 
-  // Update to show settings when logged in
+  // Handle login/logout navigation
   const handleLoginClick = () => {
     if (isLoggedIn) {
       toggleMenu(); // Show settings menu when logged in
     } else {
-      window.location.hash = 'login'; // Navigate to login page if not logged in
+      navigate('/login'); // Navigate to login page if not logged in
     }
   };
 
@@ -58,9 +57,9 @@ function Header({ onSearchChange, setIsLoggedIn, isLoggedIn }) {
 
       <div className="header-right">
         <nav className="nav-links">
-          <a href="#home" className="nav-link" onClick={() => window.location.hash = 'home'}>Home</a>
-          <a href="#roulette" className="nav-link" onClick={() => window.location.hash = 'roulette'}>Roulette</a>
-          <a href="#personal" className="nav-link" onClick={() => window.location.hash = 'personal'}>Personal</a>
+          <a href="#home" className="nav-link" onClick={() => navigate('/')}>Home</a>
+          <a href="#roulette" className="nav-link" onClick={() => navigate('/roulette')}>Roulette</a>
+          <a href="#personal" className="nav-link" onClick={() => navigate('/personal')}>Personal</a>
           <span className="nav-link" onClick={handleLoginClick}>
             {isLoggedIn ? 'Settings' : 'Log In'} {/* Show Settings instead of Log Out */}
           </span>
