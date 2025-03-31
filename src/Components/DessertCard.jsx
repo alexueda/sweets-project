@@ -6,11 +6,23 @@ import DessertModal from "./DessertModal";
 
 const DessertCard = ({ selectedFlavor, selectedDessertType, selectedDietary, searchQuery }) => {
   const [selectedDessertCard, setSelectedDessertCard] = useState(null); // Store clicked dessert
+  const [desserts, setDesserts] = useState(dessertData); // Use state to manage the dessert data
+
+  const handleAddReview = (dessertToUpdate, newReviewText) => {
+    const updatedDesserts = desserts.map((dessert) => {
+      if (dessert["dessert title"] === dessertToUpdate["dessert title"]) {
+        return { ...dessert, reviews: [...dessert.reviews, newReviewText] };
+      }
+      return dessert;
+    });
+    setDesserts(updatedDesserts);
+    setSelectedDessertCard(updatedDesserts.find(d => d["dessert title"] === dessertToUpdate["dessert title"])); // Update modal content
+  };
 
   // Filter cards if a search query is provided (ignoring case)
   const displayedDesserts = searchQuery
-    ? dessertData.filter((dessert) =>
-        // First part: search query logic
+    ? desserts.filter((dessert) =>
+        // ... (rest of your filtering logic remains the same, but now using the 'desserts' state)
         (
           dessert["dessert title"]
             .toLowerCase()
@@ -21,7 +33,6 @@ const DessertCard = ({ selectedFlavor, selectedDessertType, selectedDietary, sea
           ) ||
           dessert["dessert type"].toLowerCase().includes(searchQuery.toLowerCase())
         ) &&
-        // Second part: selected filter logic
         (
           (selectedFlavor.length === 0 || selectedFlavor.some((selected) =>
             dessert["flavor"].some((flavor) =>
@@ -38,7 +49,7 @@ const DessertCard = ({ selectedFlavor, selectedDessertType, selectedDietary, sea
           ))
         )
       )
-    : dessertData.filter((dessert) =>
+    : desserts.filter((dessert) =>
         (selectedFlavor.length === 0 || selectedFlavor.some((selected) =>
           dessert["flavor"].some((flavor) =>
             flavor.toLowerCase().includes(selected.toLowerCase())
@@ -81,7 +92,11 @@ const DessertCard = ({ selectedFlavor, selectedDessertType, selectedDietary, sea
 
       {/* Modal for selected dessert */}
       {selectedDessertCard && (
-        <DessertModal dessert={selectedDessertCard} onClose={() => setSelectedDessertCard(null)} />
+        <DessertModal
+          dessert={selectedDessertCard}
+          onClose={() => setSelectedDessertCard(null)}
+          onAddReview={handleAddReview} // Pass the review submission handler
+        />
       )}
     </div>
   );
