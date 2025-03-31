@@ -10,6 +10,7 @@ function MainContent({
   selectedFlavor, 
   selectedType,
   selectedDietary,
+  selectedRating
 }) {
  
   return (
@@ -19,6 +20,7 @@ function MainContent({
           selectedFlavor={selectedFlavor}
           selectedDessertType={selectedType}
           selectedDietary={selectedDietary}
+          selectedRating={selectedRating}
           searchQuery={searchQuery} 
           />
       </div>

@@ -9,33 +9,40 @@ export default function Sidebar({
   selectedType,
   setSelectedType,
   selectedDietary,
-  setSelectedDietary
+  setSelectedDietary,
+  selectedRating,
+  setSelectedRating
 }) {
 
   console.log(selectedFlavor);
   const [flavorOpen, setFlavorOpen] = useState(false);
   const [typeOpen, setTypeOpen] = useState(false);
   const [dietaryOpen, setDietaryOpen] = useState(false);
+  const [ratingOpen, setRatingOpen] = useState(false);
   const [allFilters, setAllFilters] = useState(true);
 
   const toggleFlavor = () => setFlavorOpen(!flavorOpen);
   const toggleType = () => setTypeOpen(!typeOpen);
   const toggleDietary = () => setDietaryOpen(!dietaryOpen);
+  const toggleRating = () => setRatingOpen(!ratingOpen);
 
   const dropdownAll = () => {
     setFlavorOpen(allFilters);
     setTypeOpen(allFilters);
     setDietaryOpen(allFilters);
-    setAllFilters(!allFilters)
+    setRatingOpen(allFilters);
+    setAllFilters(!allFilters);
   }
 
   const handleReset = () => {
     setSelectedFlavor([]);
     setSelectedType([]);
     setSelectedDietary([]);
+    setSelectedRating([]);
     setFlavorOpen(false);
     setTypeOpen(false);
     setDietaryOpen(false);
+    setRatingOpen(false);
   };
 
   const handleCheckboxChange = (value, selectedValues, setSelectedValues) => {
@@ -124,6 +131,30 @@ export default function Sidebar({
                   }}
                 />
                 {diet}
+              </label>
+            ))}
+          </div>
+        )}
+      </div>
+      <hr/>
+
+      <div className="buffer">
+        <button onClick={toggleRating} className="dropdown-button">
+          <div>Rating</div>
+          <i className={`bi ${ratingOpen ? "bi-chevron-up" : "bi-chevron-down"}`}></i>
+        </button>
+        {ratingOpen && (
+          <div className="filter-type">
+            {["1 star", "2 stars", "3 stars", "4 stars", "5 stars"].map((star) => (
+              <label key={star} className="dropdown-items">
+                <input
+                  type="checkbox"
+                  checked={selectedRating?.includes(star)}
+                  onChange={() => {
+                    handleCheckboxChange(star, selectedRating, setSelectedRating);
+                  }}
+                />
+                {star}
               </label>
             ))}
           </div>

@@ -4,7 +4,14 @@ import dessertData from "../contextsGlobal/dessertData"; // Import the dessert d
 import RenderStars from "./Stars";
 import DessertModal from "./DessertModal";
 
-const DessertCard = ({ selectedFlavor, selectedDessertType, selectedDietary, searchQuery }) => {
+const DessertCard = ({
+  selectedFlavor,
+  selectedDessertType,
+  selectedDietary,
+  selectedRating,
+  searchQuery,
+  displayOnlyFavorites,
+}) => {
   const [selectedDessertCard, setSelectedDessertCard] = useState(null); // Store clicked dessert
   const [desserts, setDesserts] = useState(dessertData); // Use state to manage the dessert data
 
@@ -20,9 +27,11 @@ const DessertCard = ({ selectedFlavor, selectedDessertType, selectedDietary, sea
   };
 
   // Filter cards if a search query is provided (ignoring case)
-  const displayedDesserts = searchQuery
-    ? desserts.filter((dessert) =>
-        // ... (rest of your filtering logic remains the same, but now using the 'desserts' state)
+  const displayedDesserts = displayOnlyFavorites
+    ? dessertData.filter((dessert) => dessert.favorite === true) // Only show favorites if displayOnlyFavorites is true
+    : searchQuery
+    ? dessertData.filter((dessert) =>
+        // First part: search query logic
         (
           dessert["dessert title"]
             .toLowerCase()
@@ -46,7 +55,10 @@ const DessertCard = ({ selectedFlavor, selectedDessertType, selectedDietary, sea
             dessert["dietary friendly"].some((dietary) =>
               dietary.toLowerCase().includes(selected.toLowerCase())
             )
-          ))
+          )) &&
+          (selectedRating.length === 0 || selectedRating.some((selected) =>
+            dessert["rating"].toLowerCase().includes(selected.toLowerCase())
+          )) 
         )
       )
     : desserts.filter((dessert) =>
@@ -62,6 +74,9 @@ const DessertCard = ({ selectedFlavor, selectedDessertType, selectedDietary, sea
           dessert["dietary friendly"].some((diet) =>
             diet.toLowerCase().includes(selected.toLowerCase())
           )
+        )) &&
+        (selectedRating.length === 0 || selectedRating.some((selected) =>
+          dessert["rating"].toLowerCase().includes(selected.toLowerCase())
         ))
       );
 
