@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import PopupMenu from './PopupMenu';
 import '../css/Header.css';
 
-function Header({ onSearchChange }) {
+function Header({ onSearchChange, setIsLoggedIn, isLoggedIn }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
 
@@ -31,9 +31,18 @@ function Header({ onSearchChange }) {
     setMenuOpen((prev) => !prev);
   };
 
+  // Function to handle login or logout action
+  const handleLoginClick = () => {
+    if (isLoggedIn) {
+      setIsLoggedIn(false); // Log out
+      window.location.hash = 'home'; // Navigate to home after logout
+    } else {
+      window.location.hash = 'login'; // Navigate to login page
+    }
+  };
+
   return (
     <header className="header">
-      {/* Left side: site title + search bar */}
       <div className="header-left">
         <h1 className="site-title">Sweet Tooth</h1>
         <input
@@ -44,20 +53,20 @@ function Header({ onSearchChange }) {
         />
       </div>
 
-      {/* Right side: nav items + optional popup */}
       <div className="header-right">
         <nav className="nav-links">
           <a href="#home" className="nav-link" onClick={() => window.location.hash = 'home'}>Home</a>
           <a href="#roulette" className="nav-link" onClick={() => window.location.hash = 'roulette'}>Roulette</a>
           <a href="#personal" className="nav-link" onClick={() => window.location.hash = 'personal'}>Personal</a>
-          <span className="nav-link menu-link" onClick={toggleMenu}>
-            Settings
+          <span className="nav-link" onClick={handleLoginClick}>
+            {isLoggedIn ? 'Log Out' : 'Log In'} {/* Toggle login/logout */}
           </span>
         </nav>
-        {menuOpen && <PopupMenu menuRef={menuRef} />}
+        {menuOpen && <PopupMenu menuRef={menuRef} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />}
       </div>
     </header>
   );
 }
 
 export default Header;
+

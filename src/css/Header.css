@@ -37,4 +37,14 @@
     text-decoration: none;
     color: #7B4B39; /* Mint Green */
   }
+  .nav-link {
+    cursor: pointer; /* Ensures the pointer cursor */
+    text-decoration: none; /* Optional: Removes underline */
+    padding: 5px 10px; /* Optional: Adds some spacing */
+    display: inline-block; /* Ensures it behaves like a button */
+  }
+  
+  .nav-link:hover {
+    color: #007bff; /* Optional: Change color on hover */
+  }
   

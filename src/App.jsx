@@ -1,9 +1,10 @@
-// src/App.jsx
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import Roulette from './components/Roulette';
 import MainContent from './components/MainContent';
+import Login from './components/Login'; // Import Login component
+import Register from './components/Register'; // Import Register component
 import { DessertDataContext } from './contextsGlobal/dessertDataContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
@@ -15,6 +16,7 @@ function App() {
   const [selectedType, setSelectedType] = useState([]);
   const [selectedDietary, setSelectedDietary] = useState([]);
   const [currentPage, setCurrentPage] = useState('home');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     const handleHashChange = () => {
@@ -37,8 +39,14 @@ function App() {
   return (
     <DessertDataContext>
       <div className="app-container">
-        <Header onSearchChange={handleSearchChange} />
+        {/* Always render Header */}
+        <Header
+          onSearchChange={handleSearchChange}
+          isLoggedIn={isLoggedIn}
+          setIsLoggedIn={setIsLoggedIn}
+        />
         <div className="content-area">
+          {/* Render the main content (sidebar, main content, roulette, etc.) */}
           <Sidebar
             selectedFlavor={selectedFlavor}
             setSelectedFlavor={setSelectedFlavor}
@@ -56,11 +64,14 @@ function App() {
             />
           )}
           {currentPage === 'roulette' && <Roulette />}
+
+          {/* Render the Login/Register if not logged in */}
+          {!isLoggedIn && currentPage === 'login' && <Login setIsLoggedIn={setIsLoggedIn} />}
+          {!isLoggedIn && currentPage === 'register' && <Register />}
         </div>
       </div>
     </DessertDataContext>
   );
 }
-
 
 export default App;
