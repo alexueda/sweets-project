@@ -30,9 +30,9 @@ function Header({ onSearchChange }) {
       {/* Right side: nav items + optional popup */}
       <div className="header-right">
         <nav className="nav-links">
-          <a href="#home" className="nav-link">Home</a>
-          <a href="#roulette" className="nav-link">Roulette</a>
-          <a href="#personal" className="nav-link">Personal</a>
+          <a href="#home" className="nav-link" onClick={() => window.location.hash = 'home'}>Home</a> {/* Basic navigation using hash */}
+          <a href="#roulette" className="nav-link" onClick={() => window.location.hash = 'roulette'}>Roulette</a>
+          <a href="#personal" className="nav-link" onClick={() => window.location.hash = 'personal'}>Personal</a>
           <span className="nav-link menu-link" onClick={toggleMenu}>
             Menu
           </span>

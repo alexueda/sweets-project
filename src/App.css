@@ -5,7 +5,30 @@
   font-family: Arial, sans-serif;
 }
 
-.main-container {
+.app-container { /* Added this to potentially encompass the whole app layout */
+  display: flex;
+  flex-direction: column; /* Stack header, content-area */
+  min-height: 100vh; /* Ensure full height */
+}
+
+.content-area {
+  display: flex; /* Make Sidebar and MainContent side by side */
+  flex-grow: 1; /* Allow content area to take remaining vertical space */
+}
+
+.sidebar {
+  /* Add styles for your sidebar width here if needed */
+  width: 250px; /* Example width */
+  flex-shrink: 0; /* Prevent sidebar from shrinking */
+}
+
+.main-content {
+  flex-grow: 1; /* Allow main content to take remaining horizontal space */
+  /* Add other styles for your main content */
+}
+
+/* You might not need this if you are only using content-area for layout */
+/*.main-container {
   display: flex;
   min-height: 80vh;
-}
+}*/
