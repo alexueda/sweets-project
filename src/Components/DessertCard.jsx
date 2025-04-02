@@ -14,6 +14,7 @@ const DessertCard = ({
 }) => {
   const [selectedDessertCard, setSelectedDessertCard] = useState(null); // Store clicked dessert
   const [desserts, setDesserts] = useState(dessertData); // Use state to manage the dessert data
+  const [isFavorite, setIsFavorite] = useState(false);
 
   const handleAddReview = (dessertToUpdate, newReviewText) => {
     const updatedDesserts = desserts.map((dessert) => {
@@ -57,8 +58,8 @@ const DessertCard = ({
             )
           )) &&
           (selectedRating.length === 0 || selectedRating.some((selected) =>
-            dessert["rating"].toLowerCase().includes(selected.toLowerCase())
-          )) 
+            Math.floor(dessert["stars"]) === (selected)
+          ))
         )
       )
     : desserts.filter((dessert) =>
@@ -76,9 +77,15 @@ const DessertCard = ({
           )
         )) &&
         (selectedRating.length === 0 || selectedRating.some((selected) =>
-          dessert["rating"].toLowerCase().includes(selected.toLowerCase())
+          Math.floor(dessert["stars"]) === (selected)
         ))
       );
+
+      const toggleFavorite = (dessert) => {
+        setIsFavorite((prev) => !prev); // Toggle based on previous state
+        dessert["favorite"] = !dessert["favorite"]; // Update the object properly
+      };
+      
 
   return (
     <div className="dessert-generator">
@@ -94,6 +101,9 @@ const DessertCard = ({
             <p><strong>Deals:</strong> {dessert["deals"].join(", ")}</p>
             <p><strong>Dietary Preferences:</strong> {dessert["dietary friendly"].join(", ") || "None"}</p>
             {dessert["image"].length > 0 && <img src={dessert["image"][0]} alt={dessert["dessert title"]} />}
+            <button onClick={(e) => { e.stopPropagation(); toggleFavorite(dessert); }} className="dropdown-button">
+              <i className={`bi ${isFavorite ? "bi-star-fill" : "bi-star"}`}></i>
+            </button>
           </div>
         ))}
       </div>

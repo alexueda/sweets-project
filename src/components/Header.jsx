@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 // src/components/Header.jsx
-import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PopupMenu from './PopupMenu';
 import '../css/Header.css';
@@ -25,7 +24,6 @@ function Header({ onSearchChange, setIsLoggedIn, isLoggedIn }) {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [menuOpen]);
-  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     onSearchChange(e.target.value);

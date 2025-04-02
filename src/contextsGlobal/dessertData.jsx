@@ -22,7 +22,7 @@ const dessertData = [
         "image": [],
         "reviews": [],
         "restaurant": "Crumbl Cookies",
-        "stars": 4.8,
+        "stars": 3.7,
         "deals": [
             "Weekly rotating flavors"
         ]
@@ -50,7 +50,7 @@ const dessertData = [
         "image": [],
         "reviews": [],
         "restaurant": "Yummy Ice Cream Emporium",
-        "stars": 4.7,
+        "stars": 3.2,
         "deals": [
             "Free arcade games with purchase"
         ]
@@ -64,7 +64,7 @@ const dessertData = [
         "image": [],
         "reviews": [],
         "restaurant": "Roll Up Crepes",
-        "stars": 4.6,
+        "stars": 3.9,
         "deals": [
             "Open late until midnight"
         ]
@@ -78,7 +78,7 @@ const dessertData = [
         "image": [],
         "reviews": [],
         "restaurant": "Provo Bakery",
-        "stars": 4.4,
+        "stars": 2.1,
         "deals": [
             "Family-run for over 60 years"
         ]
@@ -92,7 +92,7 @@ const dessertData = [
         "image": [],
         "reviews": [],
         "restaurant": "Dionne's Bakery",
-        "stars": 4.9,
+        "stars": 4.5,
         "deals": [
             "Special New Year promotion"
         ]
@@ -106,7 +106,7 @@ const dessertData = [
         "image": [],
         "reviews": [],
         "restaurant": "Karie Anne's",
-        "stars": 4.8,
+        "stars": 4.2,
         "deals": [
             "Signature blend of Italian ice and custard"
         ]
@@ -120,7 +120,7 @@ const dessertData = [
         "image": [],
         "reviews": [],
         "restaurant": "Roll With It Creamery",
-        "stars": 4.5,
+        "stars": 4.3,
         "deals": [
             "Experience the art of rolled ice cream"
         ]
@@ -134,7 +134,7 @@ const dessertData = [
         "image": [],
         "reviews": [],
         "restaurant": "Ambrosial Bakery",
-        "stars": 4.7,
+        "stars": 3.5,
         "deals": [
             "Award-winning gluten-free desserts"
         ]
@@ -148,7 +148,7 @@ const dessertData = [
         "image": [],
         "reviews": [],
         "restaurant": "Crumbl Cookies",
-        "stars": 4.8,
+        "stars": 3.8,
         "deals": [
             "Weekly rotating flavors"
         ]
@@ -162,7 +162,7 @@ const dessertData = [
         "image": [],
         "reviews": [],
         "restaurant": "Simply Cheesecake",
-        "stars": 4.5,
+        "stars": 4.8,
         "deals": [
             "Order online for pickup"
         ]
@@ -176,7 +176,7 @@ const dessertData = [
         "image": [],
         "reviews": [],
         "restaurant": "Yummy Ice Cream Emporium",
-        "stars": 4.7,
+        "stars": 2.4,
         "deals": [
             "Free arcade games with purchase"
         ]
@@ -204,7 +204,7 @@ const dessertData = [
         "image": [],
         "reviews": [],
         "restaurant": "Provo Bakery",
-        "stars": 4.4,
+        "stars": 3.6,
         "deals": [
             "Family-run for over 60 years"
         ]
@@ -218,7 +218,7 @@ const dessertData = [
         "image": [],
         "reviews": [],
         "restaurant": "Simply Cheesecake",
-        "stars": 4.5,
+        "stars": 4.8,
         "deals": [
             "Order online for pickup"
         ]
@@ -232,7 +232,7 @@ const dessertData = [
         "image": [],
         "reviews": [],
         "restaurant": "Yummy Ice Cream Emporium",
-        "stars": 4.7,
+        "stars": 2.1,
         "deals": [
             "Free arcade games with purchase"
         ]
@@ -247,7 +247,7 @@ const dessertData = [
         "image": [],
         "reviews": [],
         "restaurant": "Dionne's Bakery",
-        "stars": 4.9,
+        "stars": 4.2,
         "deals": [
             "Buy 2, get 1 free on Thursdays"
         ]
@@ -275,7 +275,7 @@ const dessertData = [
         "image": [],
         "reviews": [],
         "restaurant": "Rockwell Ice Cream",
-        "stars": 4.7,
+        "stars": 3.8,
         "deals": [
             "Handcrafted small-batch flavors"
         ]
@@ -289,7 +289,7 @@ const dessertData = [
         "image": [],
         "reviews": [],
         "restaurant": "Nothing Bundt Cakes",
-        "stars": 4.9,
+        "stars": 4.1,
         "deals": [
             "Free bundtlet on your birthday"
         ]
@@ -317,7 +317,7 @@ const dessertData = [
         "image": [],
         "reviews": [],
         "restaurant": "Chip Cookies",
-        "stars": 4.6,
+        "stars": 2.2,
         "deals": [
             "Free delivery for first-time orders"
         ]
@@ -331,7 +331,7 @@ const dessertData = [
         "image": [],
         "reviews": [],
         "restaurant": "The Chocolate",
-        "stars": 4.7,
+        "stars": 3.4,
         "deals": [
             "Try our signature slice of the month!"
         ]
@@ -345,7 +345,7 @@ const dessertData = [
         "image": [],
         "reviews": [],
         "restaurant": "Dionne's Bakery",
-        "stars": 4.8,
+        "stars": 4.2,
         "deals": [
             "Valentine’s Day special pricing"
         ]
@@ -387,7 +387,7 @@ const dessertData = [
         "image": [],
         "reviews": [],
         "restaurant": "Sweet Tooth Fairy",
-        "stars": 4.7,
+        "stars": 3.8,
         "deals": [
             "Cupcake happy hour 3-5 PM daily"
         ]
@@ -401,7 +401,7 @@ const dessertData = [
         "image": [],
         "reviews": [],
         "restaurant": "Guru’s Cafe",
-        "stars": 4.6,
+        "stars": 3.7,
         "deals": [
             "Free dessert on birthdays"
         ]
@@ -415,7 +415,7 @@ const dessertData = [
         "image": [],
         "reviews": [],
         "restaurant": "Cubby’s",
-        "stars": 4.7,
+        "stars": 4.3,
         "deals": [
             "Seasonal special"
         ]
@@ -429,7 +429,7 @@ const dessertData = [
         "image": [],
         "reviews": [],
         "restaurant": "The Cheesecake Factory",
-        "stars": 4.9,
+        "stars": 4.8,
         "deals": [
             "Limited-time fall special"
         ]
@@ -443,7 +443,7 @@ const dessertData = [
         "image": [],
         "reviews": [],
         "restaurant": "Bangkok Grill",
-        "stars": 4.8,
+        "stars": 4.7,
         "deals": [
             "Authentic Thai dessert"
         ]
@@ -457,7 +457,7 @@ const dessertData = [
         "image": [],
         "reviews": [],
         "restaurant": "La Bonne Vie",
-        "stars": 4.7,
+        "stars": 3.5,
         "deals": [
             "Buy 5, get 1 free on Fridays"
         ]
@@ -471,7 +471,7 @@ const dessertData = [
         "image": [],
         "reviews": [],
         "restaurant": "Carrabba’s",
-        "stars": 4.8,
+        "stars": 2.3,
         "deals": [
             "Half-price desserts with entrée purchase"
         ]
@@ -485,7 +485,7 @@ const dessertData = [
         "image": [],
         "reviews": [],
         "restaurant": "Sakana Sushi",
-        "stars": 4.6,
+        "stars": 2.8,
         "deals": [
             "Pair with any tea for a discount"
         ]
@@ -499,7 +499,7 @@ const dessertData = [
         "image": [],
         "reviews": [],
         "restaurant": "Hokulia Shave Ice",
-        "stars": 4.9,
+        "stars": 3.6,
         "deals": [
             "Tropical flavor add-ons available"
         ]
@@ -527,7 +527,7 @@ const dessertData = [
         "image": [],
         "reviews": [],
         "restaurant": "Fiiz Drinks",
-        "stars": 4.5,
+        "stars": 3.5,
         "deals": [
             "Limited-time special"
         ]

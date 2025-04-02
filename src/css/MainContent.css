@@ -6,7 +6,7 @@
   display: grid;
   column-gap: 10px;
   row-gap: 10px;
-  grid-template-columns: 60% 40%; /* Defines two equal columns */
+  grid-template-columns: 45% 55%; /* Defines two equal columns */
   height: 100vh; /* Make sure the whole main content fits the viewport height */
 }
 

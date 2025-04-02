@@ -2,7 +2,7 @@
 import React from 'react';
 import DessertCard from './DessertCard';  // Import your DessertCard component
 import dessertData from '../contextsGlobal/dessertData'; // Import the dessert data
-import '../css/favorites.css'
+import '../css/personal.css'
 
 const Favorites = ({ selectedFlavor, selectedDessertType, selectedDietary, selectedRating, searchQuery }) => {
 

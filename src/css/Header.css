@@ -18,6 +18,7 @@
   .site-title {
     margin: 0 1rem 0 0;
     color: #FFFFFF; /* White text */
+    font-family:cursive;
   }
   
   .search-input {

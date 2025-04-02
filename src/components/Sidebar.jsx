@@ -145,7 +145,7 @@ export default function Sidebar({
         </button>
         {ratingOpen && (
           <div className="filter-type">
-            {["1 star", "2 stars", "3 stars", "4 stars", "5 stars"].map((star) => (
+            {[1, 2, 3, 4, 5].map((star) => (
               <label key={star} className="dropdown-items">
                 <input
                   type="checkbox"
