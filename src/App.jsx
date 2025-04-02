@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';  // Import Router components
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import Roulette from './components/Roulette';
@@ -25,66 +25,62 @@ function App() {
 
   useEffect(() => {
     const handleHashChange = () => {
-      const hash = window.location.hash.substring(1); // Remove the '#'
+      const hash = window.location.hash.substring(1);
       setCurrentPage(hash || 'home');
     };
 
     window.addEventListener('hashchange', handleHashChange);
-    handleHashChange(); // Initial load
+    handleHashChange();
 
     return () => {
       window.removeEventListener('hashchange', handleHashChange);
     };
   }, []);
 
-  const handleSearchChange = (query) => {
-    setSearchQuery(query);
-  };
-
   return (
     <BrowserRouter>
-       <DessertDataContext>
-         <div className="app-container">
-           <Header
-             onSearchChange={setSearchQuery}
-             isLoggedIn={isLoggedIn}
-             setIsLoggedIn={setIsLoggedIn}
-             />
-             <div className="content-area">
-              <Sidebar
-                selectedFlavor={selectedFlavor}
-                setSelectedFlavor={setSelectedFlavor}
-                selectedType={selectedType}
-                setSelectedType={setSelectedType}
-                selectedDietary={selectedDietary}
-                setSelectedDietary={setSelectedDietary}
-                selectedRating={selectedRating}
-                setSelectedRating={setSelectedRating}
+      <DessertDataContext>
+        <div className="app-container">
+          <Header
+            onSearchChange={setSearchQuery}
+            isLoggedIn={isLoggedIn}
+            setIsLoggedIn={setIsLoggedIn}
+          />
+          <div className="content-area">
+            <Sidebar
+              selectedFlavor={selectedFlavor}
+              setSelectedFlavor={setSelectedFlavor}
+              selectedType={selectedType}
+              setSelectedType={setSelectedType}
+              selectedDietary={selectedDietary}
+              setSelectedDietary={setSelectedDietary}
+              selectedRating={selectedRating}
+              setSelectedRating={setSelectedRating}
+            />
+            <Routes>
+              <Route 
+                path="/" 
+                element={
+                  <MainContent 
+                    searchQuery={searchQuery}
+                    selectedFlavor={selectedFlavor}
+                    selectedType={selectedType}
+                    selectedDietary={selectedDietary}
+                    selectedRating={selectedRating}
+                  />
+                } 
               />
-              <Routes>
-               <Route 
-                 path="/" 
-                 element={
-                   <MainContent 
-                     searchQuery={searchQuery}
-                     selectedFlavor={selectedFlavor}
-                     selectedType={selectedType}
-                     selectedDietary={selectedDietary}
-                     selectedRating={selectedRating}
-                   />
-                 } 
-               />
-                 <Route path="/favorites" element={<Favorites />} />
-               <Route path="/roulette" element={<Roulette />} />
-               <Route path="/account" element={<Account />} />
-               {!isLoggedIn && <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />}
-               {!isLoggedIn && <Route path="/register" element={<Register />} />}
-              </Routes>
-            </div>
-         </div>
-       </DessertDataContext>
-     </BrowserRouter>
-   );
- }
- 
- export default App;
+              <Route path="/favorites" element={<Favorites />} />
+              <Route path="/roulette" element={<Roulette />} />
+              <Route path="/account" element={<Account />} />
+              {!isLoggedIn && <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />}
+              {!isLoggedIn && <Route path="/register" element={<Register />} />}
+            </Routes>
+          </div>
+        </div>
+      </DessertDataContext>
+    </BrowserRouter>
+  );
+}
+
+export default App;

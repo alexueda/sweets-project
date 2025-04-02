@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import "../css/Register.css"; // Make sure to create and style this file
 
 function Register() {
@@ -6,6 +7,7 @@ function Register() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleRegister = () => {
     const existingUsers = JSON.parse(localStorage.getItem("users")) || {};
@@ -71,7 +73,10 @@ function Register() {
         {error && <p className="error-text">{error}</p>} {/* Apply correct class here */}
         <button className="register-button" onClick={handleRegister}>Register</button> {/* Apply correct class here */}
         <p>
-          Already have an account? <a href="#login">Login here</a>
+          Already have an account?{" "}
+          <span className="login-link" onClick={() =>  navigate("/login")}>
+            Login here
+          </span>
         </p>
       </div>
     </div>
