@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-// src/components/Header.jsx
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import PopupMenu from './PopupMenu';
 import '../css/Header.css';
 
@@ -9,7 +8,6 @@ function Header({ onSearchChange, setIsLoggedIn, isLoggedIn }) {
   const menuRef = useRef(null);
   const navigate = useNavigate();
 
-  // Handle clicks outside the menu to close it
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -25,22 +23,19 @@ function Header({ onSearchChange, setIsLoggedIn, isLoggedIn }) {
     };
   }, [menuOpen]);
 
-  // Handle search input change
   const handleInputChange = (e) => {
     onSearchChange(e.target.value);
   };
 
-  // Toggle menu open/close
   const toggleMenu = () => {
     setMenuOpen((prev) => !prev);
   };
 
-  // Handle login/logout navigation
   const handleLoginClick = () => {
     if (isLoggedIn) {
-      toggleMenu(); // Show settings menu when logged in
+      toggleMenu();
     } else {
-      navigate('/login'); // Navigate to login page if not logged in
+      navigate('/login');
     }
   };
 
@@ -58,11 +53,11 @@ function Header({ onSearchChange, setIsLoggedIn, isLoggedIn }) {
 
       <div className="header-right">
         <nav className="nav-links">
-          <a href="#home" className="nav-link" onClick={() => navigate('/')}>Home</a>
-          <a href="#roulette" className="nav-link" onClick={() => navigate('/roulette')}>Roulette</a>
-          <a href="#personal" className="nav-link" onClick={() => navigate('/personal')}>Personal</a>
+          <Link to="/" className="nav-link">Home</Link>
+          <Link to="/roulette" className="nav-link">Roulette</Link>
+          <Link to="/personal" className="nav-link">Personal</Link>
           <span className="nav-link" onClick={handleLoginClick}>
-            {isLoggedIn ? 'Settings' : 'Log In'} {/* Show Settings instead of Log Out */}
+            {isLoggedIn ? 'Settings' : 'Log In'}
           </span>
         </nav>
         {menuOpen && <PopupMenu menuRef={menuRef} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />}

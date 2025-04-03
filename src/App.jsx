@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import Roulette from './components/Roulette';
 import MainContent from './components/MainContent';
-import Login from './components/Login'; // Import Login component
-import Register from './components/Register'; // Import Register component
+import Login from './components/Login';
+import Register from './components/Register';
 import Personal from './components/Personal';
 import { DessertDataContext } from './contextsGlobal/dessertDataContext';
 import Favorites from './components/Personal';
@@ -20,22 +20,7 @@ function App() {
   const [selectedType, setSelectedType] = useState([]);
   const [selectedDietary, setSelectedDietary] = useState([]);
   const [selectedRating, setSelectedRating] = useState([]);
-  const [currentPage, setCurrentPage] = useState('home');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    const handleHashChange = () => {
-      const hash = window.location.hash.substring(1);
-      setCurrentPage(hash || 'home');
-    };
-
-    window.addEventListener('hashchange', handleHashChange);
-    handleHashChange();
-
-    return () => {
-      window.removeEventListener('hashchange', handleHashChange);
-    };
-  }, []);
 
   return (
     <BrowserRouter>
@@ -73,8 +58,10 @@ function App() {
               <Route path="/favorites" element={<Favorites />} />
               <Route path="/roulette" element={<Roulette />} />
               <Route path="/account" element={<Account />} />
-              {!isLoggedIn && <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />}
-              {!isLoggedIn && <Route path="/register" element={<Register />} />}
+              
+              {/* Redirect if already logged in */}
+              <Route path="/login" element={isLoggedIn ? <Navigate to="/" /> : <Login setIsLoggedIn={setIsLoggedIn} />} />
+              <Route path="/register" element={isLoggedIn ? <Navigate to="/" /> : <Register />} />
             </Routes>
           </div>
         </div>
