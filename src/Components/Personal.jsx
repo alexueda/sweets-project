@@ -1,10 +1,12 @@
 // src/components/Favorites.jsx
 import React from 'react';
+import {useNavigate} from 'react-router-dom';
 import DessertCard from './DessertCard';  // Import your DessertCard component
 import dessertData from '../contextsGlobal/dessertData'; // Import the dessert data
 import '../css/personal.css'
 
-const Favorites = ({ selectedFlavor, selectedDessertType, selectedDietary, selectedRating, searchQuery }) => {
+const Personal = ({ selectedFlavor, selectedDessertType, selectedDietary, selectedRating, searchQuery }) => {
+  const navigate = useNavigate();
 
   return (
     <div className="favorites-page">
@@ -24,4 +26,4 @@ const Favorites = ({ selectedFlavor, selectedDessertType, selectedDietary, selec
   );
 };
 
-export default Favorites;
+export default Personal;
