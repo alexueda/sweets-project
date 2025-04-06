@@ -6,13 +6,13 @@ import '../css/Header.css';
 function Header({ onSearchChange, setIsLoggedIn, isLoggedIn }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
+  const navigate = useNavigate(); // you forgot this too
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (menuRef.current && !menuRef.current.contains(event.target)) {
-        setMenuOpen(false);
-      }
-    };
+  const handleClickOutside = (event) => {
+    if (menuRef.current && !menuRef.current.contains(event.target)) {
+      setMenuOpen(false);
+    }
+  };
 
   useEffect(() => {
     if (menuOpen) {
@@ -20,6 +20,7 @@ function Header({ onSearchChange, setIsLoggedIn, isLoggedIn }) {
     } else {
       document.removeEventListener('mousedown', handleClickOutside);
     }
+
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
