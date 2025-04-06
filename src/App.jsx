@@ -55,13 +55,14 @@ function App() {
                   />
                 } 
               />
-              <Route path="/favorites" element={<Favorites />} />
+              <Route path="/personal" element={<Personal />} />
               <Route path="/roulette" element={<Roulette />} />
               <Route path="/account" element={<Account />} />
               
               {/* Redirect if already logged in */}
               <Route path="/login" element={isLoggedIn ? <Navigate to="/" /> : <Login setIsLoggedIn={setIsLoggedIn} />} />
               <Route path="/register" element={isLoggedIn ? <Navigate to="/" /> : <Register />} />
+              <Route path="/personal" element={isLoggedIn ? <Navigate to="/" /> : <Personal />} />
             </Routes>
           </div>
         </div>
