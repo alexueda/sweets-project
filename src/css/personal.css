@@ -22,7 +22,6 @@
   /* Style for the dessert container */
   .dessert-container {
     display: flex;
-    flex-direction: column;  /* Arrange desserts in a vertical column */
     gap: 20px;               /* Space between each dessert card */
   }
   
