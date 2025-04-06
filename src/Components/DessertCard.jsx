@@ -102,7 +102,7 @@ const DessertCard = ({
             <p><strong>Dietary Preferences:</strong> {dessert["dietary friendly"].join(", ") || "None"}</p>
             {dessert["image"].length > 0 && <img src={dessert["image"][0]} alt={dessert["dessert title"]} />}
             <button onClick={(e) => { e.stopPropagation(); toggleFavorite(dessert); }} className="dropdown-button">
-              <i className={`bi ${isFavorite ? "bi-star-fill" : "bi-star"}`}></i>
+            <i className={`bi ${dessert.favorite ? "bi-star-fill" : "bi-star"}`}></i>
             </button>
           </div>
         ))}
