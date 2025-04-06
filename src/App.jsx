@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';  // Import Router components
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import Roulette from './components/Roulette';
 import MainContent from './components/MainContent';
-import Login from './components/Login'; // Import Login component
-import Register from './components/Register'; // Import Register component
+import Login from './components/Login';
+import Register from './components/Register';
+import Personal from './components/Personal';
 import { DessertDataContext } from './contextsGlobal/dessertDataContext';
 import Favorites from './components/Personal';
 import Account from './components/Account';
@@ -19,65 +20,53 @@ function App() {
   const [selectedType, setSelectedType] = useState([]);
   const [selectedDietary, setSelectedDietary] = useState([]);
   const [selectedRating, setSelectedRating] = useState([]);
-  const [currentPage, setCurrentPage] = useState('home');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  useEffect(() => {
-    const handleHashChange = () => {
-      const hash = window.location.hash.substring(1); // Remove the '#'
-      setCurrentPage(hash || 'home');
-    };
-
-    window.addEventListener('hashchange', handleHashChange);
-    handleHashChange(); // Initial load
-
-    return () => {
-      window.removeEventListener('hashchange', handleHashChange);
-    };
-  }, []);
-
-  const handleSearchChange = (query) => {
-    setSearchQuery(query);
-  };
-
   return (
-    <DessertDataContext>
-      <div className="main-container">
-        {/* Always render Header */}
-        <Header
-          onSearchChange={handleSearchChange}
-          isLoggedIn={isLoggedIn}
-          setIsLoggedIn={setIsLoggedIn}
-        />
-        <div className="content-area">
-          {/* Render the main content (sidebar, main content, roulette, etc.) */}
-          <Sidebar
-            selectedFlavor={selectedFlavor}
-            setSelectedFlavor={setSelectedFlavor}
-            selectedType={selectedType}
-            setSelectedType={setSelectedType}
-            selectedDietary={selectedDietary}
-            setSelectedDietary={setSelectedDietary}
-            selectedRating={selectedRating}
-            setSelectedRating={setSelectedRating}
+    <BrowserRouter>
+      <DessertDataContext>
+        <div className="app-container">
+          <Header
+            onSearchChange={setSearchQuery}
+            isLoggedIn={isLoggedIn}
+            setIsLoggedIn={setIsLoggedIn}
           />
-          {currentPage === 'home' && (
-            <MainContent
-              searchQuery={searchQuery}
+          <div className="content-area">
+            <Sidebar
               selectedFlavor={selectedFlavor}
+              setSelectedFlavor={setSelectedFlavor}
               selectedType={selectedType}
+              setSelectedType={setSelectedType}
               selectedDietary={selectedDietary}
+              setSelectedDietary={setSelectedDietary}
               selectedRating={selectedRating}
+              setSelectedRating={setSelectedRating}
             />
-          )}
-          {currentPage === 'roulette' && <Roulette />}
-
-          {/* Render the Login/Register if not logged in */}
-          {!isLoggedIn && currentPage === 'login' && <Login setIsLoggedIn={setIsLoggedIn} />}
-          {!isLoggedIn && currentPage === 'register' && <Register />}
+            <Routes>
+              <Route 
+                path="/" 
+                element={
+                  <MainContent 
+                    searchQuery={searchQuery}
+                    selectedFlavor={selectedFlavor}
+                    selectedType={selectedType}
+                    selectedDietary={selectedDietary}
+                    selectedRating={selectedRating}
+                  />
+                } 
+              />
+              <Route path="/favorites" element={<Favorites />} />
+              <Route path="/roulette" element={<Roulette />} />
+              <Route path="/account" element={<Account />} />
+              
+              {/* Redirect if already logged in */}
+              <Route path="/login" element={isLoggedIn ? <Navigate to="/" /> : <Login setIsLoggedIn={setIsLoggedIn} />} />
+              <Route path="/register" element={isLoggedIn ? <Navigate to="/" /> : <Register />} />
+            </Routes>
+          </div>
         </div>
-      </div>
-    </DessertDataContext>
+      </DessertDataContext>
+    </BrowserRouter>
   );
 }
 
