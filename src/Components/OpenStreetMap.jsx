@@ -3,7 +3,7 @@ import "leaflet/dist/leaflet.css";
 
 const OSMMap = () => {
   return (
-    <MapContainer center={[40.2338, -111.6585]} zoom={13} style={{ height: "500px", width: "100%" }}>
+    <MapContainer center={[40.2338, -111.6585]} zoom={13} style={{ height: "100%", width: "100%" }}>
       {/* TileLayer with OpenStreetMap tiles */}
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
