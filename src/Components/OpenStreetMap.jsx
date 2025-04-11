@@ -101,6 +101,13 @@ const OSMMap = () => {
           nwr["cuisine"="milkshake"](around:10000,40.2338,-111.6585);
           nwr["cuisine"="smoothie"](around:10000,40.2338,-111.6585);
           nwr["cuisine"="sweet"](around:10000,40.2338,-111.6585);
+          nwr["cuisine"="boba"](around:10000,40.2338,-111.6585);
+          nwr["cuisine"="bubble_tea"](around:10000,40.2338,-111.6585);
+          nwr["cuisine"="dirty_soda"](around:10000,40.2338,-111.6585);
+          nwr["cuisine"="soda"](around:10000,40.2338,-111.6585);
+          nwr["cuisine"="cobbler"](around:10000,40.2338,-111.6585);
+          nwr["cuisine"="panna_cotta"](around:10000,40.2338,-111.6585);
+          nwr["cuisine"="baklava"](around:10000,40.2338,-111.6585);
 
       
           // Known dessert chains
@@ -179,10 +186,17 @@ const OSMMap = () => {
             'smoothie': 'Smoothie Bar',
             'sweet': 'Sweet Treats',
           
-            // Dirty soda shops & specialty chains
+            // Drinks / Boba
+            'boba': 'Boba Tea',
+            'bubble_tea': 'Bubble Tea',
+            'tea': 'Tea House',
+
+            // Dirty soda shops & chains
             'dirty_soda': 'Dirty Soda Bar',
             'swig': 'Swig (Dirty Soda)',
             'sodalicious': 'Sodalicious (Dirty Soda)',
+
+            // Dessert chains
             'freddys': 'Freddy’s Frozen Custard',
             'sonic': 'Sonic Drive-In (Desserts)',
             'dq': 'Dairy Queen',
