@@ -30,123 +30,79 @@ const blueIconLarge = new L.Icon({
   popupAnchor: [1, -34],
   shadowSize: [55, 55],
 });
-const dessertLocations = [
-  {
-    name: "BYU Creamery",
-    position: [40.2471, -111.6493],
-    description: "Classic ice cream shop on BYU campus."
-  },
-  {
-    name: "Rockwell Ice Cream",
-    position: [40.2334, -111.6588],
-    description: "Artisan ice cream with unique flavors."
-  },
-  {
-    name: "Ike’s Creamery (Provo Beach)",
-    position: [40.2820, -111.6545],
-    description: "Family-friendly creamery inside Provo Beach."
-  },
-  {
-    name: "Brooker’s Founding Flavors Ice Cream",
-    position: [40.3060, -111.7550],
-    description: "Patriotic-themed ice cream parlor with rich flavors."
-  },
-  {
-    name: "Chip Cookies",
-    position: [40.2336, -111.6660],
-    description: "Fresh-baked gourmet cookies delivered warm."
-  },
-  {
-    name: "Cravings – Alicia’s Cupcakes",
-    position: [40.3622, -111.7380],
-    description: "Award-winning cupcakes with lots of flavor options."
-  },
-  {
-    name: "Provo Bakery",
-    position: [40.2346, -111.6550],
-    description: "Historic bakery offering classic pastries and donuts."
-  },
-  {
-    name: "Shirley’s Bakery & Café",
-    position: [40.2530, -111.6620],
-    description: "Locally loved spot for cinnamon rolls and sandwiches."
-  },
-  {
-    name: "Delicatto Gourmet Bakery",
-    position: [40.2780, -111.7000],
-    description: "Hidden gem bakery with cakes, pastries, and more."
-  },
-  {
-    name: "The Chocolate Dessert Café",
-    position: [40.2940, -111.6940],
-    description: "Cozy café famous for their chocolate cake and treats."
-  },
-  {
-    name: "Swig",
-    position: [40.3150, -111.7000],
-    description: "Popular for dirty sodas and cookies."
-  },
-  {
-    name: "The Yard Milkshake Bar",
-    position: [40.2760, -111.6780],
-    description: "Over-the-top milkshakes with all the fixings."
-  },
-  {
-    name: "Hokulia Shave Ice",
-    position: [40.3140, -111.7000],
-    description: "Hawaiian-style shave ice with bold flavors."
-  },
-  {
-    name: "Penguin Brothers",
-    position: [40.2452, -111.6610],
-    description: "Known for their cookie ice cream sandwiches and unique flavors."
-  },
-  {
-    name: "Sub Zero Nitrogen Ice Cream",
-    position: [40.2336, -111.6605],
-    description: "Customizable ice cream made instantly using liquid nitrogen."
-  },
-  {
-    name: "Bruster's Real Ice Cream",
-    position: [40.2448, -111.6782],
-    description: "Freshly made ice cream with a variety of flavors."
-  },
-  {
-    name: "Bianca's La Petite French Bakery",
-    position: [40.2336, -111.6608],
-    description: "French-inspired pastries including croissants and macarons."
-  },
-  {
-    name: "Eliane French Bakery",
-    position: [40.3112, -111.7125],
-    description: "Authentic French bakery with a selection of pastries and desserts."
-  },
-  {
-    name: "Tam's Cream Puffs",
-    position: [40.2735, -111.6932],
-    description: "Specializes in cream puffs and delightful pastries."
-  },
-  {
-    name: "The Penguin Brothers",
-    position: [40.2448, -111.6543],
-    description: "Gourmet cookies and ice cream sandwiches."
-  },
-  {
-    name: "Crispy Cones",
-    position: [40.2465, -111.6497],
-    description: "Chimney cones filled with soft-serve ice cream and toppings."
-  }
-];
+
 
 const MapClickHandler = ({ onMapClick }) => {
-  useMapEvent("click", onMapClick);
+  useMapEvent("click", (e) => {
+    // Only trigger if clicking directly on the map (not on a marker)
+    if (e.originalEvent.target.classList.contains("leaflet-container")) {
+      onMapClick();
+    }
+  });
   return null;
 };
 
 const OSMMap = () => {
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [hoveredMarker, setHoveredMarker] = useState(null);
+  const [dessertLocations, setDessertLocations] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const markersRef = useRef([]);
+
+  useEffect(() => {
+    const fetchDessertLocations = async () => {
+      setIsLoading(true);
+      try {
+        // Expanded query to find all types of dessert places in wider area
+        const overpassQuery = `
+          [out:json][timeout:30];
+          (
+            // Search in 30km radius around Provo
+            node["amenity"~"cafe|ice_cream|restaurant"]["cuisine"~"ice_cream|dessert|coffee_shop"](around:30000,40.2338,-111.6585);
+            node["shop"~"bakery|confectionery|pastry|chocolate|coffee"](around:30000,40.2338,-111.6585);
+            node["cuisine"~"dessert|ice_cream|pancake|crepe|waffle"](around:30000,40.2338,-111.6585);
+            way["amenity"~"cafe|ice_cream"]["cuisine"~"dessert"](around:30000,40.2338,-111.6585);
+          );
+          out center;
+        `;
+
+        const response = await fetch(
+          `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(overpassQuery)}`
+        );
+        const data = await response.json();
+
+        const processLocation = (item) => {
+          // Handle both nodes and ways (which use center point)
+          const lat = item.lat || item.center?.lat;
+          const lon = item.lon || item.center?.lon;
+          if (!lat || !lon) return null;
+
+          return {
+            name: item.tags?.name || 'Dessert Spot',
+            position: [lat, lon],
+            description: [
+              item.tags?.cuisine,
+              item.tags?.shop,
+              item.tags?.amenity
+            ].filter(Boolean).join(' • ') || 'Sweet treats available here'
+          };
+        };
+
+        const locations = data.elements
+          .map(processLocation)
+          .filter(Boolean); // Remove any null entries
+
+        setDessertLocations(locations);
+      } catch (error) {
+        console.error("Error fetching locations:", error);
+        setDessertLocations([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchDessertLocations();
+  }, []);
 
   // Enhanced animation function
   const animateMarker = (marker, targetIcon) => {
@@ -189,10 +145,13 @@ const OSMMap = () => {
     }
     setSelectedMarker(index === selectedMarker ? null : index);
   };
+
   const handleMapClick = () => {
     if (selectedMarker !== null) {
       const marker = markersRef.current[selectedMarker];
-      if (marker) marker.setIcon(blueIcon);
+      if (marker) {
+        animateMarker(marker, blueIcon); // Animate back to normal size
+      }
       setSelectedMarker(null);
     }
   };
@@ -208,31 +167,36 @@ const OSMMap = () => {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       />
 
+      {/* Add MapClickHandler inside MapContainer */}
       <MapClickHandler onMapClick={handleMapClick} />
 
-      {dessertLocations.map((loc, index) => (
-        <Marker
-          key={index}
-          position={loc.position}
-          ref={(el) => (markersRef.current[index] = el)}
-          icon={
-            selectedMarker === index ? blueIconLarge :
-            hoveredMarker === index ? blueIconMedium : 
-            blueIcon
-          }
-          eventHandlers={{
-            click: () => handleMarkerClick(index),
-            mouseover: () => handleMarkerHover(index, true),
-            mouseout: () => handleMarkerHover(index, false)
-          }}
-        >
-          <Popup>
-            <strong>{loc.name}</strong>
-            <br />
-            {loc.description}
-          </Popup>
-        </Marker>
-      ))}
+      {isLoading ? (
+        <div className="map-loading">Loading dessert places...</div>
+      ) : (
+        dessertLocations.map((loc, index) => (
+          <Marker
+            key={`${loc.position[0]}-${loc.position[1]}`}
+            position={loc.position}
+            ref={(el) => (markersRef.current[index] = el)}
+            icon={
+              selectedMarker === index ? blueIconLarge :
+              hoveredMarker === index ? blueIconMedium : 
+              blueIcon
+            }
+            eventHandlers={{
+              click: () => handleMarkerClick(index),
+              mouseover: () => handleMarkerHover(index, true),
+              mouseout: () => handleMarkerHover(index, false)
+            }}
+          >
+            <Popup>
+              <strong>{loc.name}</strong>
+              <br />
+              {loc.description}
+            </Popup>
+          </Marker>
+        ))
+      )}
     </MapContainer>
   );
 };
