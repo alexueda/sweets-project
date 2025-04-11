@@ -2,9 +2,9 @@ import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from "react-leaf
 import { useState, useRef, useEffect } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import "../css/Map.css"; // Import your CSS file
+import "../css/Map.css";
 
-// Blue icons
+// Blue icons (unchanged)
 const blueIcon = new L.Icon({
   iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png",
   shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
@@ -51,6 +51,7 @@ const OSMMap = () => {
   const [hoveredMarker, setHoveredMarker] = useState(null);
   const [dessertLocations, setDessertLocations] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [currentZoom, setCurrentZoom] = useState(13); // Track zoom level
   const markersRef = useRef([]);
 
   useEffect(() => {
@@ -109,7 +110,6 @@ const OSMMap = () => {
           nwr["cuisine"="panna_cotta"](around:10000,40.2338,-111.6585);
           nwr["cuisine"="baklava"](around:10000,40.2338,-111.6585);
 
-      
           // Known dessert chains
           nwr["name"="Crumbl Cookies"](around:15000,40.2338,-111.6585);
           nwr["name"="Baked by Melissa"](around:15000,40.2338,-111.6585);
@@ -136,7 +136,6 @@ const OSMMap = () => {
         );
         out center;
       `;
-      
 
         const response = await fetch(
           `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(overpassQuery)}`
@@ -147,7 +146,6 @@ const OSMMap = () => {
           if (!tags) return 'Dessert shop';
           
           const typeMap = {
-            // Amenity/shop types
             'bakery': 'Bakery',
             'cafe': 'Café',
             'ice_cream': 'Ice Cream Shop',
@@ -156,8 +154,6 @@ const OSMMap = () => {
             'chocolate': 'Chocolate Shop',
             'restaurant': 'Restaurant',
             'fast_food': 'Dessert Fast Food',
-          
-            // Dessert-focused cuisines
             'dessert': 'Dessert',
             'ice_cream': 'Ice Cream',
             'gelato': 'Gelato',
@@ -185,25 +181,18 @@ const OSMMap = () => {
             'milkshake': 'Milkshake Bar',
             'smoothie': 'Smoothie Bar',
             'sweet': 'Sweet Treats',
-          
-            // Drinks / Boba
             'boba': 'Boba Tea',
             'bubble_tea': 'Bubble Tea',
             'tea': 'Tea House',
-
-            // Dirty soda shops & chains
             'dirty_soda': 'Dirty Soda Bar',
             'swig': 'Swig (Dirty Soda)',
             'sodalicious': 'Sodalicious (Dirty Soda)',
-
-            // Dessert chains
             'freddys': 'Freddy’s Frozen Custard',
             'sonic': 'Sonic Drive-In (Desserts)',
             'dq': 'Dairy Queen',
             'culvers': 'Culver’s Frozen Custard',
           };
           
-
           const features = [];
           if (tags.amenity) features.push(typeMap[tags.amenity] || tags.amenity);
           if (tags.shop) features.push(typeMap[tags.shop] || tags.shop);
@@ -284,10 +273,18 @@ const OSMMap = () => {
       center={[40.2338, -111.6585]} 
       zoom={13} 
       style={{ height: "100%", width: "100%" }}
+      className="pastel-map" // Add this className
+      whenCreated={(map) => {
+        setCurrentZoom(map.getZoom());
+        map.on('zoomend', () => setCurrentZoom(map.getZoom()));
+      }}
     >
+      {/* CHANGED TO STADIA MAPS */}
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        minNativeZoom={1}  // Only show full details at zoom 14+
+        maxNativeZoom={20}  // Maximum detail level
       />
 
       <MapEventHandlers onMapClick={resetSelectedMarker} />
@@ -296,34 +293,36 @@ const OSMMap = () => {
         <div className="map-loading">Loading dessert places...</div>
       ) : (
         dessertLocations.map((loc, index) => (
-          <Marker
-            key={`${loc.position[0]}-${loc.position[1]}`}
-            position={loc.position}
-            ref={(el) => (markersRef.current[index] = el)}
-            icon={
-              selectedMarker === index ? blueIconLarge :
-              hoveredMarker === index ? blueIconMedium : 
-              blueIcon
-            }
-            eventHandlers={{
-              click: () => handleMarkerClick(index),
-              mouseover: () => handleMarkerHover(index, true),
-              mouseout: () => handleMarkerHover(index, false)
-            }}
-          >
-            <Popup className="custom-popup">
-              <div className="popup-content">
-                <h3 className="popup-title">{loc.name}</h3>
-                <div className="popup-description">
-                  {loc.description.split(' • ').map((item, i) => (
-                    <span key={i} className="popup-tag">
-                      {item}
-                    </span>
-                  ))}
+          (currentZoom >= 12 || selectedMarker === index || hoveredMarker === index) && (
+            <Marker
+              key={`${loc.position[0]}-${loc.position[1]}`}
+              position={loc.position}
+              ref={(el) => (markersRef.current[index] = el)}
+              icon={
+                selectedMarker === index ? blueIconLarge :
+                hoveredMarker === index ? blueIconMedium : 
+                blueIcon
+              }
+              eventHandlers={{
+                click: () => handleMarkerClick(index),
+                mouseover: () => handleMarkerHover(index, true),
+                mouseout: () => handleMarkerHover(index, false)
+              }}
+            >
+              <Popup className="custom-popup">
+                <div className="popup-content">
+                  <h3 className="popup-title">{loc.name}</h3>
+                  <div className="popup-description">
+                    {loc.description.split(' • ').map((item, i) => (
+                      <span key={i} className="popup-tag">
+                        {item}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            </Popup>
-          </Marker>
+              </Popup>
+            </Marker>
+          )
         ))
       )}
     </MapContainer>
