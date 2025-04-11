@@ -55,7 +55,7 @@
 /* Enhanced Pastel Dessert Theme (improved selectors) */
 .leaflet-container.pastel-map .leaflet-tile {
   filter: 
-    hue-rotate(160deg)     /* Pink/peach base */
+    hue-rotate(0deg)     /* Pink/peach base */
     saturate(0.6)          /* Muted tones */
     brightness(1.15)       /* Lighter */
     contrast(0.9)          /* Softer */
@@ -64,8 +64,9 @@
 
 /* Water areas */
 .pastel-map path.leaflet-interactive[fill="rgb(170,211,223)"] {
-  fill: #d4f1f9 !important;  /* Pastel blue */
+  fill: #a4d4f2 !important;  /* Cooler pastel blue */
 }
+
 
 /* Land/parks */
 .pastel-map [fill="rgb(210,227,188)"],
