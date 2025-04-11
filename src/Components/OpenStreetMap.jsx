@@ -1,13 +1,14 @@
-import { MapContainer, TileLayer, Marker, Popup, useMapEvent } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from "react-leaflet";
 import { useState, useRef, useEffect } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import "../css/Map.css"; // Import your CSS file
 
-// Blue icons - THREE sizes now
+// Blue icons
 const blueIcon = new L.Icon({
   iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png",
   shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
-  iconSize: [25, 41],  // Normal size
+  iconSize: [25, 41],
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
   shadowSize: [41, 41],
@@ -16,7 +17,7 @@ const blueIcon = new L.Icon({
 const blueIconMedium = new L.Icon({
   iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png",
   shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
-  iconSize: [30, 48],  // Hover size
+  iconSize: [30, 48],
   iconAnchor: [15, 48],
   popupAnchor: [1, -34],
   shadowSize: [48, 48],
@@ -25,17 +26,20 @@ const blueIconMedium = new L.Icon({
 const blueIconLarge = new L.Icon({
   iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png",
   shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
-  iconSize: [35, 55],  // Clicked size
+  iconSize: [35, 55],
   iconAnchor: [17, 55],
   popupAnchor: [1, -34],
   shadowSize: [55, 55],
 });
 
-
-const MapClickHandler = ({ onMapClick }) => {
-  useMapEvent("click", (e) => {
-    // Only trigger if clicking directly on the map (not on a marker)
-    if (e.originalEvent.target.classList.contains("leaflet-container")) {
+const MapEventHandlers = ({ onMapClick }) => {
+  useMapEvents({
+    click: (e) => {
+      if (e.originalEvent.target.classList.contains("leaflet-container")) {
+        onMapClick();
+      }
+    },
+    dragstart: () => {
       onMapClick();
     }
   });
@@ -53,14 +57,11 @@ const OSMMap = () => {
     const fetchDessertLocations = async () => {
       setIsLoading(true);
       try {
-        // Expanded query to find all types of dessert places in wider area
         const overpassQuery = `
           [out:json][timeout:30];
           (
-            // Search in 30km radius around Provo
-            node["amenity"~"cafe|ice_cream|restaurant"]["cuisine"~"ice_cream|dessert|coffee_shop"](around:30000,40.2338,-111.6585);
-            node["shop"~"bakery|confectionery|pastry|chocolate|coffee"](around:30000,40.2338,-111.6585);
-            node["cuisine"~"dessert|ice_cream|pancake|crepe|waffle"](around:30000,40.2338,-111.6585);
+            node["amenity"~"cafe|ice_cream|restaurant"]["cuisine"~"ice_cream|dessert"](around:30000,40.2338,-111.6585);
+            node["shop"~"bakery|confectionery|pastry|chocolate"](around:30000,40.2338,-111.6585);
             way["amenity"~"cafe|ice_cream"]["cuisine"~"dessert"](around:30000,40.2338,-111.6585);
           );
           out center;
@@ -71,26 +72,43 @@ const OSMMap = () => {
         );
         const data = await response.json();
 
-        const processLocation = (item) => {
-          // Handle both nodes and ways (which use center point)
-          const lat = item.lat || item.center?.lat;
-          const lon = item.lon || item.center?.lon;
-          if (!lat || !lon) return null;
-
-          return {
-            name: item.tags?.name || 'Dessert Spot',
-            position: [lat, lon],
-            description: [
-              item.tags?.cuisine,
-              item.tags?.shop,
-              item.tags?.amenity
-            ].filter(Boolean).join(' • ') || 'Sweet treats available here'
+        const cleanDescription = (tags) => {
+          if (!tags) return 'Dessert shop';
+          
+          const typeMap = {
+            'bakery': 'Bakery',
+            'cafe': 'Café',
+            'ice_cream': 'Ice Cream',
+            'pastry': 'Pastry Shop',
+            'confectionery': 'Candy Store',
+            'chocolate': 'Chocolate Shop',
+            'restaurant': 'Restaurant'
           };
+
+          const features = [];
+          if (tags.amenity) features.push(typeMap[tags.amenity] || tags.amenity);
+          if (tags.shop) features.push(typeMap[tags.shop] || tags.shop);
+          
+          if (tags.cuisine) {
+            tags.cuisine.split(';').forEach(c => {
+              if (typeMap[c]) features.push(typeMap[c]);
+            });
+          }
+
+          return [...new Set(features)].join(' • ') || 'Dessert shop';
         };
 
         const locations = data.elements
-          .map(processLocation)
-          .filter(Boolean); // Remove any null entries
+          .map(item => {
+            const lat = item.lat || item.center?.lat;
+            const lon = item.lon || item.center?.lon;
+            return lat && lon ? {
+              name: item.tags?.name || 'Dessert Spot',
+              position: [lat, lon],
+              description: cleanDescription(item.tags)
+            } : null;
+          })
+          .filter(Boolean);
 
         setDessertLocations(locations);
       } catch (error) {
@@ -104,34 +122,22 @@ const OSMMap = () => {
     fetchDessertLocations();
   }, []);
 
-  // Enhanced animation function
   const animateMarker = (marker, targetIcon) => {
     if (!marker) return;
-    
     const iconElement = marker.getElement();
     if (iconElement) {
-      // Apply transition style
       iconElement.style.transition = 'all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55)';
-      
-      // Small delay to ensure transition applies
       setTimeout(() => {
         marker.setIcon(targetIcon);
       }, 50);
     }
   };
 
-  const handleMarkerHover = (index, isHovering) => {
-    setHoveredMarker(isHovering ? index : null);
-    const marker = markersRef.current[index];
-    
-    if (marker) {
-      // Only animate if not the currently selected marker
-      if (selectedMarker !== index) {
-        animateMarker(
-          marker,
-          isHovering ? blueIconMedium : blueIcon
-        );
-      }
+  const resetSelectedMarker = () => {
+    if (selectedMarker !== null) {
+      const marker = markersRef.current[selectedMarker];
+      if (marker) animateMarker(marker, blueIcon);
+      setSelectedMarker(null);
     }
   };
 
@@ -146,13 +152,11 @@ const OSMMap = () => {
     setSelectedMarker(index === selectedMarker ? null : index);
   };
 
-  const handleMapClick = () => {
-    if (selectedMarker !== null) {
-      const marker = markersRef.current[selectedMarker];
-      if (marker) {
-        animateMarker(marker, blueIcon); // Animate back to normal size
-      }
-      setSelectedMarker(null);
+  const handleMarkerHover = (index, isHovering) => {
+    setHoveredMarker(isHovering ? index : null);
+    const marker = markersRef.current[index];
+    if (marker && selectedMarker !== index) {
+      animateMarker(marker, isHovering ? blueIconMedium : blueIcon);
     }
   };
 
@@ -167,8 +171,7 @@ const OSMMap = () => {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       />
 
-      {/* Add MapClickHandler inside MapContainer */}
-      <MapClickHandler onMapClick={handleMapClick} />
+      <MapEventHandlers onMapClick={resetSelectedMarker} />
 
       {isLoading ? (
         <div className="map-loading">Loading dessert places...</div>
@@ -189,10 +192,17 @@ const OSMMap = () => {
               mouseout: () => handleMarkerHover(index, false)
             }}
           >
-            <Popup>
-              <strong>{loc.name}</strong>
-              <br />
-              {loc.description}
+            <Popup className="custom-popup">
+              <div className="popup-content">
+                <h3 className="popup-title">{loc.name}</h3>
+                <div className="popup-description">
+                  {loc.description.split(' • ').map((item, i) => (
+                    <span key={i} className="popup-tag">
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
             </Popup>
           </Marker>
         ))
