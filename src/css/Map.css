@@ -1,0 +1,92 @@
+/* Map.css */
+
+/* Original styles (unchanged) */
+.map-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 1rem 2rem;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+.custom-popup .leaflet-popup-content {
+  margin: 12px;
+  min-width: 200px;
+}
+
+.popup-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.popup-title {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.popup-description {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.popup-tag {
+  background: #f8f9fa;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  color: #495057;
+  border: 1px solid #dee2e6;
+  white-space: nowrap;
+}
+
+.leaflet-marker-icon {
+  transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  transform-origin: bottom center;
+}
+
+/* Enhanced Pastel Dessert Theme (improved selectors) */
+.leaflet-container.pastel-map .leaflet-tile {
+  filter: 
+    hue-rotate(0deg)     /* Pink/peach base */
+    saturate(0.6)          /* Muted tones */
+    brightness(1.15)       /* Lighter */
+    contrast(0.9)          /* Softer */
+    drop-shadow(0 0 2px rgba(255, 209, 220, 0.3)); /* Soft glow */
+}
+
+/* Water areas */
+.pastel-map path.leaflet-interactive[fill="rgb(170,211,223)"] {
+  fill: #a4d4f2 !important;  /* Cooler pastel blue */
+}
+
+
+/* Land/parks */
+.pastel-map [fill="rgb(210,227,188)"],
+.pastel-map [fill="rgb(211,235,206)"] {
+  fill: #e0f7d4 !important;  /* Mint green */
+}
+
+/* Roads */
+.pastel-map [stroke="rgb(255,255,255)"] {
+  stroke: #fff8f0 !important;  /* Cream white */
+}
+
+/* Ensure filters apply properly */
+.pastel-map .leaflet-layer,
+.pastel-map .leaflet-tile-container,
+.pastel-map .leaflet-tile {
+  will-change: filter;
+}
+
+/* Marker contrast adjustment */
+.pastel-map .leaflet-marker-icon {
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+}
