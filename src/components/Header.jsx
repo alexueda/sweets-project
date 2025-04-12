@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, forwardRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import PopupMenu from './PopupMenu';
 import '../css/Header.css';
 
-function Header({ onSearchChange, setIsLoggedIn, isLoggedIn }) {
+const Header = forwardRef(({ onSearchChange, setIsLoggedIn, isLoggedIn }, ref) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
-  const navigate = useNavigate(); // you forgot this too
+  const navigate = useNavigate();
 
   const handleClickOutside = (event) => {
     if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -43,7 +43,7 @@ function Header({ onSearchChange, setIsLoggedIn, isLoggedIn }) {
   };
 
   return (
-    <header className="header">
+    <header className="header" ref={ref}>
       <div className="header-left">
         <h1 className="site-title">Sweet Tooth</h1>
         <input
@@ -67,6 +67,6 @@ function Header({ onSearchChange, setIsLoggedIn, isLoggedIn }) {
       </div>
     </header>
   );
-}
+});
 
 export default Header;

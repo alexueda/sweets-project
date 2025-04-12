@@ -1,34 +1,99 @@
-/* src/App.css */
 @import 'leaflet/dist/leaflet.css';
 
 .App {
   font-family: Arial, sans-serif;
 }
 
-.app-container { /* Added this to potentially encompass the whole app layout */
+.app-container {
   display: flex;
-  flex-direction: column; /* Stack header, content-area */
-  min-height: 100vh; /* Ensure full height */
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .content-area {
-  display: flex; /* Make Sidebar and MainContent side by side */
-  flex-grow: 1; /* Allow content area to take remaining vertical space */
-}
-
-.sidebar {
-  /* Add styles for your sidebar width here if needed */
-  width: 250px; /* Example width */
-  flex-shrink: 0; /* Prevent sidebar from shrinking */
-}
-
-.main-content {
-  flex-grow: 1; /* Allow main content to take remaining horizontal space */
-  /* Add other styles for your main content */
-}
-
-/* You might not need this if you are only using content-area for layout */
-/*.main-container {
   display: flex;
-  min-height: 80vh;
-}*/
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background-color: rgb(191, 247, 238);
+}
+
+/* Sidebar styling */
+.sidebar {
+  width: 220px;
+  background-color: #efdcf7;
+  position: absolute;
+  overflow-y: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  background-color: #FFE6EC; /* Light Pink */
+  border-right: 1px solid #ebc0c8; /* Dusty Rose */
+}
+
+.sidebar.visible {
+  transform: translateX(0);
+}
+
+/* Main content wrapper with margin when sidebar is open */
+.main-content-wrapper {
+  flex-grow: 1;
+  padding: 1rem;
+  transition: margin-left 0.3s ease, width 0.3s ease;
+  margin-left: 0;
+  width: 100%;
+}
+
+.content-area.sidebar-open .main-content-wrapper {
+  margin-left: 250px; /* Offset the main content when the sidebar is open */
+  width: calc(100% - 250px); /* Ensure it takes up remaining space */
+}
+
+/* Toggle button common styles */
+.toggle-sidebar-btn {
+  position: absolute;
+  top: 1rem;
+  z-index: 3;
+  border: none;
+  color: black;
+  font-weight: bold;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.toggle-sidebar-btn.outside {
+  background-color: white;
+  left: 1rem;
+}
+
+.toggle-sidebar-btn.inside {
+  position: fixed;
+  background-color: white;
+  align-self: flex-end;
+  margin: 1rem;
+  right:-60px;
+}
+.toggle-sidebar-btn.fixed-btn {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 1000;
+  background: white;
+  border: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  box-shadow: 0 0 6px rgba(0,0,0,0.1);
+  cursor: pointer;
+}
+
+/* Optional: shift the button when sidebar is open */
+.toggle-sidebar-btn.fixed-btn.shifted {
+  left: 230px; /* match your sidebar width */
+  transition: left 0.3s ease;
+}

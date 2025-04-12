@@ -1,18 +1,21 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate, useLocation } from "react-router-dom"; // ✅ Add useLocation
 import "../css/Login.css"; 
 
 function Login({ setIsLoggedIn }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const navigate = useNavigate(); // Initialize navigate function
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/"; // ✅ Fallback to homepage
 
   const handleLogin = () => {
     const existingUsers = JSON.parse(localStorage.getItem("users")) || {};
     if (existingUsers[username] === password) {
       setIsLoggedIn(true);
-      navigate("/"); // Redirect to home after login
+      navigate(from, { replace: true }); // ✅ Redirect to original path
     } else {
       setError("Invalid username or password.");
     }

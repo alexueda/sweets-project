@@ -1,13 +1,11 @@
 /* src/components/MainContent.css */
 .main-content {
-  width: 60%;
   padding: 1rem;
-  background-color: #FFFFFF;
+  background-color: rgb(191, 247, 238);
   display: grid;
   column-gap: 10px;
   row-gap: 10px;
-  grid-template-columns: 45% 55%; /* Defines two equal columns */
-  height: 100vh; /* Make sure the whole main content fits the viewport height */
+  grid-template-columns: 55% 45%; /* Defines two equal columns */
 }
 
 .card-container {
