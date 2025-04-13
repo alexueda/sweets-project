@@ -78,7 +78,7 @@ const DessertCard = ({
         )) &&
         (selectedRating.length === 0 || selectedRating.some((selected) =>
           Math.floor(dessert["stars"]) === (selected)
-        ))
+        )) 
       );
 
       const toggleFavorite = (dessert) => {
@@ -92,17 +92,17 @@ const DessertCard = ({
       <div className="dessert-container">
         {displayedDesserts.map((dessert) => (
           <div key={dessert["dessert title"]} className="dessert" onClick={() => setSelectedDessertCard(dessert)}>
-            <h3>{dessert["dessert title"]}</h3>
-            <p>
-              <RenderStars rating={dessert.stars} /> ({dessert.stars})
-            </p>
-            <p><strong>Restaurant:</strong> {dessert["restaurant"]}</p>
-            <p><strong>Flavor:</strong> {dessert["flavor"].join(", ")}</p>
-            <p><strong>Deals:</strong> {dessert["deals"].join(", ")}</p>
-            <p><strong>Dietary Preferences:</strong> {dessert["dietary friendly"].join(", ") || "None"}</p>
-            {dessert["image"].length > 0 && <img src={dessert["image"][0]} alt={dessert["dessert title"]} />}
-            <button onClick={(e) => { e.stopPropagation(); toggleFavorite(dessert); }} className="dropdown-button">
-            <i className={`bi ${dessert.favorite ? "bi-star-fill" : "bi-star"}`}></i>
+            {dessert["image"] && <img src={dessert["image"]} alt={dessert["dessert title"]} />}
+            <div className="dessert-info">
+              <h3>{dessert["dessert title"]}</h3>
+              <p>
+                <RenderStars rating={dessert.stars} /> ({dessert.stars})
+              </p>
+              <p><bold>Flavor:</bold> {dessert["flavor"].join(", ")}</p>
+              <p><bold>Dietary Preferences:</bold> {dessert["dietary friendly"].join(", ") || "None"}</p>
+            </div>
+            <button onClick={(e) => { e.stopPropagation(); toggleFavorite(dessert); }} className="fav-button">
+              <i className={`bi ${dessert.favorite ? "bi-heart-fill" : "bi-heart"}`}></i>
             </button>
           </div>
         ))}

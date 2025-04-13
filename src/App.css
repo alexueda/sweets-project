@@ -65,35 +65,22 @@
   padding: 0.5rem 0.75rem;
   border-radius: 6px;
   cursor: pointer;
+  background-color: transparent;
 }
 
-.toggle-sidebar-btn.outside {
-  background-color: white;
-  left: 1rem;
-}
-
-.toggle-sidebar-btn.inside {
-  position: fixed;
-  background-color: white;
-  align-self: flex-end;
-  margin: 1rem;
-  right:-60px;
-}
 .toggle-sidebar-btn.fixed-btn {
   position: fixed;
   top: 1rem;
   left: 1rem;
   z-index: 1000;
-  background: white;
+  background: transparent;
   border: none;
-  padding: 0.5rem 0.75rem;
+  padding: 0.5rem 0.25rem;
   border-radius: 4px;
-  box-shadow: 0 0 6px rgba(0,0,0,0.1);
   cursor: pointer;
 }
 
 /* Optional: shift the button when sidebar is open */
 .toggle-sidebar-btn.fixed-btn.shifted {
   left: 230px; /* match your sidebar width */
-  transition: left 0.3s ease;
 }

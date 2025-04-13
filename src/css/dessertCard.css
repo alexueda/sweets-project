@@ -10,13 +10,17 @@
 }
 
 .dessert {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
   background-color: #c2e7d9 !important;
   border: 1px solid #ddd;
   border-radius: 5px;
   padding: 20px;
   margin: 10px;
-  width: 200px;
+  width: fit-content;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
 
 .dessert h3 {
@@ -27,4 +31,34 @@
 .dessert p {
   font-size: 14px;
   color: #666;
+}
+.dessert img {
+  width: 160px;         /* or any fixed width */
+  height: 120px;        /* or any fixed height */
+  object-fit: contain;  /* keeps full image, adds letterboxing if needed */
+  display: block;
+  border-radius: 5px;
+  margin-right: 20px;
+}
+
+.dessert-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.fav-button {
+  position: relative;
+  margin-left: 10px;
+  bottom: 10px;
+  right: 10px;
+  font-size: 1.2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.fav-button i {
+  font-size: 1.5em;
+  color: #ce6378;
 }

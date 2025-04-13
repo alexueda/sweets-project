@@ -121,10 +121,12 @@ hr {
 
     .dropdown-items { 
       margin-left: 10px;
-      display: flexbox;
-      flex-direction: column;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 8px;
+      margin-left: 10px;
       margin-bottom: 5px;
-      display: block;
       color: #555;
       font-size: 14px;
     }
