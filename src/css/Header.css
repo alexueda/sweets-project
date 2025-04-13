@@ -3,7 +3,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
+  /* Reduced vertical padding for a slimmer header */
+  padding: 0.5rem 2rem;
   background-color: #d8a7b1; /* Milk Pink */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -14,9 +15,9 @@
 }
 
 .hamburger-toggle {
-  background: #d8a7b1;     /* Light Pink background matching your theme */
+  background: #d8a7b1; /* Matches header background */
   border: none;
-  color: #7B4B39;          /* Theme color, e.g., Cocoa Brown */
+  color: #7B4B39; /* Cocoa Brown */
   font-size: 1.5rem;
   padding: 0.5rem;
   border-radius: 4px;
@@ -31,19 +32,15 @@
   background: #fddce1;
 }
 
-.toggle-label {
-  font-size: 1rem;
-  font-weight: bold;
-}
-
+/* Removed the toggle label styles as it’s no longer needed if only showing icon */
 .logo {
-  width: 80px;
-  margin-right: 1rem;
+  width: 60px;       /* Reduced logo size for a leaner appearance */
+  margin-right: 0.75rem;
 }
 
 .search-input {
-  padding: 0.5rem;
-  font-size: 1rem;
+  padding: 0.35rem 0.5rem; /* Slimmer search input */
+  font-size: 0.95rem;      /* Slightly smaller text */
   border: 2px solid #7B4B39;
   border-radius: 4px;
 }
