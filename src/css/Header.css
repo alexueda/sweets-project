@@ -1,6 +1,4 @@
 /* src/css/Header.css */
-
-/* Overall header container with refined padding and a subtle shadow */
 .header {
   display: flex;
   justify-content: space-between;
@@ -10,48 +8,60 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Header left: logo and search input aligned */
 .header-left {
   display: flex;
   align-items: center;
 }
 
-/* Optional: Adjusting the logo size and adding margin for spacing */
+.hamburger-toggle {
+  background: #d8a7b1;     /* Light Pink background matching your theme */
+  border: none;
+  color: #7B4B39;          /* Theme color, e.g., Cocoa Brown */
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.hamburger-toggle:hover {
+  background: #fddce1;
+}
+
+.toggle-label {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
 .logo {
-  width: 80px;        /* Reduced size for a sleeker look */
-  height: auto;
+  width: 80px;
   margin-right: 1rem;
 }
 
-/* Search bar styling */
 .search-input {
   padding: 0.5rem;
   font-size: 1rem;
-  background-color: #ffffff;
-  border: 2px solid #7B4B39; /* Cocoa Brown */
+  border: 2px solid #7B4B39;
   border-radius: 4px;
 }
 
-/* Navigation links container with a gap between links */
 .nav-links {
   display: flex;
-  align-items: center;
-  gap: 20px;    /* This gap creates space between each nav item */
+  gap: 20px;
 }
 
-/* Styling each navigation link */
 .nav-link {
-  font-family: 'Abel', sans-serif;
   text-decoration: none;
   color: #7B4B39;
   padding: 5px 10px;
-  transition: color 0.3s ease, background-color 0.3s ease;
+  transition: background-color 0.3s, color 0.3s;
 }
 
-/* Hover effect to provide a visual cue */
 .nav-link:hover {
   color: #ffffff;
-  background-color: #7B4B39;
+  background-color: #e6c5b9;
   border-radius: 4px;
-  cursor: pointer;
 }
