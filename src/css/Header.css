@@ -6,7 +6,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 1rem 2rem;
-    background-color: #dfabb0; /* Milk Pink */
+    background-color: #d8a7b1; /* Milk Pink */
     border-bottom: 1px solid #D8A7B1; /* Dusty Rose */
     height:fit-content;
   }
@@ -37,6 +37,7 @@
   }
 
   .nav-link {
+    font-family: Abel;
     text-decoration: none;
     color: #7B4B39; /* Mint Green */
     cursor: pointer; /* Ensures the pointer cursor */
@@ -49,3 +50,7 @@
     color: #5a5a5a00; /* Optional: Change color on hover */
   }
   
+  .logo {
+    width:100px;
+    height:100px;
+  }

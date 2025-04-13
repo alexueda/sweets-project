@@ -45,7 +45,7 @@ const Header = forwardRef(({ onSearchChange, setIsLoggedIn, isLoggedIn }, ref) =
   return (
     <header className="header" ref={ref}>
       <div className="header-left">
-        <h1 className="site-title">Sweet Tooth</h1>
+        <img src="../logo.png" alt="Sweet Tooth" className="logo" />
         <input
           type="text"
           placeholder="Search by dessert..."

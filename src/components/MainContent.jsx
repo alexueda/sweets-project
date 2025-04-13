@@ -25,7 +25,7 @@ function MainContent({
           />
       </div>
       <div className="map-container">
-        <h2>Map of Sweets in Provo, UT</h2>
+        <h2>Find Sweets in Provo, UT</h2>
         <OpenStreetMap/>
       </div>
     </main>

@@ -3,7 +3,7 @@
   width: 25%;
   height: 100vh;
   padding: 1rem;
-  background-color: #FFE6EC; /* Light Pink */
+  background-color: #fadadd; /* Light Pink */
   border-right: 1px solid #D8A7B1; /* Dusty Rose */
   overflow-y: auto;
   overflow-x: hidden; /* Prevent horizontal scrollbar */
@@ -50,19 +50,19 @@ hr {
   }
 
   .dropdown-all {
-    border-color: rgb(52, 53, 146);
-    border-width: thin;
-    border-radius: 5px;
-    background-color: #77b7b9;
+    border-color: none;
+    border-radius: 0px;
+    border: none;
+    background-color: none;
     height: 50%;
     margin-left: auto;
     margin-right: 15px;
     font-size: 12px;
-    color: rgb(223, 222, 233);
+    color: rgb(0, 0, 0);
     transition: transform 0.5s ease;
   }
   .dropdown-all:hover {
-    background-color: #5c9c9e;
+    background-color: #c2e7d9;
   }
 }
 
@@ -97,7 +97,7 @@ hr {
 .filter-reset {
   width: 100%;
   padding: 10px;
-  background-color: rgb(201, 50, 50);
+  background-color: rgb(172, 49, 49);
   color: white;
   border: none;
   border-radius: 4px;
@@ -106,7 +106,7 @@ hr {
 }
 
 .filter-reset:hover {
-  background-color: rgb(172, 49, 49);
+  background-color: rgb(139, 38, 38);
 }
 
 .buffer {
