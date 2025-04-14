@@ -1,3 +1,4 @@
+// src/components/PopupMenu.jsx
 import React from 'react';
 import CredentialMngmt from './CredentialMngmt';
 import '../css/PopupMenu.css';
