@@ -1,23 +1,20 @@
 /* src/css/PopupMenu.css */
 
+/* Ensure the popup is positioned relative to the header-right container */
 .header-right {
-  position: relative; /* Ensures .popup-menu is positioned relative to this */
-}
-
-.menu-link {
-  cursor: pointer; /* Ensures pointer cursor on hover */
+  position: relative;
 }
 
 .popup-menu {
   position: absolute;
-  top: 100%;  /* Directly below the header-right area */
+  top: 100%;   /* Places the popup directly below the header-right */
   right: 0;
   width: 200px;
   padding: 1rem;
-  background-color: #FFE6EC; /* Light Pink */
-  border: 1px solid #D8A7B1; /* Dusty Rose */
+  background-color: #FFE6EC;  /* Light Pink */
+  border: 1px solid #D8A7B1;   /* Dusty Rose */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  z-index: 100;
+  z-index: 1100;  /* High z-index so it appears above your map */
 }
 
 .popup-menu h3 {
@@ -31,7 +28,7 @@
   padding: 0;
   margin: 0;
   display: flex;
-  flex-direction: column; /* Stack the links vertically */
+  flex-direction: column;
 }
 
 .popup-menu-list li {
@@ -40,32 +37,29 @@
 
 .popup-menu-list li a,
 .popup-menu-list li {
-  text-decoration: none; /* Remove underline */
-  color: #7B4B39; /* Mint Green color */
-  cursor: pointer; /* Change cursor to pointer */
-  display: inline-block; /* Makes it behave like a button */
-  padding: 5px 10px; /* Optional: Adds some spacing */
-  width: 100%; /* Ensures that all links fill the width */
+  text-decoration: none;
+  color: #7B4B39;
+  cursor: pointer;
+  display: inline-block;
+  padding: 5px 10px;
+  width: 100%;
 }
 
-/* Only apply underline to the Log Out link */
 .popup-menu-list li.log-out:hover {
   text-decoration: underline;
 }
 
-/* Hover effect for all links */
 .popup-menu-list li:hover,
 .popup-menu-list li a:hover {
-  background-color: #D8A7B1; /* Light background color on hover */
-  color: white; /* Change text color on hover */
+  background-color: #D8A7B1;
+  color: white;
 }
 
-/* Make sure to not apply underline to the non-logout links */
 .popup-menu-list li:not(.log-out):hover {
-  text-decoration: none; /* Remove underline */
+  text-decoration: none;
 }
 
 .popup-menu-list li a {
   text-decoration: none;
-  color: inherit; /* Inherit color from parent li */
+  color: inherit;
 }
