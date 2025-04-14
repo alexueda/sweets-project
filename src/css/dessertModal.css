@@ -9,6 +9,10 @@
     cursor: pointer;
     transition: transform 0.2s;
   }
+
+  .close-btn {
+    margin-top: 20px;
+  }
   
   .dessert-card:hover {
     transform: scale(1.05);
@@ -60,3 +64,16 @@
     background-color: #eee;
   }
   
+  .img {
+    width: 120px;           /* reduced size */
+    height: auto;
+    object-fit: cover;      /* better crop if needed */
+    border-radius: 5px;
+    margin-right: 20px;
+  }
+
+  .more-dessert-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }

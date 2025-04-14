@@ -28,25 +28,42 @@ const DessertModal = ({ dessert, onClose, onAddReview }) => {
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <h2>{dessert["dessert title"]}</h2>
-        <p><strong>Restaurant:</strong> {dessert["restaurant"]}</p>
-        <p><strong>Flavors:</strong> {dessert["flavor"].join(", ")}</p>
-        <p><strong>Deals:</strong> {dessert["deals"].join(", ")}</p>
-        <p><strong>Dietary Preferences:</strong> {dessert["dietary friendly"].join(", ") || "None"}</p>
+        <div className="more-dessert-info">
+          <div className="image-content">
+            {dessert["image"] && (
+              <img
+                className="img"
+                src={dessert["image"]}
+                alt={dessert["dessert title"]}
+              />
+            )}
+          </div>
+          
+          <div className="detail-content">
+          <p><strong>Restaurant:</strong> {dessert["restaurant"]}</p>
+          <p><strong>Flavors:</strong> {dessert["flavor"].join(", ")}</p>
+          <p><strong>Deals:</strong> {dessert["deals"].join(", ")}</p>
+          <p><strong>Dietary Preferences:</strong> {dessert["dietary friendly"].join(", ") || "None"}</p>
+          </div>
 
-        <h3>Reviews:</h3>
-        {dessert["reviews"].length > 0 ? (
-          <p>
-            {dessert["reviews"].map((review, index) => (
-              <span key={index}>
-                {review.rating && <RenderStars rating={review.rating} />}
-                {review.comment && <><br />{review.comment}<br /></>}
-                {!review.rating && review && <>{review}<br /></>} {/* Handle old string reviews */}
-              </span>
-            ))}
-          </p>
-        ) : (
-          <p>No reviews yet.</p>
-        )}
+          <div className="review-content">
+            <h3>Reviews:</h3>
+            {dessert["reviews"].length > 0 ? (
+              <p>
+                {dessert["reviews"].map((review, index) => (
+                  <span key={index}>
+                    {review.rating && <RenderStars rating={review.rating} />}
+                    {review.comment && <><br />{review.comment}<br /></>}
+                    {!review.rating && review && <>{review}<br /></>} {/* Handle old string reviews */}
+                  </span>
+                ))}
+              </p>
+            ) : (
+              <p>No reviews yet.</p>
+            )}
+          </div>
+          </div>
+        
 
         <div>
           <h4>Add a Review:</h4>
@@ -70,8 +87,6 @@ const DessertModal = ({ dessert, onClose, onAddReview }) => {
           />
           <button onClick={handleReviewSubmit}>Submit Review</button>
         </div>
-
-        {dessert["image"].length > 0 && <img src={dessert["image"][0]} alt={dessert["dessert title"]} />}
         <button className="close-btn" onClick={onClose}>Close</button>
       </div>
     </div>
