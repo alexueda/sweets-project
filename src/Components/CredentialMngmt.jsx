@@ -62,7 +62,6 @@ function CredentialMngmt({ isLoggedIn, setIsLoggedIn }) {
       <h3>Settings</h3>
       <ul className="popup-menu-list">
         <li><a href="#account" className="menu-link">Account</a></li>
-        <li><a href="#preferences" className="menu-link">Preferences</a></li>
         <li><a onClick={handleLogout} className="menu-link">Log Out</a></li> {/* Log out action */}
       </ul>
     </div>
