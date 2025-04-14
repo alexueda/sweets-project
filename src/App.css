@@ -22,7 +22,7 @@ html, body, #root {
 .content-area {
   display: flex;
   position: relative;
-  height: calc(100vh - 80px); /* Adjust if your header height changes */
+  flex-grow: 1; /* Adjust if your header height changes */
   width: 100%;
   overflow: hidden;
   background-color: #f9f9f9;
