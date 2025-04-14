@@ -98,7 +98,7 @@ const DessertCard = ({
               <p>
                 <RenderStars rating={dessert.stars} /> ({dessert.stars})
               </p>
-              <p><bold>Flavor:</bold> {dessert["flavor"].join(", ")}</p>
+              <p><bold>{dessert["flavor"].join(", ")}</bold></p>
               <p><bold>Dietary Preferences:</bold> {dessert["dietary friendly"].join(", ") || "None"}</p>
             </div>
             <button onClick={(e) => { e.stopPropagation(); toggleFavorite(dessert); }} className="fav-button">
