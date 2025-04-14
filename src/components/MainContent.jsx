@@ -24,7 +24,7 @@ function MainContent({
         />
       </div>
       <div className="map-container">
-        <h4>Sweets near Provo UT</h4>
+        <h4>Sweets near Provo Utah</h4>
         <OpenStreetMap
           selectedFlavor={selectedFlavor}
           selectedType={selectedType}
