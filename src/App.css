@@ -1,19 +1,28 @@
+/* src/App.css */
 @import 'leaflet/dist/leaflet.css';
 
 .App {
   font-family: Arial, sans-serif;
 }
 
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  overflow: hidden; /* Prevent whole-page scrolling */
+}
+
+/* App container should fill the screen */
 .app-container {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .content-area {
   display: flex;
   position: relative;
-  height: 100vh;
+  flex-grow: 1; /* Adjust if your header height changes */
   width: 100%;
   overflow: hidden;
   background-color: #f9f9f9;
@@ -22,65 +31,27 @@
 /* Sidebar styling */
 .sidebar {
   width: 220px;
-  background-color: #efdcf7;
+  background-color: #FFE6EC;    /* Light Pink */
   position: absolute;
-  overflow-y: auto;
   top: 0;
   left: 0;
   bottom: 0;
   z-index: 2;
-  display: flex;
-  flex-direction: column;
   padding: 1rem;
-  background-color: #FFE6EC; /* Light Pink */
   border-right: 1px solid #ebc0c8; /* Dusty Rose */
 }
 
-.sidebar.visible {
-  transform: translateX(0);
-}
-
-/* Main content wrapper with margin when sidebar is open */
+/* Main content area adjusts when the sidebar is open */
 .main-content-wrapper {
   flex-grow: 1;
-  padding: 1rem;
+  padding-right: 1rem;
+  padding-left: 1rem;
   transition: margin-left 0.3s ease, width 0.3s ease;
   margin-left: 0;
   width: 100%;
 }
 
 .content-area.sidebar-open .main-content-wrapper {
-  margin-left: 250px; /* Offset the main content when the sidebar is open */
-  width: calc(100% - 250px); /* Ensure it takes up remaining space */
-}
-
-/* Toggle button common styles */
-.toggle-sidebar-btn {
-  position: absolute;
-  top: 1rem;
-  z-index: 3;
-  border: none;
-  color: black;
-  font-weight: bold;
-  padding: 0.5rem 0.75rem;
-  border-radius: 6px;
-  cursor: pointer;
-  background-color: transparent;
-}
-
-.toggle-sidebar-btn.fixed-btn {
-  position: fixed;
-  top: 1rem;
-  left: 1rem;
-  z-index: 1000;
-  background: transparent;
-  border: none;
-  padding: 0.5rem 0.25rem;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-/* Optional: shift the button when sidebar is open */
-.toggle-sidebar-btn.fixed-btn.shifted {
-  left: 230px; /* match your sidebar width */
+  margin-left: 250px; /* Offset when sidebar is visible */
+  width: calc(100% - 250px);
 }

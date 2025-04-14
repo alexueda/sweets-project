@@ -1,56 +1,65 @@
 /* src/css/Header.css */
-
-/* The entire header container */
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
-    background-color: #d8a7b1; /* Milk Pink */
-    border-bottom: 1px solid #D8A7B1; /* Dusty Rose */
-    height:fit-content;
-  }
-  
-  .header-left {
-    display: flex;
-    align-items: center;
-  }
-  
-  .site-title {
-    margin: 0 1rem 0 0;
-    color: #FFFFFF; /* White text */
-    font-family:cursive;
-  }
-  
-  .search-input {
-    padding: 0.5rem;
-    font-size: 1rem;
-    background-color: #FFFFFF; /* White search bar */
-    border: 2px solid #7B4B39; /* Cocoa Brown border */
-    border-radius: 4px;
-  }
-  
-  .nav-links {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-  }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* Reduced vertical padding for a slimmer header */
+  padding: 0.5rem 2rem;
+  background-color: #d8a7b1; /* Milk Pink */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 
-  .nav-link {
-    font-family: Abel;
-    text-decoration: none;
-    color: #7B4B39; /* Mint Green */
-    cursor: pointer; /* Ensures the pointer cursor */
-    text-decoration: none; /* Optional: Removes underline */
-    padding: 5px 10px; /* Optional: Adds some spacing */
-    display: inline-block; /* Ensures it behaves like a button */
-  }
-  
-  .nav-link:hover {
-    color: #5a5a5a00; /* Optional: Change color on hover */
-  }
-  
-  .logo {
-    width:100px;
-    height:100px;
-  }
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.hamburger-toggle {
+  background: #d8a7b1; /* Matches header background */
+  border: none;
+  color: #7B4B39; /* Cocoa Brown */
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.hamburger-toggle:hover {
+  background: #fddce1;
+}
+
+/* Removed the toggle label styles as it’s no longer needed if only showing icon */
+.logo {
+  width: 60px;       /* Reduced logo size for a leaner appearance */
+  margin-right: 0.75rem;
+}
+
+.search-input {
+  padding: 0.35rem 0.5rem; /* Slimmer search input */
+  font-size: 0.95rem;      /* Slightly smaller text */
+  border: 2px solid #7B4B39;
+  border-radius: 4px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #7B4B39;
+  padding: 5px 10px;
+  transition: background-color 0.3s, color 0.3s;
+  cursor: pointer;  /* Add this line */
+}
+
+.nav-link:hover {
+  color: #ffffff;
+  background-color: #fddce1;
+  border-radius: 4px;
+}

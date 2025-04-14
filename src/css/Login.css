@@ -2,7 +2,7 @@
 .login-page {
   display: flex;
   flex-direction: column;
-  align-items: left;
+  align-items: center;
   padding: 20px;
 }
 
@@ -34,12 +34,12 @@
   cursor: pointer;
   border: none;
   border-radius: 5px;
-  background-color: #72c592;
+  background-color: #8fe4c3;
   color: white;
 }
 
 .form-button:hover {
-  background-color: #63ac7f;
+  background-color: #c2e7d9;
 }
 
 /* Error Message Styles */

@@ -1,11 +1,12 @@
 /* src/components/MainContent.css */
 .main-content {
-  padding: 1rem;
   background-color: #f9f9f9;
   display: grid;
   column-gap: 10px;
   row-gap: 10px;
+  height: 100%; /* <== Add this */
   grid-template-columns: 55% 45%; /* Defines two equal columns */
+  overflow: hidden;
 }
 
 .card-container {
@@ -49,23 +50,17 @@
 .map-container {
   display: flex;
   flex-direction: column;
-  justify-content: top;
   align-items: center;
-  margin: 1rem 0;
   grid-column: 2;
   grid-row: 1;
-  position: sticky;
-  top: 0; /* Keeps the map container fixed at the top */
-  height: 100vh; /* Map container takes up the full viewport height */
+  box-sizing: border-box;
+  height: 100%; /* <== Add this */
+  overflow: hidden;
+  padding-top: 0.2rem;
+  padding-bottom: 1rem;
+  padding-left: 0.2rem;
 }
 
-  
-  .map-image {
-    max-width: 100%;
-    height: auto;
-    border: 2px dashed #D8A7B1; /* Dusty Rose for border */
-    border-radius: 4px;
-  }
   
   .search-result {
     margin-top: 1rem;

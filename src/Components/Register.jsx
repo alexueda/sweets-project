@@ -1,48 +1,53 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
-import "../css/Register.css"; // Make sure to create and style this file
+import { useNavigate } from "react-router-dom";
+import "../css/Register.css";
 
 function Register() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState(""); // ✅ new success state
   const navigate = useNavigate();
 
   const handleRegister = () => {
     const existingUsers = JSON.parse(localStorage.getItem("users")) || {};
 
-    // Check if any fields are empty
     if (!username || !password || !confirmPassword) {
       setError("All fields must be filled.");
+      setSuccess("");
       return;
     }
 
-    // Check if the username is already taken
     if (existingUsers[username]) {
       setError("Username already exists.");
+      setSuccess("");
       return;
     }
 
-    // Check if the passwords match
     if (password !== confirmPassword) {
       setError("Passwords do not match.");
+      setSuccess("");
       return;
     }
 
-    // Check if the password contains at least one number
     const passwordRegex = /\d/;
     if (!passwordRegex.test(password)) {
       setError("Password must contain at least one number.");
+      setSuccess("");
       return;
     }
 
-    // If no errors, store the new user in localStorage
     existingUsers[username] = password;
     localStorage.setItem("users", JSON.stringify(existingUsers));
 
-    // Redirect to the login page after successful registration
-    window.location.hash = "login";
+    setError("");
+    setSuccess("Registration successful! Redirecting to login...");
+
+    // ✅ Redirect to login page after short delay
+    setTimeout(() => {
+      navigate("/login");
+    }, 1500);
   };
 
   return (
@@ -70,11 +75,15 @@ function Register() {
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
-        {error && <p className="error-text">{error}</p>} {/* Apply correct class here */}
-        <button className="register-button" onClick={handleRegister}>Register</button> {/* Apply correct class here */}
+
+        {error && <p className="error-text">{error}</p>}
+        {success && <p className="success-text">{success}</p>} {/* ✅ new message */}
+
+        <button className="register-button" onClick={handleRegister}>Register</button>
+
         <p>
           Already have an account?{" "}
-          <span className="login-link" onClick={() =>  navigate("/login")}>
+          <span className="login-link" onClick={() => navigate("/login")}>
             Login here
           </span>
         </p>

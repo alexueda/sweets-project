@@ -1,45 +1,38 @@
 /* src/css/Footer.css */
 
-/* The entire footer container */
 .footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
-    background-color: #d8a7b1; /* Milk Pink */
-    border-bottom: 1px solid #D8A7B1; /* Dusty Rose */
-  }
-  
-  .footer-left {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .site-title {
-    margin: 0 1rem 0 0;
-    color: #FFFFFF; /* White text */
-    font-family:cursive;
-  }
-  
-  .search-input {
-    padding: 0.5rem;
-    font-size: 1rem;
-    background-color: #FFFFFF; /* White search bar */
-    border: 2px solid #7B4B39; /* Cocoa Brown border */
-    border-radius: 4px;
-  }
-  
-  .nav-link {
-    text-decoration: none;
-    color: #7B4B39; /* Mint Green */
-    cursor: pointer; /* Ensures the pointer cursor */
-    text-decoration: none; /* Optional: Removes underline */
-    padding: 5px 10px; /* Optional: Adds some spacing */
-    display: inline-block; /* Ensures it behaves like a button */
-  }
-  
-  .nav-link:hover {
-    color: #5a5a5a00; /* Optional: Change color on hover */
-  }
-  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 2rem;            /* Slimmer vertical padding */
+  background-color: #d8a7b1;       /* Milk Pink (matches header) */
+  /* Optionally, remove the border or switch to a subtle border-top */
+  border-top: 1px solid #D8A7B1;  
+}
+
+.footer-left,
+.footer-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.footer-right {
+  align-items: flex-end;
+}
+
+/* Adjust header in the footer */
+.contact-us {
+  margin: 0;
+  font-size: 1rem;              /* Smaller headline for a slim look */
+  font-weight: 600;
+  color: #7B4B39;               /* Cocoa Brown for consistency */
+}
+
+/* Smaller text for contact info and slogan */
+.contact-info,
+.slogan {
+  font-size: 0.9rem;
+  color: #7B4B39;
+  font-weight: 500;
+}

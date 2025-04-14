@@ -12,7 +12,6 @@ function MainContent({
   selectedDietary,
   selectedRating
 }) {
- 
   return (
     <main className="main-content">
       <div className="card-container">
@@ -22,11 +21,17 @@ function MainContent({
           selectedDietary={selectedDietary}
           selectedRating={selectedRating}
           searchQuery={searchQuery} 
-          />
+        />
       </div>
       <div className="map-container">
-        <h2>Find Sweets in Provo, UT</h2>
-        <OpenStreetMap/>
+        <h4>Sweets near Provo Utah</h4>
+        <OpenStreetMap
+          selectedFlavor={selectedFlavor}
+          selectedType={selectedType}
+          selectedDietary={selectedDietary}
+          selectedRating={selectedRating}
+          searchQuery={searchQuery}
+        />
       </div>
     </main>
   );
