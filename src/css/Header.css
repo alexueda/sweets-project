@@ -55,6 +55,7 @@
   color: #7B4B39;
   padding: 5px 10px;
   transition: background-color 0.3s, color 0.3s;
+  cursor: pointer;  /* Add this line */
 }
 
 .nav-link:hover {
