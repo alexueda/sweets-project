@@ -44,7 +44,8 @@ html, body, #root {
 /* Main content area adjusts when the sidebar is open */
 .main-content-wrapper {
   flex-grow: 1;
-  padding: 1rem;
+  padding-right: 1rem;
+  padding-left: 1rem;
   transition: margin-left 0.3s ease, width 0.3s ease;
   margin-left: 0;
   width: 100%;
