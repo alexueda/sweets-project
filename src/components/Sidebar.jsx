@@ -66,7 +66,7 @@ export default function Sidebar({
       <div className="buffer">
         <button onClick={toggleFlavor} className="dropdown-button">
           <div>Flavor</div>
-          <i className={`bi ${flavorOpen ? "bi-chevron-up" : "bi-chevron-down"}`}></i>
+          <i className={`bi ${flavorOpen ? "bi-chevron-down" : "bi-chevron-up"}`}></i>
         </button>
         {flavorOpen && (
           <div className="filter-type">
@@ -92,7 +92,7 @@ export default function Sidebar({
       <div className="buffer">
         <button onClick={toggleType} className="dropdown-button">
           <div>Dessert Type</div>
-          <i className={`bi ${typeOpen ? "bi-chevron-up" : "bi-chevron-down"}`}></i>
+          <i className={`bi ${typeOpen ? "bi-chevron-down" : "bi-chevron-up"}`}></i>
         </button>
         {typeOpen && (
           <div className="filter-type">
@@ -117,7 +117,7 @@ export default function Sidebar({
       <div className="buffer">
         <button onClick={toggleDietary} className="dropdown-button">
           <div>Dietary Preferences</div>
-          <i className={`bi ${dietaryOpen ? "bi-chevron-up" : "bi-chevron-down"}`}></i>
+          <i className={`bi ${dietaryOpen ? "bi-chevron-down" : "bi-chevron-up"}`}></i>
         </button>
         {dietaryOpen && (
           <div className="filter-type">
@@ -141,7 +141,7 @@ export default function Sidebar({
       <div className="buffer">
         <button onClick={toggleRating} className="dropdown-button">
           <div>Rating</div>
-          <i className={`bi ${ratingOpen ? "bi-chevron-up" : "bi-chevron-down"}`}></i>
+          <i className={`bi ${ratingOpen ? "bi-chevron-down" : "bi-chevron-up"}`}></i>
         </button>
         {ratingOpen && (
           <div className="filter-type">
