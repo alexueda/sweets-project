@@ -1,10 +1,9 @@
 // src/components/Account.jsx
 import React from 'react';
 import '../css/Account.css';
+import byuIcon from '../assets/byu_icon.png';  // Import the image
 
 function Account() {
-  // In a real application you might receive this info via props or context.
-  // For demonstration purposes, static placeholder text is used.
   return (
     <div className="account-page">
       <div className="account-container">
@@ -13,8 +12,7 @@ function Account() {
         </header>
         <div className="account-info">
           <div className="profile-pic">
-            {/* Replace the src with your real image path as needed */}
-            <img src="/assets/byu_icon.png" alt="Profile" />
+            <img src={byuIcon} alt="Profile" />  {/* Use the imported image */}
           </div>
           <div className="account-details">
             <h2>John Doe</h2>

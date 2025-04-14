@@ -1,50 +1,43 @@
-/* src/components/MainContent.css */
 .main-content {
   background-color: #f9f9f9;
   display: grid;
   column-gap: 10px;
   row-gap: 10px;
-  height: 100%; /* <== Add this */
-  grid-template-columns: 55% 45%; /* Defines two equal columns */
+  height: 100%;
+  grid-template-columns: 55% 45%;
   overflow: hidden;
 }
 
 .card-container {
   grid-column: 1;
   grid-row-start: 1;
-  max-height: 100vh; /* Limit the height to the viewport height */
-  overflow-y: auto; /* Make the card container scrollable */
-  padding-right: 10px; /* Extra space for the scrollbar */
+  max-height: 100vh;
+  overflow-y: auto;
+  padding-right: 10px;
 }
 
 /* Webkit-based browsers (Chrome, Safari, Edge) */
 .card-container::-webkit-scrollbar {
-  width: 8px; /* Adjust width of the scrollbar */
+  width: 8px;
 }
-
 .card-container::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.3); /* The thumb (scroll handle) color */
-  border-radius: 4px; /* Round the corners of the scrollbar thumb */
-  transition: background-color 0.3s ease; /* Smooth transition */
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
 }
-
 .card-container::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(0, 0, 0, 0.5); /* Change the thumb color on hover */
+  background-color: rgba(0, 0, 0, 0.5);
 }
-
 .card-container::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.1); /* Track color */
-  border-radius: 4px; /* Rounded corners for the track */
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
 }
-
-/* Hide the scrollbar initially and show only when user interacts with the container */
 .card-container::-webkit-scrollbar {
-  opacity: 0; /* Make the scrollbar invisible initially */
-  transition: opacity 0.3s ease; /* Smooth transition */
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
-
 .card-container:hover::-webkit-scrollbar {
-  opacity: 0.5; /* Make the scrollbar visible on hover */
+  opacity: 0.5;
 }
 
 .map-container {
@@ -54,19 +47,40 @@
   grid-column: 2;
   grid-row: 1;
   box-sizing: border-box;
-  height: 100%; /* <== Add this */
+  height: 100%;
   overflow: hidden;
   padding-top: 0.2rem;
-  padding-bottom: 1rem;
   padding-left: 0.2rem;
 }
 
-  
-  .search-result {
-    margin-top: 1rem;
-    padding: 1rem;
-    background-color: #FFE6EC; /* Light Pink */
-    border: 1px solid #D8A7B1;
-    border-radius: 4px;
+.search-result {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #FFE6EC;
+  border: 1px solid #D8A7B1;
+  border-radius: 4px;
+}
+
+/* === 🎯 Portrait layout fix: evenly split the vertical space === */
+@media (max-width: 768px) {
+  .main-content {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
   }
-  
+
+  .card-container {
+    flex: 1;
+    max-height: 50vh;
+    overflow-y: auto;
+    padding-right: 0;
+  }
+
+  .map-container {
+    flex: 1;
+    max-height: 50vh;
+    overflow: hidden;
+    margin-top: 0;
+  }
+}
