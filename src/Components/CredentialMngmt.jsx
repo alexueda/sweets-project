@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 
-function CredentialMngmt({ isLoggedIn, setIsLoggedIn }) {
+function CredentialMngmt({ isLoggedIn, setIsLoggedIn, closePopup }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isRegistering, setIsRegistering] = useState(false);
 
+  const navigate = useNavigate();
+
   // Check if the user is logged in by reading localStorage
   useEffect(() => {
     const storedUser = localStorage.getItem("isLoggedIn");
     if (storedUser === "true") setIsLoggedIn(true);
-  }, []);
+  }, [setIsLoggedIn]);
 
   // Save login state to localStorage when it changes
   useEffect(() => {
@@ -41,7 +44,8 @@ function CredentialMngmt({ isLoggedIn, setIsLoggedIn }) {
       setIsLoggedIn(true);
       setError('');
       localStorage.setItem("isLoggedIn", "true"); // Store login state in localStorage
-      window.location.hash = 'home'; // Navigate to home after successful login
+      navigate('/home', { replace: true });       // Navigate to home after successful login
+      if (closePopup) closePopup();
     } else {
       setError('Invalid username or password.');
     }
@@ -54,17 +58,43 @@ function CredentialMngmt({ isLoggedIn, setIsLoggedIn }) {
     setUsername('');
     setPassword('');
     localStorage.removeItem("isLoggedIn");  // Clear login state from localStorage
-    window.location.reload();  // Refresh the page to reset the UI
+    navigate('/login', { replace: true });   // Navigate to login page
+    if (closePopup) closePopup();
   };
 
   return (
     <div>
       <h3>Settings</h3>
       <ul className="popup-menu-list">
-        <li><a href="account" className="menu-link">Account</a></li>
-        <li><a href="preferences" className="menu-link">Preferences</a></li>
-        <li><a onClick={handleLogout} className="menu-link">Log Out</a></li> {/* Log out action */}
+        <li>
+          <Link 
+            to="/account" 
+            className="menu-link"
+            onClick={() => closePopup && closePopup()}
+          >
+            Account
+          </Link>
+        </li>
+        <li>
+          <Link 
+            to="/preferences" 
+            className="menu-link"
+            onClick={() => closePopup && closePopup()}
+          >
+            Preferences
+          </Link>
+        </li>
+        <li>
+          <button
+            onClick={handleLogout}
+            className="menu-link"
+            style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
+          >
+            Log Out
+          </button>
+        </li>
       </ul>
+      {/* Optionally, you could add a login form or registration fields here if needed */}
     </div>
   );
 }
