@@ -1,8 +1,26 @@
 .dessert-generator {
+  position: relative;           /* Ensure children positioned absolute are relative to this container */
   text-align: center;
-  margin-top: 50px;
+  padding-top: 50px;            /* Increase top padding to leave space for the sort bar */
 }
 
+/* New styling for the sort bar */
+.sort-bar {
+  position: absolute;           /* Position absolutely within the .dessert-generator */
+  top: 5px;                     /* Adjust this value to sit closer to the top edge */
+  right: 5px;                   /* Place it on the right side */
+  background: #fff;             /* White background */
+  padding: 4px 6px;             /* Smaller padding to keep it compact */
+  border: 1px solid #ccc;       /* Light border */
+  border-radius: 4px;
+  z-index: 10;                  /* Ensure it sits above other elements */
+  display: flex;
+  gap: 4px;                     /* Small gap between elements */
+  align-items: center;
+  font-size: 12px;              /* Smaller font size */
+}
+
+/* Existing dessert styles remain unchanged */
 .dessert-container {
   display: flex;
   flex-wrap: wrap;
@@ -32,10 +50,11 @@
   font-size: 14px;
   color: #666;
 }
+
 .dessert img {
-  width: 160px;         /* or any fixed width */
-  height: 120px;        /* or any fixed height */
-  object-fit: contain;  /* keeps full image, adds letterboxing if needed */
+  width: 160px;
+  height: 120px;
+  object-fit: contain;
   display: block;
   border-radius: 5px;
   margin-right: 20px;
