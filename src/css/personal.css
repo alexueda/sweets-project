@@ -11,12 +11,14 @@
     padding: 20px;
     margin-right: 20px;      /* Space between left and right side */
     border-right: 2px solid #ccc;  /* Optional: a border between the left and right */
+    overflow-y: auto;
   }
   
   /* Style for the right side (reviews or other content) */
   .favorites-right {
     flex: 1;                 /* Take up equal space */
     padding: 20px;
+    overflow-y: auto;
   }
   
   /* Style for the dessert container */
@@ -26,14 +28,7 @@
   }
   
   /* Style for individual dessert cards */
-  .dessert {
-    background-color: #f9f9f9;  /* Light background color */
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    transition: transform 0.2s ease-in-out;
-  }
+
   
   /* Hover effect for dessert cards */
   .dessert:hover {
