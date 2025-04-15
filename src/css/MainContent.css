@@ -4,7 +4,7 @@
   column-gap: 10px;
   row-gap: 10px;
   height: 100%;
-  grid-template-columns: 55% 45%;
+  grid-template-columns: 53% 48%;
   overflow: hidden;
 }
 
@@ -69,19 +69,35 @@
     flex-direction: column;
     height: 100vh;
     overflow: hidden;
+    padding-bottom: 9rem;
   }
 
   .card-container {
-    flex: 1;
-    max-height: 50vh;
+    flex: 0 0 35%;
+    max-height: 35%;
     overflow-y: auto;
     padding-right: 0;
   }
 
   .map-container {
-    flex: 1;
-    max-height: 50vh;
-    overflow: hidden;
-    margin-top: 0;
+    flex: 0 0 65%;
+    max-height: 65%;
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    align-items: stretch;
+    margin: 0;
+  }
+
+  .map-container h4 {
+    margin: 0.5rem;
+    text-align: center;
+    flex: 0 0 auto;
+  }
+
+  .map-container > *:not(h4) {
+    flex: 1 1 auto;
+    height: 100%;
+    width: 100%;
   }
 }
