@@ -6,17 +6,20 @@
 }
 
 .favorites-left {
-  flex: 1;
+  flex: 1;                 /* Take up equal space */
+  height: 80vh;            /* Responsive height based on viewport */
   padding: 20px;
-  margin-right: 20px;
+  margin-right: 20px;      /* Space between left and right side */
+  border-right: 2px solid #ccc;  /* Optional: a border between the left and right */
   overflow-y: auto;
+  overflow-x: hidden;      /* Disable horizontal scrolling */
 }
 
 .favorites-right {
   flex: 1;
   padding: 20px;
   overflow-y: auto;
-  max-height: calc(100vh - 150px);
+  max-height: calc(100vh - 150px);  /* Dynamic height based on viewport */
 }
 
 .reviews-container {
@@ -68,14 +71,65 @@
   margin-top: 5px;
 }
 
+.favorites-left::-webkit-scrollbar,
+.favorites-right::-webkit-scrollbar {
+  width: 8px;
+}
+
+.favorites-left::-webkit-scrollbar-thumb,
+.favorites-right::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.favorites-left::-webkit-scrollbar-thumb:hover,
+.favorites-right::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.favorites-left::-webkit-scrollbar-track,
+.favorites-right::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+.favorites-left::-webkit-scrollbar,
+.favorites-right::-webkit-scrollbar {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.favorites-left:hover::-webkit-scrollbar,
+.favorites-right:hover::-webkit-scrollbar {
+  opacity: 0.5;
+}
+
+/* Media Query for Smaller Screens */
 @media (max-width: 768px) {
   .favorites-page {
-      flex-direction: column;
+    flex-direction: column;
+    padding: 10px; /* Reduce padding for smaller screens */
+    gap: 10px;    /* Reduce gap for better space usage */
+    overflow-y: auto;
   }
   
   .favorites-left,
   .favorites-right {
-      margin-right: 0;
-      width: 100%;
+    width: 100%;      /* Ensure full width on small screens */
+    margin-right: 0;  /* Remove margin */
+    margin-bottom: 20px; /* Add space between the two sections */
+  }
+
+  .favorites-left {
+    max-height: 60vh;  /* Max height to allow some scrolling */
+  }
+
+  .favorites-right {
+    max-height: 60vh;  /* Max height to allow scrolling */
+  }
+
+  .reviews-container {
+    gap: 10px;  /* Reduce space between review cards */
   }
 }

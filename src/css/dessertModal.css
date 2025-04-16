@@ -1,54 +1,3 @@
-/* Completely Modified CSS */
-
-/* Dessert Grid */
-.dessert-grid-container {
-  padding: 20px;
-}
-
-.dessert-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Slightly larger min-width */
-  gap: 15px;
-}
-
-/* Dessert Card */
-.dessert-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  border: 1px solid #e0e0e0; /* Softer border color */
-  border-radius: 8px; /* Slightly more rounded */
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-  background-color: #fff; /* Explicit white background */
-}
-
-.dessert-card:hover {
-  transform: scale(1.08); /* Slightly more pronounced hover effect */
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* More noticeable shadow */
-}
-
-/* Image in Dessert Card */
-.img {
-  max-width: 100%;
-  height: auto;
-  object-fit: cover;
-  border-radius: 5px;
-  margin-bottom: 15px;
-}
-
-/* More Dessert Info */
-.more-dessert-info {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  padding: 15px 0;
-  font-size: 0.9em; /* Slightly smaller font for extra info */
-  color: #555;
-}
-
 /* Modal Overlay */
 .modal-overlay {
   position: fixed;
@@ -56,7 +5,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.6); /* Slightly darker overlay */
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -66,67 +15,35 @@
 /* Modal Content */
 .modal-overlay .modal-content {
   position: relative;
-  width: 90%;
-  max-width: 600px; /* Adjusted max-width */
+  width: clamp(300px, 90%, 600px);
+  max-height: 90vh;
+  overflow-y: auto;
   background: #fff;
   padding: 30px;
-  border-radius: 12px; /* More rounded modal */
-  text-align: center;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25); /* More prominent modal shadow */
-}
-
-.modal-content > div {
-  margin-top: 25px; /* Increased top margin */
-  padding: 10px 0; /* Added vertical padding for sections */
-}
-
-.modal-content .review-text { /* Add this class to your review text element in HTML */
-  padding: 10px; /* Add padding around the review text */
-  border: 1px solid #eee; /* Optional: Add a light border */
-  border-radius: 4px;
-  margin-top: 10px; /* Add space above the review text */
-  background-color: #f9f9f9; /* Optional: Add a light background */
-}
-
-.modal-content strong { /* Assuming labels like "Restaurant:" are in strong tags */
-  display: block;
-  margin-bottom: 5px;
-}
-
-/* Textarea in Modal */
-.modal-content textarea {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 20px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  box-sizing: border-box;
-  font-family: inherit;
-  resize: vertical;
-}
-
-/* Buttons in Modal (excluding close) */
-.modal-content button:not(.close-btn) {
-  padding: 12px 25px;
-  cursor: pointer;
-  border: none; /* Removed default border */
-  border-radius: 6px;
-  background-color: #007bff; /* Example primary button color */
-  color: white;
+  border-radius: 12px;
+  text-align: left;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
   font-size: 1em;
-  transition: background-color 0.2s;
 }
 
-.modal-content button:not(.close-btn):hover {
-  background-color: #0056b3;
+/* Flexible sections inside modal */
+.modal-content > div {
+  margin-top: 25px;
+  padding: 10px 0;
 }
 
-/* Close Button in Modal */
+/* Optional image styles */
+.modal-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+/* Close Button */
 .close-btn {
   position: absolute;
   top: 15px;
   right: 15px;
-  margin-top: 0;
   cursor: pointer;
   border: none;
   background: none;
@@ -139,7 +56,7 @@
   color: #555;
 }
 
-
+/* Modal Header */
 .modal-header {
   display: flex;
   justify-content: space-between;
@@ -153,54 +70,98 @@
   flex: 1;
 }
 
+/* Labels inside modal */
+.modal-content strong {
+  display: block;
+  margin-bottom: 5px;
+}
 
+/* Review text display */
+.modal-content .review-text {
+  padding: 10px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  margin-top: 10px;
+  background-color: #f9f9f9;
+}
+
+/* Textarea */
+.modal-content textarea {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+  font-family: inherit;
+  resize: vertical;
+}
+
+/* Primary Buttons */
+.modal-content button:not(.close-btn) {
+  padding: 12px 25px;
+  cursor: pointer;
+  border: none;
+  border-radius: 6px;
+  background-color: #007bff;
+  color: white;
+  font-size: 1em;
+  transition: background-color 0.2s;
+}
+
+.modal-content button:not(.close-btn):hover {
+  background-color: #0056b3;
+}
+
+/* Extra Layout for Dessert Info */
+.more-dessert-info {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.image-content {
+  flex: 1 1 30%;
+}
+
+.detail-content {
+  flex: 1 1 30%;
+}
+
+.review-content {
+  flex: 1 1 100%;
+}
+
+/* Mobile Tweaks */
 @media (max-width: 600px) {
-  /* Grid: Reduce padding and tighten up spacing */
-  .dessert-grid-container {
-    padding: 10px;
-  }
-
-  .dessert-card {
-    padding: 15px;
-  }
-
-  .more-dessert-info {
-    flex-direction: column; /* Stack info vertically */
-    gap: 8px;
-    font-size: 0.85em;
-    padding: 10px 0;
-  }
-
-  /* Modal: Make sure it's not wider than the screen and scrolls if needed */
   .modal-overlay .modal-content {
     width: 95%;
-    max-height: 90vh;
-    overflow-y: auto;
+    max-height: 85vh;
     padding: 20px;
   }
 
-  /* Smaller text inside modal */
   .modal-content {
     font-size: 0.95em;
   }
 
-  /* Textarea resizing for mobile */
   .modal-content textarea {
     font-size: 1em;
     padding: 10px;
   }
 
-  /* Button tweaks for smaller screens */
   .modal-content button:not(.close-btn) {
     padding: 10px 20px;
     font-size: 0.95em;
   }
 
-  /* Center and slightly shrink close button */
   .close-btn {
     font-size: 1.5em;
     top: 10px;
     right: 10px;
   }
-}
 
+  .more-dessert-info {
+    flex-direction: column;
+  }
+}

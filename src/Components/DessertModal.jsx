@@ -62,7 +62,7 @@ const DessertModal = ({ dessert, onClose }) => {
           <div className="image-content">
             {dessert["image"] && (
               <img
-                className="img"
+                className="dessert-pic"
                 src={dessert["image"]}
                 alt={dessert["dessert title"]}
               />

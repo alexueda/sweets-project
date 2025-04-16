@@ -55,8 +55,8 @@ const Header = forwardRef(
           <button className="hamburger-toggle" onClick={toggleSidebar}>
             <i className="bi bi-list"></i>
           </button>
-          <img src={logo} alt="Sweet Tooth" className="logo" />
-          <img src={name} alt="Sweet Tooth" className="name" />
+          <img src="/logo.png" alt="Sweet Tooth" className="logo" />
+
           <input
             type="text"
             placeholder="Search by dessert..."

@@ -35,6 +35,7 @@
 .logo {
   width: 30%; /* Adjust logo size */
   height: auto;
+  min-width: 250px; 
 }
 
 /* Center section: search bar */
