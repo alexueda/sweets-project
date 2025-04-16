@@ -1,3 +1,4 @@
+/* Default layout for large screens */
 .favorites-page {
   display: flex;
   justify-content: space-between;
@@ -6,20 +7,24 @@
 }
 
 .favorites-left {
-  flex: 1;                 /* Take up equal space */
-  max-height: calc(100vh - 180px);  /* Dynamic height based on viewport */
+  flex: 1;                 
+  max-height: calc(100vh - 180px);  
   padding: 20px;
-  margin-right: 20px;      /* Space between left and right side */
-  border-right: 2px solid #ccc;  /* Optional: a border between the left and right */
+  margin-right: 20px;
+  border-right: 2px solid #ccc;  
   overflow-y: auto;
-  overflow-x: hidden;      /* Disable horizontal scrolling */
+  overflow-x: hidden;      
 }
 
 .favorites-right {
   flex: 1;
   padding: 20px;
   overflow-y: auto;
-  max-height: calc(100vh - 180px);  /* Dynamic height based on viewport */
+  max-height: calc(100vh - 180px);  
+}
+
+.toggle-button {
+  display: none;
 }
 
 .reviews-container {
@@ -94,42 +99,51 @@
   border-radius: 4px;
 }
 
-.favorites-left::-webkit-scrollbar,
-.favorites-right::-webkit-scrollbar {
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.favorites-left:hover::-webkit-scrollbar,
-.favorites-right:hover::-webkit-scrollbar {
-  opacity: 0.5;
-}
-
 /* Media Query for Smaller Screens */
 @media (max-width: 768px) {
   .favorites-page {
     flex-direction: column;
-    padding: 10px; /* Reduce padding for smaller screens */
-    gap: 10px;    /* Reduce gap for better space usage */
+    padding: 10px;
+    gap: 10px;
     overflow-y: auto;
   }
-  
+
   .favorites-left,
   .favorites-right {
-    width: 100%;      /* Ensure full width on small screens */
-    margin-right: 0;  /* Remove margin */
-    margin-bottom: 20px; /* Add space between the two sections */
+    width: 100%;
+    margin-bottom: 20px;
   }
 
   .favorites-left {
-    max-height: 60vh;  /* Max height to allow some scrolling */
+    max-height: 60vh;
   }
 
   .favorites-right {
-    max-height: 60vh;  /* Max height to allow scrolling */
+    max-height: 60vh;
   }
 
-  .reviews-container {
-    gap: 10px;  /* Reduce space between review cards */
+  /* Toggle button styles */
+  .toggle-button {
+    display: block;
+    background-color: #D8A7B1;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    align-self: center;
+  }
+
+  .toggle-button:hover {
+    background-color: #B98A8F;
+  }
+
+  /* Initially hide one section */
+  .favorites-left.hidden {
+    display: none;
+  }
+
+  .favorites-right.hidden {
+    display: none;
   }
 }

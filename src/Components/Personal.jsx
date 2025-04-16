@@ -7,6 +7,7 @@ import '../css/personal.css';
 const Personal = () => {
   const navigate = useNavigate();
   const [userReviews, setUserReviews] = useState([]);
+  const [showFavorites, setShowFavorites] = useState(true); // State to toggle between favorites and reviews
   const currentUser = localStorage.getItem("currentUser");
 
   useEffect(() => {
@@ -14,16 +15,23 @@ const Personal = () => {
     setUserReviews(reviews.filter(review => review.user === currentUser));
   }, [currentUser]);
 
+  const toggleSection = () => {
+    setShowFavorites(prevState => !prevState); // Toggle between favorites and reviews
+  };
+
   return (
     <div className="favorites-page">
-      <div className="favorites-left">
+      {/* Toggle button for small screens */}
+      <button className="toggle-button" onClick={toggleSection}>
+        {showFavorites ? "Show Reviews" : "Show Favorites"}
+      </button>
+
+      <div className={`favorites-left ${!showFavorites ? "hidden" : ""}`}>
         <h2>Your Favorite Desserts</h2>
-        <DessertCard
-          displayOnlyFavorites={true}
-        />
+        <DessertCard displayOnlyFavorites={true} />
       </div>
 
-      <div className="favorites-right">
+      <div className={`favorites-right ${showFavorites ? "hidden" : ""}`}>
         <h2>Your Reviews</h2>
         {userReviews.length > 0 ? (
           <div className="reviews-container">
