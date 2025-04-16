@@ -6,6 +6,7 @@
   background-color: #d8a7b1;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   position: relative;
+  height:fit-content;
 }
 
 /* Left section: hamburger + logo */
@@ -54,6 +55,7 @@
   border: 2px solid #7B4B39;
   border-radius: 4px;
   width: 220px;
+  margin-left: 5%;
 }
 
 /* Right section: nav links */

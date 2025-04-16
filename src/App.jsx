@@ -45,6 +45,10 @@ function App() {
     setShowSidebar((prev) => !prev);
   };
 
+  const sidebarSlider = () => {
+    setShowSidebar(false);
+  }
+
   return (
     <BrowserRouter>
       <DessertDataContext>
@@ -85,7 +89,7 @@ function App() {
                     />
                   } 
                 />
-                <Route path="/roulette" element={<Roulette />} />
+                <Route path="/roulette" element={<Roulette />} onSearchChange={sidebarSlider}/>
                 <Route path="/account" element={<Account />} />
                 <Route
                   path="/personal"
