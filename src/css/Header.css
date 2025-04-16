@@ -1,61 +1,74 @@
-/* src/css/Header.css */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* Reduced vertical padding for a slimmer header */
   padding: 0.5rem 2rem;
-  background-color: #d8a7b1; /* Milk Pink */
+  background-color: #d8a7b1;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
 
+/* Left section: hamburger + logo */
 .header-left {
   display: flex;
   align-items: center;
+  gap: 1rem;
+  flex: 1;
 }
 
 .hamburger-toggle {
-  background: #d8a7b1; /* Matches header background */
+  background: #d8a7b1;
   border: none;
-  color: #7B4B39; /* Cocoa Brown */
+  color: #7B4B39;
   font-size: 1.5rem;
   padding: 0.5rem;
   border-radius: 4px;
   cursor: pointer;
-  margin-right: 1rem;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
 }
 
 .hamburger-toggle:hover {
   background: #fddce1;
 }
 
-/* Removed the toggle label styles as it’s no longer needed if only showing icon */
 .logo {
-  width: 60px;       /* Reduced logo size for a leaner appearance */
-  margin-right: 0.75rem;
+  width: 30%; /* Adjust logo size */
+  height: auto;
+}
+
+/* Center section: search bar */
+.header-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
 }
 
 .search-input {
-  padding: 0.35rem 0.5rem; /* Slimmer search input */
-  font-size: 0.95rem;      /* Slightly smaller text */
+  padding: 0.35rem 0.5rem;
+  font-size: 0.95rem;
   border: 2px solid #7B4B39;
   border-radius: 4px;
+  width: 220px;
 }
 
+/* Right section: nav links */
 .nav-links {
   display: flex;
-  gap: 20px;
+  gap: 14px;
+  align-items: center;
+  flex: 1;
+  justify-content: flex-end;
+  font-size: med;
 }
 
 .nav-link {
   text-decoration: none;
   color: #7B4B39;
-  padding: 5px 10px;
+  padding: 4px 8px;
+  font-size: 0.9rem;
   transition: background-color 0.3s, color 0.3s;
-  cursor: pointer;  /* Add this line */
+  cursor: pointer;
 }
 
 .nav-link:hover {

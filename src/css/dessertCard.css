@@ -6,7 +6,7 @@
 .dessert-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-around;
 }
 
 .dessert {
@@ -21,6 +21,10 @@
   width: 85%;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   position: relative;
+}
+
+.dessert:hover {
+  transform: scale(1.05);  /* Slightly enlarge the card on hover */
 }
 
 .dessert h3 {

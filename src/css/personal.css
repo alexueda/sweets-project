@@ -8,10 +8,12 @@
   /* Style for the left side (favorite desserts) */
   .favorites-left {
     flex: 1;                 /* Take up equal space */
+    height:80vh;
     padding: 20px;
     margin-right: 20px;      /* Space between left and right side */
     border-right: 2px solid #ccc;  /* Optional: a border between the left and right */
     overflow-y: auto;
+    overflow-x: auto;
   }
   
   /* Style for the right side (reviews or other content) */
@@ -21,26 +23,6 @@
     overflow-y: auto;
   }
   
-  /* Style for the dessert container */
-  .dessert-container {
-    display: flex;
-    gap: 20px;               /* Space between each dessert card */
-  }
-  
-  /* Style for individual dessert cards */
-
-  
-  /* Hover effect for dessert cards */
-  .dessert:hover {
-    transform: scale(1.05);  /* Slightly enlarge the card on hover */
-  }
-  
-  /* Style for images inside dessert cards */
-  .dessert img {
-    width: 100%;            /* Make the image take up the full width of the container */
-    border-radius: 8px;
-  }
-  
   /* Styling for the no-results message */
   .no-results {
     text-align: center;
@@ -48,3 +30,45 @@
     color: #777;
   }
   
+  h2 {
+    justify-self: center;
+  }
+
+  @media (max-width: 768px) {
+    .favorites-page {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+  
+    .favorites-left {
+      flex: 1;
+      max-height: 50vh;
+      overflow-y: auto;
+      padding-right: 0;
+    }
+  
+    .favorites-right {
+      flex: 1;
+      max-height: 50vh;
+      overflow-y: auto;
+      margin-top: 0;
+    }
+  }
+
+  .favorites-left::-webkit-scrollbar,
+.favorites-right::-webkit-scrollbar {
+  width: 8px;
+}
+
+.favorites-left::-webkit-scrollbar-thumb,
+.favorites-right::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+}
+
+.favorites-left::-webkit-scrollbar-track,
+.favorites-right::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
