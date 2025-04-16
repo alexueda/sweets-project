@@ -56,7 +56,7 @@ const Header = forwardRef(
             <i className="bi bi-list"></i>
           </button>
           <img src={logo} alt="Sweet Tooth" className="logo" />
-          <img src={name} alt="Sweet Tooth" className="logo-name" />
+          <img src={name} alt="Sweet Tooth" className="name" />
           <input
             type="text"
             placeholder="Search by dessert..."
