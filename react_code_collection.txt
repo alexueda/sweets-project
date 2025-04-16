@@ -1,0 +1,3737 @@
+=== src/App.css ===
+File Path: src\App.css
+
+/* src/App.css */
+@import 'leaflet/dist/leaflet.css';
+
+.App {
+  font-family: Arial, sans-serif;
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  overflow: hidden; /* Prevent whole-page scrolling */
+}
+
+/* App container should fill the screen */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.content-area {
+  display: flex;
+  position: relative;
+  flex-grow: 1; /* Adjust if your header height changes */
+  width: 100%;
+  overflow: hidden;
+  background-color: #f9f9f9;
+}
+
+/* Sidebar styling */
+.sidebar {
+  width: 220px;
+  background-color: #FFE6EC;    /* Light Pink */
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 2;
+  padding: 1rem;
+  border-right: 1px solid #ebc0c8; /* Dusty Rose */
+}
+
+/* Main content area adjusts when the sidebar is open */
+.main-content-wrapper {
+  flex-grow: 1;
+  padding-right: 1rem;
+  padding-left: 1rem;
+  transition: margin-left 0.3s ease, width 0.3s ease;
+  margin-left: 0;
+  width: 100%;
+}
+
+.content-area.sidebar-open .main-content-wrapper {
+  margin-left: 250px; /* Offset when sidebar is visible */
+  width: calc(100% - 250px);
+}
+
+
+==================================================
+
+=== src/App.jsx ===
+File Path: src\App.jsx
+
+// src/App.jsx
+import React, { useState, useEffect, useRef } from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import Header from './Components/Header';
+import Footer from './Components/Footer';
+import Sidebar from './Components/Sidebar';
+import Roulette from './Components/Roulette';
+import MainContent from './Components/MainContent';
+import Login from './Components/Login';
+import Register from './Components/Register';
+import Personal from './Components/Personal';
+import { DessertDataContext } from './contextsGlobal/dessertDataContext';
+import Account from './Components/Account';
+import ProtectedRoute from './Components/ProtectedRoute';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+import './App.css';
+
+function App() {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedFlavor, setSelectedFlavor] = useState([]);
+  const [selectedType, setSelectedType] = useState([]);
+  const [selectedDietary, setSelectedDietary] = useState([]);
+  const [selectedRating, setSelectedRating] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showSidebar, setShowSidebar] = useState(false);
+
+  const headerRef = useRef(null);
+  const [headerHeight, setHeaderHeight] = useState(0);
+
+  useEffect(() => {
+    if (headerRef.current) {
+      setHeaderHeight(headerRef.current.offsetHeight);
+    }
+    const handleResize = () => {
+      if (headerRef.current) {
+        setHeaderHeight(headerRef.current.offsetHeight);
+      }
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const toggleSidebar = () => {
+    setShowSidebar((prev) => !prev);
+  };
+
+  return (
+    <BrowserRouter>
+      <DessertDataContext>
+        <div className="app-container">
+          <Header
+            ref={headerRef}
+            onSearchChange={setSearchQuery}
+            isLoggedIn={isLoggedIn}
+            setIsLoggedIn={setIsLoggedIn}
+            toggleSidebar={toggleSidebar}
+          />
+          <div className={`content-area ${showSidebar ? 'sidebar-open' : ''}`}>
+            {showSidebar && (
+              <div className="sidebar visible">
+                <Sidebar 
+                  selectedFlavor={selectedFlavor}
+                  setSelectedFlavor={setSelectedFlavor}
+                  selectedType={selectedType}
+                  setSelectedType={setSelectedType}
+                  selectedDietary={selectedDietary}
+                  setSelectedDietary={setSelectedDietary}
+                  selectedRating={selectedRating}
+                  setSelectedRating={setSelectedRating}
+                />
+              </div>
+            )}
+            <div className="main-content-wrapper">
+              <Routes>
+                <Route
+                  path="/" 
+                  element={
+                    <MainContent 
+                      searchQuery={searchQuery}
+                      selectedFlavor={selectedFlavor}
+                      selectedType={selectedType}
+                      selectedDietary={selectedDietary}
+                      selectedRating={selectedRating}
+                    />
+                  } 
+                />
+                <Route path="/roulette" element={<Roulette />} />
+                <Route path="/account" element={<Account />} />
+                <Route
+                  path="/personal"
+                  element={
+                    <ProtectedRoute isLoggedIn={isLoggedIn}>
+                      <Personal />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route path="/login" element={isLoggedIn ? <Navigate to="/" /> : <Login setIsLoggedIn={setIsLoggedIn} />} />
+                <Route path="/register" element={isLoggedIn ? <Navigate to="/" /> : <Register />} />
+              </Routes>
+            </div>
+          </div>
+          <Footer />
+        </div>
+      </DessertDataContext>
+    </BrowserRouter>
+  );
+}
+
+export default App;
+
+==================================================
+
+=== linkElement ===
+File Path: src\App.test.js
+
+import { render, screen } from '@testing-library/react';
+import App from './App';
+
+test('renders learn react link', () => {
+  render(<App />);
+  const linkElement = screen.getByText(/learn react/i);
+  expect(linkElement).toBeInTheDocument();
+});
+
+
+// setup test
+
+==================================================
+
+=== Untitled Component ===
+File Path: src\index.css
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+
+==================================================
+
+=== src/index.js ===
+File Path: src\index.js
+
+// src/index.js
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+import './index.css'; // Global styles if needed
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+
+
+==================================================
+
+=== reportWebVitals ===
+File Path: src\reportWebVitals.js
+
+const reportWebVitals = onPerfEntry => {
+  if (onPerfEntry && onPerfEntry instanceof Function) {
+    import('web-vitals').then(({ getCLS, getFID, getFCP, getLCP, getTTFB }) => {
+      getCLS(onPerfEntry);
+      getFID(onPerfEntry);
+      getFCP(onPerfEntry);
+      getLCP(onPerfEntry);
+      getTTFB(onPerfEntry);
+    });
+  }
+};
+
+export default reportWebVitals;
+
+
+==================================================
+
+=== jest-dom adds custom jest matchers for asserting on DOM nodes. ===
+File Path: src\setupTests.js
+
+// jest-dom adds custom jest matchers for asserting on DOM nodes.
+// allows you to do things like:
+// expect(element).toHaveTextContent(/react/i)
+// learn more: https://github.com/testing-library/jest-dom
+import '@testing-library/jest-dom';
+
+
+==================================================
+
+=== Use the imported image ===
+File Path: src\Components\Account.jsx
+
+// src/components/Account.jsx
+import React from 'react';
+import '../css/Account.css';
+import byuIcon from '../assets/byu_icon.png';  // Import the image
+
+function Account() {
+  return (
+    <div className="account-page">
+      <div className="account-container">
+        <header className="account-header">
+          <h1>My Account</h1>
+        </header>
+        <div className="account-info">
+          <div className="profile-pic">
+            <img src={byuIcon} alt="Profile" />  {/* Use the imported image */}
+          </div>
+          <div className="account-details">
+            <h2>John Doe</h2>
+            <p className="email">john.doe@example.com</p>
+            <p className="phone">(123) 456-7890</p>
+            {/* Removed account-actions containing Edit Profile and Log Out */}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default Account;
+
+
+==================================================
+
+=== Optionally, you could add a login form or registration fields here if needed ===
+File Path: src\Components\CredentialMngmt.jsx
+
+import React, { useState, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+
+function CredentialMngmt({ isLoggedIn, setIsLoggedIn, closePopup }) {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [isRegistering, setIsRegistering] = useState(false);
+
+  const navigate = useNavigate();
+
+  // Check if the user is logged in by reading localStorage
+  useEffect(() => {
+    const storedUser = localStorage.getItem("isLoggedIn");
+    if (storedUser === "true") setIsLoggedIn(true);
+  }, [setIsLoggedIn]);
+
+  // Save login state to localStorage when it changes
+  useEffect(() => {
+    localStorage.setItem("isLoggedIn", isLoggedIn);
+  }, [isLoggedIn]);
+
+  // Save new user
+  const handleRegister = () => {
+    if (username && password) {
+      const existingUsers = JSON.parse(localStorage.getItem('users')) || {};
+      if (existingUsers[username]) {
+        setError('Username already exists. Choose another.');
+        return;
+      }
+      existingUsers[username] = password;
+      localStorage.setItem('users', JSON.stringify(existingUsers));
+      setIsRegistering(false);
+      setError('Account created! You can log in now.');
+    } else {
+      setError('Please fill in both fields.');
+    }
+  };
+
+  // Login check
+  const handleLogin = () => {
+    const existingUsers = JSON.parse(localStorage.getItem('users')) || {};
+    if (existingUsers[username] === password) {
+      setIsLoggedIn(true);
+      setError('');
+      localStorage.setItem("isLoggedIn", "true"); // Store login state in localStorage
+      navigate('/home', { replace: true });       // Navigate to home after successful login
+      if (closePopup) closePopup();
+    } else {
+      setError('Invalid username or password.');
+    }
+  };
+
+  // Handle log out
+  const handleLogout = () => {
+    // Remove login data and set state to logged out
+    setIsLoggedIn(false);
+    setUsername('');
+    setPassword('');
+    localStorage.removeItem("isLoggedIn");  // Clear login state from localStorage
+    navigate('/login', { replace: true });   // Navigate to login page
+    if (closePopup) closePopup();
+  };
+
+  return (
+    <div>
+      <h3>Settings</h3>
+      <ul className="popup-menu-list">
+        <li>
+          <Link 
+            to="/account" 
+            className="menu-link"
+            onClick={() => closePopup && closePopup()}
+          >
+            Account
+          </Link>
+        </li>
+        <li>
+          <Link 
+            to="#"
+            className="menu-link"
+            onClick={(e) => {
+              e.preventDefault();
+              handleLogout();
+            }}
+          >
+            Log Out
+          </Link>
+        </li>
+      </ul>
+      {/* Optionally, you could add a login form or registration fields here if needed */}
+    </div>
+  );
+}
+
+export default CredentialMngmt;
+
+
+==================================================
+
+=== Sort Bar in top-right corner ===
+File Path: src\Components\DessertCard.jsx
+
+import React, { useState } from "react";
+import "../css/dessertCard.css";
+import dessertData from "../contextsGlobal/dessertData"; // Import the dessert data
+import RenderStars from "./Stars";
+import DessertModal from "./DessertModal";
+
+const DessertCard = ({
+  selectedFlavor,
+  selectedDessertType,
+  selectedDietary,
+  selectedRating,
+  searchQuery,
+  displayOnlyFavorites,
+}) => {
+  const [selectedDessertCard, setSelectedDessertCard] = useState(null);
+  const [desserts, setDesserts] = useState(dessertData);
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  // Sorting state: sortOption can be one of:
+  // "default" | "alphabet-asc" | "alphabet-desc" | "stars-asc" | "stars-desc"
+  const [sortOption, setSortOption] = useState("default");
+
+  const handleAddReview = (dessertToUpdate, newReviewText) => {
+    const updatedDesserts = desserts.map((dessert) => {
+      if (dessert["dessert title"] === dessertToUpdate["dessert title"]) {
+        return { ...dessert, reviews: [...dessert.reviews, newReviewText] };
+      }
+      return dessert;
+    });
+    setDesserts(updatedDesserts);
+    setSelectedDessertCard(
+      updatedDesserts.find(
+        (d) => d["dessert title"] === dessertToUpdate["dessert title"]
+      )
+    );
+  };
+
+  // Filtering logic (kept as-is; replace dessertData with desserts if you want updates to persist)
+  const displayedDesserts = displayOnlyFavorites
+    ? dessertData.filter((dessert) => dessert.favorite === true)
+    : searchQuery
+    ? dessertData.filter((dessert) =>
+        (
+          dessert["dessert title"]
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase()) ||
+          dessert["restaurant"].toLowerCase().includes(searchQuery.toLowerCase()) ||
+          dessert["flavor"].some((flavor) =>
+            flavor.toLowerCase().includes(searchQuery.toLowerCase())
+          ) ||
+          dessert["dessert type"].toLowerCase().includes(searchQuery.toLowerCase())
+        ) &&
+        (
+          (selectedFlavor.length === 0 ||
+            selectedFlavor.some((selected) =>
+              dessert["flavor"].some((flavor) =>
+                flavor.toLowerCase().includes(selected.toLowerCase())
+              )
+            )) &&
+          (selectedDessertType.length === 0 ||
+            selectedDessertType.some((selected) =>
+              dessert["dessert type"].toLowerCase().includes(selected.toLowerCase())
+            )) &&
+          (selectedDietary.length === 0 ||
+            selectedDietary.some((selected) =>
+              dessert["dietary friendly"].some((dietary) =>
+                dietary.toLowerCase().includes(selected.toLowerCase())
+              )
+            )) &&
+          (selectedRating.length === 0 ||
+            selectedRating.some((selected) =>
+              Math.floor(dessert["stars"]) === selected
+            ))
+        )
+      )
+    : desserts.filter((dessert) =>
+        (selectedFlavor.length === 0 ||
+          selectedFlavor.some((selected) =>
+            dessert["flavor"].some((flavor) =>
+              flavor.toLowerCase().includes(selected.toLowerCase())
+            )
+          )) &&
+        (selectedDessertType.length === 0 ||
+          selectedDessertType.some((selected) =>
+            dessert["dessert type"].toLowerCase().includes(selected.toLowerCase())
+          )) &&
+        (selectedDietary.length === 0 ||
+          selectedDietary.some((selected) =>
+            dessert["dietary friendly"].some((diet) =>
+              diet.toLowerCase().includes(selected.toLowerCase())
+            )
+          )) &&
+        (selectedRating.length === 0 ||
+          selectedRating.some((selected) =>
+            Math.floor(dessert["stars"]) === selected
+          ))
+      );
+
+  // Apply sorting based on sortOption.
+  const sortedDesserts = (() => {
+    if (sortOption === "default") return displayedDesserts;
+    const copy = [...displayedDesserts];
+    if (sortOption === "alphabet-asc") {
+      copy.sort((a, b) =>
+        a["dessert title"].localeCompare(b["dessert title"])
+      );
+    } else if (sortOption === "alphabet-desc") {
+      copy.sort((a, b) =>
+        b["dessert title"].localeCompare(a["dessert title"])
+      );
+    } else if (sortOption === "stars-asc") {
+      copy.sort((a, b) => a.stars - b.stars);
+    } else if (sortOption === "stars-desc") {
+      copy.sort((a, b) => b.stars - a.stars);
+    }
+    return copy;
+  })();
+
+  const toggleFavorite = (dessert) => {
+    setIsFavorite((prev) => !prev);
+    dessert["favorite"] = !dessert["favorite"];
+  };
+
+  return (
+    <div className="dessert-generator">
+      {/* Sort Bar in top-right corner */}
+      <div className="sort-bar">
+        <select
+          value={sortOption}
+          onChange={(e) => setSortOption(e.target.value)}
+        >
+          <option value="default">Default</option>
+          <option value="alphabet-asc">Alphabet &#8593;</option>
+          <option value="alphabet-desc">Alphabet &#8595;</option>
+          <option value="stars-asc">Stars &#8593;</option>
+          <option value="stars-desc">Stars &#8595;</option>
+        </select>
+      </div>
+
+      <div className="dessert-container">
+        {sortedDesserts.map((dessert) => (
+          <div
+            key={dessert["dessert title"]}
+            className="dessert"
+            onClick={() => setSelectedDessertCard(dessert)}
+          >
+            {dessert["image"] && (
+              <img
+                src={dessert["image"]}
+                alt={dessert["dessert title"]}
+              />
+            )}
+            <div className="dessert-info">
+              <h3>{dessert["dessert title"]}</h3>
+              <p>
+                <RenderStars rating={dessert.stars} /> ({dessert.stars})
+              </p>
+              <p>
+                <strong>{dessert["flavor"].join(", ")}</strong>
+              </p>
+              <p>
+                <strong>Dietary Preferences:</strong>{" "}
+                {dessert["dietary friendly"].join(", ") || "None"}
+              </p>
+            </div>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                toggleFavorite(dessert);
+              }}
+              className="fav-button"
+            >
+              <i
+                className={`bi ${
+                  dessert.favorite ? "bi-heart-fill" : "bi-heart"
+                }`}
+              ></i>
+            </button>
+          </div>
+        ))}
+      </div>
+
+      {searchQuery && sortedDesserts.length === 0 && (
+        <div className="no-results">
+          <h3>Search Results for: "{searchQuery}"</h3>
+          <p>No results found.</p>
+        </div>
+      )}
+
+      {selectedDessertCard && (
+        <DessertModal
+          dessert={selectedDessertCard}
+          onClose={() => setSelectedDessertCard(null)}
+          onAddReview={handleAddReview}
+        />
+      )}
+    </div>
+  );
+};
+
+export default DessertCard;
+
+
+==================================================
+
+=== Handle old string reviews ===
+File Path: src\Components\DessertModal.jsx
+
+import React, { useState } from "react";
+import "../css/dessertModal.css";
+import RenderStars from "./Stars"; // Assuming you have this component
+
+const DessertModal = ({ dessert, onClose, onAddReview }) => {
+  const [newReview, setNewReview] = useState("");
+  const [rating, setRating] = useState(0); // State for the star rating
+
+  if (!dessert) return null;
+
+  const handleStarClick = (selectedRating) => {
+    setRating(selectedRating);
+  };
+
+  const handleReviewSubmit = () => {
+    if (rating > 0 && newReview.trim() !== "") {
+      onAddReview(dessert, { rating: rating, comment: newReview });
+      setNewReview("");
+      setRating(0); // Reset rating after submission
+    } else if (rating === 0) {
+      alert("Please select a star rating.");
+    } else if (newReview.trim() === "") {
+      alert("Please write a review comment.");
+    }
+  };
+
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        <h2>{dessert["dessert title"]}</h2>
+        <div className="more-dessert-info">
+          <div className="image-content">
+            {dessert["image"] && (
+              <img
+                className="img"
+                src={dessert["image"]}
+                alt={dessert["dessert title"]}
+              />
+            )}
+          </div>
+          
+          <div className="detail-content">
+          <p><strong>Restaurant:</strong> {dessert["restaurant"]}</p>
+          <p><strong>Flavors:</strong> {dessert["flavor"].join(", ")}</p>
+          <p><strong>Deals:</strong> {dessert["deals"].join(", ")}</p>
+          <p><strong>Dietary Preferences:</strong> {dessert["dietary friendly"].join(", ") || "None"}</p>
+          </div>
+
+          <div className="review-content">
+            <h3>Reviews:</h3>
+            {dessert["reviews"].length > 0 ? (
+              <p>
+                {dessert["reviews"].map((review, index) => (
+                  <span key={index}>
+                    {review.rating && <RenderStars rating={review.rating} />}
+                    {review.comment && <><br />{review.comment}<br /></>}
+                    {!review.rating && review && <>{review}<br /></>} {/* Handle old string reviews */}
+                  </span>
+                ))}
+              </p>
+            ) : (
+              <p>No reviews yet.</p>
+            )}
+          </div>
+          </div>
+        
+
+        <div>
+          <h4>Add a Review:</h4>
+          <div className="star-rating">
+            {[1, 2, 3, 4, 5].map((star) => (
+              <span
+                key={star}
+                className={`star ${star <= rating ? 'filled' : ''}`}
+                onClick={() => handleStarClick(star)}
+                style={{ cursor: 'pointer', color: star <= rating ? 'gold' : 'gray', fontSize: '1.5em', marginRight: '5px' }}
+              >
+                ★
+              </span>
+            ))}
+          </div>
+          <textarea
+            value={newReview}
+            onChange={(e) => setNewReview(e.target.value)}
+            placeholder="Write your review here..."
+            rows="3"
+          />
+          <button onClick={handleReviewSubmit}>Submit Review</button>
+        </div>
+        <button className="close-btn" onClick={onClose}>Close</button>
+      </div>
+    </div>
+  );
+};
+
+export default DessertModal;
+
+==================================================
+
+=== src/components/FilteredCards.jsx ===
+File Path: src\Components\FilteredCards.jsx
+
+// src/components/FilteredCards.jsx
+import React, { useState } from "react";
+import DessertCard from "./DessertCard";
+import "../css/filteredCards.css";
+
+const FilteredCards = ({ searchQuery }) => {
+
+
+  return (
+    <div>
+      <DessertCard searchQuery={searchQuery} />
+    </div>
+  );
+};
+
+export default FilteredCards;
+
+
+==================================================
+
+=== src/components/Footer.jsx ===
+File Path: src\Components\Footer.jsx
+
+// src/components/Footer.jsx
+import React from 'react';
+import '../css/Footer.css';
+
+function Footer() {
+  return (
+    <footer className="footer">
+      <div className="footer-left">
+        <h3 className="contact-us">Contact Us</h3>
+        <div className="contact-info">(123) 875-6490</div>
+      </div>
+      <div className="footer-right">
+        <div className="slogan">Find Your New Favorite Treat</div>
+      </div>
+    </footer>
+  );
+}
+
+export default Footer;
+
+
+==================================================
+
+=== Sidebar toggle button in header ===
+File Path: src\Components\Header.jsx
+
+// src/components/Header.jsx
+import React, { useState, useEffect, useRef, forwardRef } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import PopupMenu from './PopupMenu';
+import '../css/Header.css';
+
+const Header = forwardRef(
+  ({ onSearchChange, setIsLoggedIn, isLoggedIn, toggleSidebar }, ref) => {
+    const [menuOpen, setMenuOpen] = useState(false);
+    const menuRef = useRef(null);
+    const navigate = useNavigate();
+
+    // Close the popup menu if clicked outside it.
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setMenuOpen(false);
+      }
+    };
+
+    useEffect(() => {
+      if (menuOpen) {
+        document.addEventListener('mousedown', handleClickOutside);
+      } else {
+        document.removeEventListener('mousedown', handleClickOutside);
+      }
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }, [menuOpen]);
+
+    const handleInputChange = (e) => {
+      onSearchChange(e.target.value);
+    };
+
+    const toggleMenu = () => {
+      setMenuOpen((prev) => !prev);
+    };
+
+    // When user is logged in, clicking the link toggles the popup menu.
+    // Otherwise, navigate to the login page.
+    const handleLoginClick = () => {
+      if (isLoggedIn) {
+        toggleMenu();
+      } else {
+        navigate('/login');
+      }
+    };
+
+    return (
+      <header className="header" ref={ref}>
+        <div className="header-left">
+          {/* Sidebar toggle button in header */}
+          <button className="hamburger-toggle" onClick={toggleSidebar}>
+            <i className="bi bi-list"></i>
+          </button>
+          <img src="../logo.png" alt="Sweet Tooth" className="logo" />
+          <input
+            type="text"
+            placeholder="Search by dessert..."
+            className="search-input"
+            onChange={handleInputChange}
+          />
+        </div>
+
+        <div className="header-right">
+          <nav className="nav-links">
+            <Link to="/" className="nav-link">Home</Link>
+            <Link to="/roulette" className="nav-link">Roulette</Link>
+            <Link to="/personal" className="nav-link">Personal</Link>
+            <span className="nav-link" onClick={handleLoginClick}>
+              {isLoggedIn ? 'Settings' : 'Log In'}
+            </span>
+          </nav>
+          {/* Render PopupMenu if menuOpen is true */}
+          {menuOpen && (
+            <PopupMenu
+              menuRef={menuRef}
+              isLoggedIn={isLoggedIn}
+              setIsLoggedIn={setIsLoggedIn}
+            />
+          )}
+        </div>
+      </header>
+    );
+  }
+);
+
+export default Header;
+
+
+==================================================
+
+=== ✅ Add useLocation ===
+File Path: src\Components\Login.jsx
+
+import React, { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom"; // ✅ Add useLocation
+import "../css/Login.css"; 
+
+function Login({ setIsLoggedIn }) {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/"; // ✅ Fallback to homepage
+
+  const handleLogin = () => {
+    const existingUsers = JSON.parse(localStorage.getItem("users")) || {};
+    if (existingUsers[username] === password) {
+      setIsLoggedIn(true);
+      navigate(from, { replace: true }); // ✅ Redirect to original path
+    } else {
+      setError("Invalid username or password.");
+    }
+  };
+
+  return (
+    <div className="login-page">
+      <h1>Login</h1>
+      <div className="form-container">
+        <div className="login-form">
+          <input
+            className="form-input"
+            type="text"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <input
+            className="form-input"
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          {error && <p className="error-text">{error}</p>}
+          <button className="form-button" onClick={handleLogin}>Log In</button>
+          <p>
+            New here?{" "}
+            <span className="register-link" onClick={() => navigate("/register")}>
+              Create an account
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default Login;
+
+
+==================================================
+
+=== src/components/MainContent.jsx ===
+File Path: src\Components\MainContent.jsx
+
+// src/components/MainContent.jsx
+import React, {useState} from 'react';
+import OpenStreetMap from './OpenStreetMap';
+import FilteredCards from './FilteredCards'
+import '../css/MainContent.css';
+import DessertCard from './DessertCard';
+
+function MainContent({ 
+  searchQuery, 
+  selectedFlavor, 
+  selectedType,
+  selectedDietary,
+  selectedRating
+}) {
+  return (
+    <main className="main-content">
+      <div className="card-container">
+        <DessertCard
+          selectedFlavor={selectedFlavor}
+          selectedDessertType={selectedType}
+          selectedDietary={selectedDietary}
+          selectedRating={selectedRating}
+          searchQuery={searchQuery} 
+        />
+      </div>
+      <div className="map-container">
+        <h4>Sweets near Provo Utah</h4>
+        <OpenStreetMap
+          selectedFlavor={selectedFlavor}
+          selectedType={selectedType}
+          selectedDietary={selectedDietary}
+          selectedRating={selectedRating}
+          searchQuery={searchQuery}
+        />
+      </div>
+    </main>
+  );
+}
+
+export default MainContent;
+
+
+==================================================
+
+=== raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png", ===
+File Path: src\Components\OpenStreetMap.jsx
+
+import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from "react-leaflet";
+import { useState, useRef, useEffect, useMemo } from "react";
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
+import "../css/Map.css";
+import dessertData from "../contextsGlobal/dessertData";
+
+const blueIcon = new L.Icon({
+  iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png",
+  shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41],
+});
+
+const blueIconMedium = new L.Icon({
+  iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png",
+  shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+  iconSize: [30, 48],
+  iconAnchor: [15, 48],
+  popupAnchor: [1, -34],
+  shadowSize: [48, 48],
+});
+
+const blueIconLarge = new L.Icon({
+  iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png",
+  shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+  iconSize: [35, 55],
+  iconAnchor: [17, 55],
+  popupAnchor: [1, -34],
+  shadowSize: [55, 55],
+});
+
+const MapEventHandlers = ({ onMapClick }) => {
+  useMapEvents({
+    click: (e) => {
+      if (e.originalEvent.target.classList.contains("leaflet-container")) {
+        onMapClick();
+      }
+    },
+    dragstart: () => {
+      onMapClick();
+    }
+  });
+  return null;
+};
+
+const OSMMap = ({ 
+  selectedFlavor, 
+  selectedType,
+  selectedDietary,
+  selectedRating,
+  searchQuery
+}) => {
+  const [selectedMarker, setSelectedMarker] = useState(null);
+  const [hoveredMarker, setHoveredMarker] = useState(null);
+  const [allLocations, setAllLocations] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [currentZoom, setCurrentZoom] = useState(13);
+  const markersRef = useRef([]);
+
+  // Fetch all locations just once on component mount
+  useEffect(() => {
+    const fetchDessertLocations = async () => {
+      setIsLoading(true);
+      try {
+        const overpassQuery = `[out:json][timeout:25];
+          (
+            nwr["shop"="bakery"](around:10000,40.2338,-111.6585);
+            nwr["shop"="confectionery"](around:10000,40.2338,-111.6585);
+            nwr["shop"="chocolate"](around:10000,40.2338,-111.6585);
+            nwr["shop"="pastry"](around:10000,40.2338,-111.6585);
+            nwr["amenity"="ice_cream"](around:10000,40.2338,-111.6585);
+            nwr["amenity"="cafe"]["cuisine"="dessert"](around:10000,40.2338,-111.6585);
+            nwr["cuisine"="dessert"](around:10000,40.2338,-111.6585);
+            nwr["cuisine"="ice_cream"](around:10000,40.2338,-111.6585);
+            nwr["cuisine"="cake"](around:10000,40.2338,-111.6585);
+            nwr["cuisine"="cupcake"](around:10000,40.2338,-111.6585);
+            nwr["cuisine"="pudding"](around:10000,40.2338,-111.6585);
+            nwr["cuisine"="custard"](around:10000,40.2338,-111.6585);
+            nwr["cuisine"="frozen_yogurt"](around:10000,40.2338,-111.6585);
+            nwr["cuisine"="froyo"](around:10000,40.2338,-111.6585);
+            nwr["cuisine"="cookie"](around:10000,40.2338,-111.6585);
+            nwr["cuisine"="donut"](around:10000,40.2338,-111.6585);
+            nwr["cuisine"="doughnut"](around:10000,40.2338,-111.6585);
+            nwr["cuisine"="waffle"](around:10000,40.2338,-111.6585);
+            nwr["cuisine"="crepe"](around:10000,40.2338,-111.6585);
+            nwr["cuisine"="pastry"](around:10000,40.2338,-111.6585);
+            nwr["cuisine"="churro"](around:10000,40.2338,-111.6585);
+            nwr["cuisine"="croissant"](around:10000,40.2338,-111.6585);
+            nwr["cuisine"="brownie"](around:10000,40.2338,-111.6585);
+            nwr["cuisine"="tart"](around:10000,40.2338,-111.6585);
+            nwr["cuisine"="macaron"](around:10000,40.2338,-111.6585);
+            nwr["cuisine"="mille_feuille"](around:10000,40.2338,-111.6585);
+            nwr["cuisine"="eclair"](around:10000,40.2338,-111.6585);
+            nwr["cuisine"="gelato"](around:10000,40.2338,-111.6585);
+            nwr["cuisine"="mochi"](around:10000,40.2338,-111.6585);
+            nwr["cuisine"="popsicle"](around:10000,40.2338,-111.6585);
+            nwr["cuisine"="sorbet"](around:10000,40.2338,-111.6585);
+            nwr["cuisine"="parfait"](around:10000,40.2338,-111.6585);
+            nwr["cuisine"="banana_split"](around:10000,40.2338,-111.6585);
+            nwr["cuisine"="milkshake"](around:10000,40.2338,-111.6585);
+            nwr["cuisine"="smoothie"](around:10000,40.2338,-111.6585);
+            nwr["cuisine"="sweet"](around:10000,40.2338,-111.6585);
+            nwr["cuisine"="boba"](around:10000,40.2338,-111.6585);
+            nwr["cuisine"="bubble_tea"](around:10000,40.2338,-111.6585);
+            nwr["cuisine"="dirty_soda"](around:10000,40.2338,-111.6585);
+            nwr["cuisine"="soda"](around:10000,40.2338,-111.6585);
+            nwr["cuisine"="cobbler"](around:10000,40.2338,-111.6585);
+            nwr["cuisine"="panna_cotta"](around:10000,40.2338,-111.6585);
+            nwr["cuisine"="baklava"](around:10000,40.2338,-111.6585);
+            nwr["name"="Crumbl Cookies"](around:15000,40.2338,-111.6585);
+            nwr["name"="Baked by Melissa"](around:15000,40.2338,-111.6585);
+            nwr["name"="Freddy's"](around:15000,40.2338,-111.6585);
+            nwr["name"="Culver's"](around:15000,40.2338,-111.6585);
+            nwr["name"="Marble Slab Creamery"](around:15000,40.2338,-111.6585);
+            nwr["name"="Gigi's Cupcakes"](around:15000,40.2338,-111.6585);
+            nwr["name"="Cold Stone Creamery"](around:15000,40.2338,-111.6585);
+            nwr["name"="Cinnabon"](around:15000,40.2338,-111.6585);
+            nwr["name"="Krispy Kreme"](around:15000,40.2338,-111.6585);
+            nwr["name"="Dairy Queen"](around:15000,40.2338,-111.6585);
+            nwr["name"="Jeni's Splendid Ice Creams"](around:15000,40.2338,-111.6585);
+            nwr["name"="Beard Papa's"](around:15000,40.2338,-111.6585);
+            nwr["name"="Milk Bar"](around:15000,40.2338,-111.6585);
+            nwr["name"="Andy's Frozen Custard"](around:15000,40.2338,-111.6585);
+            nwr["name"="Freddy's Frozen Custard & Steakburgers"](around:15000,40.2338,-111.6585);
+            nwr["name"="Swig"](around:15000,40.2338,-111.6585);
+            nwr["name"="Sodalicious"](around:15000,40.2338,-111.6585);
+            nwr["name"="Fizz"](around:15000,40.2338,-111.6585);
+            nwr["name"="Thirst"](around:15000,40.2338,-111.6585);
+            nwr["name"="Quench It!"](around:15000,40.2338,-111.6585);
+          );
+          out center;`;
+
+        const response = await fetch(
+          `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(overpassQuery)}`
+        );
+        const data = await response.json();
+
+        const cleanDescription = (tags) => {
+          if (!tags) return 'Dessert shop';
+          
+          const typeMap = {
+            'bakery': 'Bakery',
+            'cafe': 'Café',
+            'ice_cream': 'Ice Cream Shop',
+            'confectionery': 'Candy Store',
+            'pastry': 'Pastry Shop',
+            'chocolate': 'Chocolate Shop',
+            'restaurant': 'Restaurant',
+            'fast_food': 'Fast Food',
+            'dessert': 'Dessert',
+            'gelato': 'Gelato',
+            'frozen_yogurt': 'Frozen Yogurt',
+            'froyo': 'Froyo',
+            'popsicle': 'Popsicle Stand',
+            'sorbet': 'Sorbet',
+            'custard': 'Frozen Custard',
+            'pudding': 'Pudding',
+            'cake': 'Cake Shop',
+            'cupcake': 'Cupcake Bakery',
+            'cookie': 'Cookie Shop',
+            'brownie': 'Brownie Bar',
+            'tart': 'Tart Shop',
+            'macaron': 'Macaron Boutique',
+            'eclair': 'Éclair Stand',
+            'mille_feuille': 'Mille-Feuille Pastry',
+            'mochi': 'Mochi Dessert',
+            'crepe': 'Crêperie',
+            'waffle': 'Waffle House',
+            'churro': 'Churro Spot',
+            'croissant': 'Croissant Café',
+            'parfait': 'Parfait Bar',
+            'banana_split': 'Banana Split',
+            'milkshake': 'Milkshake Bar',
+            'smoothie': 'Smoothie Bar',
+            'sweet': 'Sweet Treats',
+            'boba': 'Boba Tea',
+            'bubble_tea': 'Bubble Tea',
+            'tea': 'Tea House',
+            'dirty_soda': 'Dirty Soda Bar',
+            'swig': 'Swig (Dirty Soda)',
+            'sodalicious': 'Sodalicious (Dirty Soda)',
+            'freddys': 'Freddy\'s Frozen Custard',
+            'sonic': 'Sonic Drive-In',
+            'dq': 'Dairy Queen',
+            'culvers': 'Culver\'s Frozen Custard',
+          };
+          
+          const features = [];
+          if (tags.amenity) features.push(typeMap[tags.amenity] || tags.amenity);
+          if (tags.shop) features.push(typeMap[tags.shop] || tags.shop);
+          
+          if (tags.cuisine) {
+            tags.cuisine.split(';').forEach(c => {
+              if (typeMap[c]) features.push(typeMap[c]);
+            });
+          }
+
+          return [...new Set(features)].join(' • ') || 'Dessert shop';
+        };
+
+        const locations = data.elements
+          .map(item => {
+            const lat = item.lat || item.center?.lat;
+            const lon = item.lon || item.center?.lon;
+            return lat && lon ? {
+              name: item.tags?.name || 'Dessert Spot',
+              position: [lat, lon],
+              description: cleanDescription(item.tags),
+              originalName: item.tags?.name || ''
+            } : null;
+          })
+          .filter(Boolean);
+
+        setAllLocations(locations);
+      } catch (error) {
+        console.error("Error fetching locations:", error);
+        setAllLocations([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchDessertLocations();
+  }, []);
+
+  // Memoized filtered locations - updates only when filters or data changes
+  const filteredLocations = useMemo(() => {
+    // If no filters are active, return all locations
+    if (selectedFlavor.length === 0 && 
+        selectedType.length === 0 && 
+        selectedDietary.length === 0 && 
+        selectedRating.length === 0 && 
+        !searchQuery) {
+      return allLocations;
+    }
+
+    return allLocations.filter(loc => {
+      return dessertData.some(dessert => {
+        // Check if dessert belongs to this location
+        const restaurantMatch = 
+          dessert.restaurant.toLowerCase().includes(loc.name.toLowerCase()) ||
+          dessert.restaurant.toLowerCase().includes(loc.originalName.toLowerCase());
+
+        if (!restaurantMatch) return false;
+
+        // Check against all active filters
+        if (selectedFlavor.length > 0 && 
+            !selectedFlavor.some(f => 
+              dessert.flavor.some(df => 
+                df.toLowerCase().includes(f.toLowerCase())
+              )
+            )) {
+          return false;
+        }
+
+        if (selectedType.length > 0 && 
+            !selectedType.some(t => 
+              dessert["dessert type"].toLowerCase().includes(t.toLowerCase())
+            )) {
+          return false;
+        }
+
+        if (selectedDietary.length > 0 && 
+            !selectedDietary.some(d => 
+              dessert["dietary friendly"]?.some(df => 
+                df.toLowerCase().includes(d.toLowerCase())
+              )
+            )) {
+          return false;
+        }
+
+        if (selectedRating.length > 0 && 
+            !selectedRating.includes(Math.floor(dessert.stars))) {
+          return false;
+        }
+
+        if (searchQuery && 
+            !dessert["dessert title"].toLowerCase().includes(searchQuery.toLowerCase()) &&
+            !dessert.restaurant.toLowerCase().includes(searchQuery.toLowerCase()) &&
+            !dessert["flavor"].some(f => f.toLowerCase().includes(searchQuery.toLowerCase())) &&
+            !dessert["dessert type"].toLowerCase().includes(searchQuery.toLowerCase())) {
+          return false;
+        }
+
+        return true;
+      });
+    });
+  }, [allLocations, selectedFlavor, selectedType, selectedDietary, selectedRating, searchQuery]);
+
+  const animateMarker = (marker, targetIcon) => {
+    if (!marker) return;
+    const iconElement = marker.getElement();
+    if (iconElement) {
+      iconElement.style.transition = 'all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55)';
+      setTimeout(() => {
+        marker.setIcon(targetIcon);
+      }, 50);
+    }
+  };
+
+  const resetSelectedMarker = () => {
+    if (selectedMarker !== null) {
+      const marker = markersRef.current[selectedMarker];
+      if (marker) animateMarker(marker, blueIcon);
+      setSelectedMarker(null);
+    }
+  };
+
+  const handleMarkerClick = (index) => {
+    const marker = markersRef.current[index];
+    if (marker) {
+      animateMarker(
+        marker,
+        index === selectedMarker ? blueIcon : blueIconLarge
+      );
+    }
+    setSelectedMarker(index === selectedMarker ? null : index);
+  };
+
+  const handleMarkerHover = (index, isHovering) => {
+    setHoveredMarker(isHovering ? index : null);
+    const marker = markersRef.current[index];
+    if (marker && selectedMarker !== index) {
+      animateMarker(marker, isHovering ? blueIconMedium : blueIcon);
+    }
+  };
+
+  return (
+    <MapContainer 
+      center={[40.2338, -111.6585]} 
+      zoom={13} 
+      scrollWheelZoom={true}
+      zoomControl={false}
+      style={{ height: "100%", width: "100%" }}
+      className="pastel-map"
+      whenCreated={(map) => {
+        setCurrentZoom(map.getZoom());
+        map.on('zoomend', () => setCurrentZoom(map.getZoom()));
+      }}
+    >
+      <TileLayer
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        minNativeZoom={1}
+        maxNativeZoom={20}
+      />
+
+      <MapEventHandlers onMapClick={resetSelectedMarker} />
+
+      {isLoading ? (
+        <div className="map-loading">Loading dessert places...</div>
+      ) : (
+        filteredLocations.map((loc, index) => (
+          (currentZoom >= 12 || selectedMarker === index || hoveredMarker === index) && (
+            <Marker
+              key={`${loc.position[0]}-${loc.position[1]}`}
+              position={loc.position}
+              ref={(el) => (markersRef.current[index] = el)}
+              icon={
+                selectedMarker === index ? blueIconLarge :
+                hoveredMarker === index ? blueIconMedium : 
+                blueIcon
+              }
+              eventHandlers={{
+                click: () => handleMarkerClick(index),
+                mouseover: () => handleMarkerHover(index, true),
+                mouseout: () => handleMarkerHover(index, false)
+              }}
+            >
+              <Popup className="custom-popup">
+                <div className="popup-content">
+                  <h3 className="popup-title">{loc.name}</h3>
+                  <div className="popup-description">
+                    {loc.description.split(' • ').map((item, i) => (
+                      <span key={i} className="popup-tag">
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="matching-desserts">
+                    <h4>Available Desserts:</h4>
+                    <ul>
+                      {dessertData
+                        .filter(dessert => 
+                          dessert.restaurant.toLowerCase().includes(loc.name.toLowerCase()) ||
+                          dessert.restaurant.toLowerCase().includes(loc.originalName.toLowerCase())
+                        )
+                        .filter(dessert => {
+                          // Only apply filters if any are active
+                          if (selectedFlavor.length > 0 || 
+                              selectedType.length > 0 || 
+                              selectedDietary.length > 0 || 
+                              selectedRating.length > 0 || 
+                              searchQuery) {
+                            if (selectedFlavor.length > 0 && 
+                                !selectedFlavor.some(f => 
+                                  dessert.flavor.some(df => 
+                                    df.toLowerCase().includes(f.toLowerCase())
+                                  )
+                                )) {
+                              return false;
+                            }
+                            if (selectedType.length > 0 && 
+                                !selectedType.some(t => 
+                                  dessert["dessert type"].toLowerCase().includes(t.toLowerCase())
+                                )) {
+                              return false;
+                            }
+                            if (selectedDietary.length > 0 && 
+                                !selectedDietary.some(d => 
+                                  dessert["dietary friendly"]?.some(df => 
+                                    df.toLowerCase().includes(d.toLowerCase())
+                                  )
+                                )) {
+                              return false;
+                            }
+                            if (selectedRating.length > 0 && 
+                                !selectedRating.includes(Math.floor(dessert.stars))) {
+                              return false;
+                            }
+                            if (searchQuery && 
+                                !dessert["dessert title"].toLowerCase().includes(searchQuery.toLowerCase()) &&
+                                !dessert.restaurant.toLowerCase().includes(searchQuery.toLowerCase()) &&
+                                !dessert["flavor"].some(f => f.toLowerCase().includes(searchQuery.toLowerCase())) &&
+                                !dessert["dessert type"].toLowerCase().includes(searchQuery.toLowerCase())) {
+                              return false;
+                            }
+                          }
+                          return true;
+                        })
+                        .map((dessert, i) => (
+                          <li key={i}>
+                            {dessert["dessert title"]} ({dessert.stars}★) - {dessert["dessert type"]}
+                          </li>
+                        ))}
+                    </ul>
+                  </div>
+                </div>
+              </Popup>
+            </Marker>
+          )
+        ))
+      )}
+    </MapContainer>
+  );
+};
+
+export default OSMMap;
+
+==================================================
+
+=== Display user reviews if needed, or leave this area empty for now ===
+File Path: src\Components\Personal.jsx
+
+// src/components/Favorites.jsx
+import React from 'react';
+import {useNavigate} from 'react-router-dom';
+import DessertCard from './DessertCard';  // Import your DessertCard component
+import dessertData from '../contextsGlobal/dessertData'; // Import the dessert data
+import '../css/personal.css'
+
+const Personal = ({ selectedFlavor, selectedDessertType, selectedDietary, selectedRating, searchQuery }) => {
+  const navigate = useNavigate();
+
+  return (
+    <div className="favorites-page">
+      <div className="favorites-left">
+        <h2>Your Favorite Desserts</h2>
+        <DessertCard
+          displayOnlyFavorites={true}  // Only show favorites
+        />
+      </div>
+
+      <div className="favorites-right">
+        <h2>Your Reviews</h2>
+        {/* Display user reviews if needed, or leave this area empty for now */}
+        <p>Here will be additional user reviews or other content if needed.</p>
+      </div>
+    </div>
+  );
+};
+
+export default Personal;
+
+
+==================================================
+
+=== src/components/PopupMenu.jsx ===
+File Path: src\Components\PopupMenu.jsx
+
+// src/components/PopupMenu.jsx
+import React from 'react';
+import CredentialMngmt from './CredentialMngmt';
+import '../css/PopupMenu.css';
+
+function PopupMenu({ menuRef, isLoggedIn, setIsLoggedIn }) {
+  return (
+    <div className="popup-menu" ref={menuRef}>
+      <CredentialMngmt isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+    </div>
+  );
+}
+
+export default PopupMenu;
+
+
+==================================================
+
+=== ProtectedRoute ===
+File Path: src\Components\ProtectedRoute.jsx
+
+import React from "react";
+import { Navigate, useLocation } from "react-router-dom";
+
+function ProtectedRoute({ isLoggedIn, children }) {
+  const location = useLocation();
+
+  if (!isLoggedIn) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  return children;
+}
+
+export default ProtectedRoute;
+
+==================================================
+
+=== ✅ new message ===
+File Path: src\Components\Register.jsx
+
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "../css/Register.css";
+
+function Register() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState(""); // ✅ new success state
+  const navigate = useNavigate();
+
+  const handleRegister = () => {
+    const existingUsers = JSON.parse(localStorage.getItem("users")) || {};
+
+    if (!username || !password || !confirmPassword) {
+      setError("All fields must be filled.");
+      setSuccess("");
+      return;
+    }
+
+    if (existingUsers[username]) {
+      setError("Username already exists.");
+      setSuccess("");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match.");
+      setSuccess("");
+      return;
+    }
+
+    const passwordRegex = /\d/;
+    if (!passwordRegex.test(password)) {
+      setError("Password must contain at least one number.");
+      setSuccess("");
+      return;
+    }
+
+    existingUsers[username] = password;
+    localStorage.setItem("users", JSON.stringify(existingUsers));
+
+    setError("");
+    setSuccess("Registration successful! Redirecting to login...");
+
+    // ✅ Redirect to login page after short delay
+    setTimeout(() => {
+      navigate("/login");
+    }, 1500);
+  };
+
+  return (
+    <div className="register-page">
+      <h1>Create an Account</h1>
+      <div className="register-form">
+        <input
+          className="register-input"
+          type="text"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+        <input
+          className="register-input"
+          type="password"
+          placeholder="Password (must contain a number)"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <input
+          className="register-input"
+          type="password"
+          placeholder="Confirm Password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+        />
+
+        {error && <p className="error-text">{error}</p>}
+        {success && <p className="success-text">{success}</p>} {/* ✅ new message */}
+
+        <button className="register-button" onClick={handleRegister}>Register</button>
+
+        <p>
+          Already have an account?{" "}
+          <span className="login-link" onClick={() => navigate("/login")}>
+            Login here
+          </span>
+        </p>
+      </div>
+    </div>
+  );
+}
+
+export default Register;
+
+
+==================================================
+
+=== src/components/Roulette.jsx ===
+File Path: src\Components\Roulette.jsx
+
+// src/components/Roulette.jsx
+import React, { useState } from 'react';
+import dessertData from '../contextsGlobal/dessertData';
+import DessertModal from './DessertModal';
+import '../css/Roulette.css'; // Create this CSS file
+
+function Roulette() {
+  const [randomDessert, setRandomDessert] = useState(null);
+  const [spinning, setSpinning] = useState(false);
+
+  const handleSpin = () => {
+    if (dessertData.length > 0 && !spinning) {
+      setSpinning(true);
+      setRandomDessert(null); // Clear previous result
+
+      // Simulate spinning effect with a delay
+      const spinDuration = 2000; // milliseconds
+      const intervalTime = 100;
+      let spinCount = 0;
+      const spinInterval = setInterval(() => {
+        const randomIndex = Math.floor(Math.random() * dessertData.length);
+        setRandomDessert(dessertData[randomIndex]);
+        spinCount++;
+        if (spinCount * intervalTime >= spinDuration) {
+          clearInterval(spinInterval);
+          setSpinning(false);
+          // Keep the last randomly selected dessert
+        }
+      }, intervalTime);
+    } else if (dessertData.length === 0) {
+      alert("No desserts available to pick!");
+    }
+  };
+
+  const handleCloseModal = () => {
+    setRandomDessert(null);
+  };
+
+  return (
+    <div className="roulette-page">
+      <h1>Dessert Roulette</h1>
+      <p>Feeling lucky? Click the button to get a random dessert suggestion!</p>
+      <button className={`spin-button ${spinning ? 'spinning' : ''}`} onClick={handleSpin} disabled={spinning}>
+        {spinning ? 'Spinning...' : 'Spin!'}
+      </button>
+
+      {randomDessert && !spinning && (
+        <div className="roulette-result">
+          <h2>Your Random Dessert:</h2>
+          <DessertModal dessert={randomDessert} onClose={handleCloseModal} />
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default Roulette;
+
+==================================================
+
+=== Reset Button ===
+File Path: src\Components\Sidebar.jsx
+
+// src/components/Sidebar.jsx
+import React, { useState } from "react";
+import Tag from './Tag';
+import '../css/Sidebar.css';
+
+export default function Sidebar({
+  selectedFlavor,
+  setSelectedFlavor,
+  selectedType,
+  setSelectedType,
+  selectedDietary,
+  setSelectedDietary,
+  selectedRating,
+  setSelectedRating
+}) {
+
+  console.log(selectedFlavor);
+  const [flavorOpen, setFlavorOpen] = useState(false);
+  const [typeOpen, setTypeOpen] = useState(false);
+  const [dietaryOpen, setDietaryOpen] = useState(false);
+  const [ratingOpen, setRatingOpen] = useState(false);
+  const [allFilters, setAllFilters] = useState(true);
+
+  const toggleFlavor = () => setFlavorOpen(!flavorOpen);
+  const toggleType = () => setTypeOpen(!typeOpen);
+  const toggleDietary = () => setDietaryOpen(!dietaryOpen);
+  const toggleRating = () => setRatingOpen(!ratingOpen);
+
+  const dropdownAll = () => {
+    setFlavorOpen(allFilters);
+    setTypeOpen(allFilters);
+    setDietaryOpen(allFilters);
+    setRatingOpen(allFilters);
+    setAllFilters(!allFilters);
+  }
+
+  const handleReset = () => {
+    setSelectedFlavor([]);
+    setSelectedType([]);
+    setSelectedDietary([]);
+    setSelectedRating([]);
+    setFlavorOpen(false);
+    setTypeOpen(false);
+    setDietaryOpen(false);
+    setRatingOpen(false);
+  };
+
+  const handleCheckboxChange = (value, selectedValues, setSelectedValues) => {
+    if (selectedValues.includes(value)) {
+      setSelectedValues(selectedValues.filter((v) => v !== value));
+    } else {
+      setSelectedValues([...selectedValues, value]);
+    }
+  };
+
+  return (
+    <aside className="sidebar">
+      <div className="filter-header">
+        <h3>Filters</h3>
+        <button className="dropdown-all" onClick={dropdownAll}>
+          <i className={`bi ${allFilters ? "bi-chevron-up" : "bi-chevron-down"}`}></i>
+        </button>
+      </div>
+      <hr/>
+
+      <div className="buffer">
+        <button onClick={toggleFlavor} className="dropdown-button">
+          <div>Flavor</div>
+          <i className={`bi ${flavorOpen ? "bi-chevron-down" : "bi-chevron-up"}`}></i>
+        </button>
+        {flavorOpen && (
+          <div className="filter-type">
+            {["Almond", "Banana", "Blueberry", "Caramel", "Chocolate", "Cinnamon", 
+            "Coconut", "Cookies and Cream", "Lemon", "Mango", "Mint", "Peanut Butter", "Pistachio", 
+            "Raspberry", "Strawberry", "Toffee", "Ube", "Vanilla"].map((flavor) => (
+              <label key={flavor} className="dropdown-items">
+                <input
+                  type="checkbox"
+                  checked={selectedFlavor?.includes(flavor)}
+                  onChange={() => {
+                    handleCheckboxChange(flavor, selectedFlavor, setSelectedFlavor);
+                  }}
+                />
+                {flavor}
+              </label>
+            ))}
+          </div>
+        )}
+      </div>
+      <hr/>
+
+      <div className="buffer">
+        <button onClick={toggleType} className="dropdown-button">
+          <div>Dessert Type</div>
+          <i className={`bi ${typeOpen ? "bi-chevron-down" : "bi-chevron-up"}`}></i>
+        </button>
+        {typeOpen && (
+          <div className="filter-type">
+            {["Bread", "Brownie", "Cake", "Cookie", "Crepe", "Donut", "Fudge", 
+            "Ice Cream", "Pie", "Pudding", "Soda"].map((type) => (
+              <label key={type} className="dropdown-items">
+                <input
+                  type="checkbox"
+                  checked={selectedType?.includes(type)}
+                  onChange={() => {
+                    handleCheckboxChange(type, selectedType, setSelectedType);
+                  }}
+                />
+                {type}
+              </label>
+            ))}
+          </div>
+        )}
+      </div>
+      <hr/>
+
+      <div className="buffer">
+        <button onClick={toggleDietary} className="dropdown-button">
+          <div>Dietary Preferences</div>
+          <i className={`bi ${dietaryOpen ? "bi-chevron-down" : "bi-chevron-up"}`}></i>
+        </button>
+        {dietaryOpen && (
+          <div className="filter-type">
+            {["dairy-free", "egg-free", "gluten-free", "nut-free"].map((diet) => (
+              <label key={diet} className="dropdown-items">
+                <input
+                  type="checkbox"
+                  checked={selectedDietary?.includes(diet)}
+                  onChange={() => {
+                    handleCheckboxChange(diet, selectedDietary, setSelectedDietary);
+                  }}
+                />
+                {diet}
+              </label>
+            ))}
+          </div>
+        )}
+      </div>
+      <hr/>
+
+      <div className="buffer">
+        <button onClick={toggleRating} className="dropdown-button">
+          <div>Rating</div>
+          <i className={`bi ${ratingOpen ? "bi-chevron-down" : "bi-chevron-up"}`}></i>
+        </button>
+        {ratingOpen && (
+          <div className="filter-type">
+            {[1, 2, 3, 4, 5].map((star) => (
+              <label key={star} className="dropdown-items">
+                <input
+                  type="checkbox"
+                  checked={selectedRating?.includes(star)}
+                  onChange={() => {
+                    handleCheckboxChange(star, selectedRating, setSelectedRating);
+                  }}
+                />
+                {star}
+              </label>
+            ))}
+          </div>
+        )}
+      </div>
+      <hr/>
+
+      {/* Reset Button */}
+      <button
+        onClick={handleReset}
+        className="filter-reset"
+      >
+        Reset Filters
+      </button>
+
+    </aside>
+  );
+}
+
+
+==================================================
+
+=== Full Stars ===
+File Path: src\Components\Stars.jsx
+
+import React from "react";
+import "../css/stars.css"
+
+const RenderStars = ({ rating }) => {
+  const fullStars = Math.floor(rating); // Full stars count
+  const hasHalfStar = rating % 1 !== 0; // Check for half-star
+  const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0); // Remaining empty stars
+
+  return (
+    <>
+      {" "}
+      {/* Full Stars */}
+      {[...Array(fullStars)].map((_, index) => (
+        <i key={`full-${index}`} className="bi bi-star-fill"></i>
+      ))}
+      {/* Half Star */}
+      {hasHalfStar && (
+        <i className="bi bi-star-half"></i>
+      )}
+      {/* Empty Stars */}
+      {[...Array(emptyStars)].map((_, index) => (
+        <i key={`empty-${index}`} className="bi bi-star"></i>
+      ))}
+    </>
+  );
+};
+
+export default RenderStars;
+
+
+==================================================
+
+=== src/components/Tag.jsx ===
+File Path: src\Components\Tag.jsx
+
+// src/components/Tag.jsx
+import React from 'react';
+import '../css/Tag.css';
+
+function Tag({ name }) {
+  return (
+    <span className="tag">
+      {name}
+    </span>
+  );
+}
+
+export default Tag;
+
+
+==================================================
+
+=== dessertData ===
+File Path: src\contextsGlobal\dessertData.jsx
+
+const dessertData = [
+    {
+        "dessert title": "Oreo Shake",
+        "dessert type": "shake",
+        "dietary friendly": [],
+        "favorite": true,
+        "flavor": ["cookies and cream"],
+        "image": "dessertImages/oreoShake.png",
+        "reviews": [],
+        "restaurant": "Burger Supreme",
+        "stars": 4.2,
+        "deals": [
+            "Half-off Mondays after 8:30"
+        ]
+    },
+    {
+        "dessert title": "Cookies & Cream Brownie Cookie",
+        "dessert type": "cookie",
+        "dietary friendly": [],
+        "favorite": false,
+        "flavor": ["chocolate", "vanilla"],
+        "image": "dessertImages/cookiesAndCreamCookie.png",
+        "reviews": [],
+        "restaurant": "Crumbl Cookies",
+        "stars": 3.7,
+        "deals": [
+            "Weekly rotating flavors"
+        ]
+    },
+    {
+        "dessert title": "Triple Chocolate Cheesecake",
+        "dessert type": "cake",
+        "dietary friendly": [],
+        "favorite": false,
+        "flavor": ["chocolate"],
+        "image": "",
+        "reviews": [],
+        "restaurant": "Simply Cheesecake",
+        "stars": 4.5,
+        "deals": [
+            "Order online for pickup"
+        ]
+    },
+    {
+        "dessert title": "Burnt Almond Fudge Ice Cream",
+        "dessert type": "ice cream",
+        "dietary friendly": [],
+        "favorite": false,
+        "flavor": ["chocolate", "almond"],
+        "image": "",
+        "reviews": [],
+        "restaurant": "Yummy Ice Cream Emporium",
+        "stars": 3.2,
+        "deals": [
+            "Free arcade games with purchase"
+        ]
+    },
+    {
+        "dessert title": "Awkward First Date Crepe",
+        "dessert type": "crepe",
+        "dietary friendly": [],
+        "favorite": true,
+        "flavor": ["caramelized", "banana"],
+        "image": "",
+        "reviews": [],
+        "restaurant": "Roll Up Crepes",
+        "stars": 3.9,
+        "deals": [
+            "Open late until midnight"
+        ]
+    },
+    {
+        "dessert title": "Honey Bran Muffin",
+        "dessert type": "bread",
+        "dietary friendly": [],
+        "favorite": false,
+        "flavor": ["honey", "bran"],
+        "image": [],
+        "reviews": [],
+        "restaurant": "Provo Bakery",
+        "stars": 2.1,
+        "deals": [
+            "Family-run for over 60 years"
+        ]
+    },
+    {
+        "dessert title": "Pistachio Chocolate Cake",
+        "dessert type": "cake",
+        "dietary friendly": [],
+        "favorite": false,
+        "flavor": ["pistachio", "chocolate"],
+        "image": [],
+        "reviews": [],
+        "restaurant": "Dionne's Bakery",
+        "stars": 4.5,
+        "deals": [
+            "Special New Year promotion"
+        ]
+    },
+    {
+        "dessert title": "Gelati",
+        "dessert type": "ice cream",
+        "dietary friendly": [],
+        "favorite": true,
+        "flavor": ["various flavors"],
+        "image": [],
+        "reviews": [],
+        "restaurant": "Karie Anne's",
+        "stars": 4.2,
+        "deals": [
+            "Signature blend of Italian ice and custard"
+        ]
+    },
+    {
+        "dessert title": "Rolled Ice Cream",
+        "dessert type": "ice cream",
+        "dietary friendly": [],
+        "favorite": false,
+        "flavor": ["customizable flavors"],
+        "image": [],
+        "reviews": [],
+        "restaurant": "Roll With It Creamery",
+        "stars": 4.3,
+        "deals": [
+            "Experience the art of rolled ice cream"
+        ]
+    },
+    {
+        "dessert title": "Gluten-Free Cupcake",
+        "dessert type": "cake",
+        "dietary friendly": ["gluten-free"],
+        "favorite": false,
+        "flavor": ["various flavors"],
+        "image": [],
+        "reviews": [],
+        "restaurant": "Ambrosial Bakery",
+        "stars": 3.5,
+        "deals": [
+            "Award-winning gluten-free desserts"
+        ]
+    },
+    {
+        "dessert title": "Wildberry Sugar Cookie",
+        "dessert type": "cookie",
+        "dietary friendly": [],
+        "favorite": false,
+        "flavor": ["wildberry"],
+        "image": [],
+        "reviews": [],
+        "restaurant": "Crumbl Cookies",
+        "stars": 3.8,
+        "deals": [
+            "Weekly rotating flavors"
+        ]
+    },
+    {
+        "dessert title": "Lemon Raspberry Cheesecake",
+        "dessert type": "cake",
+        "dietary friendly": [],
+        "favorite": false,
+        "flavor": ["lemon", "raspberry"],
+        "image": [],
+        "reviews": [],
+        "restaurant": "Simply Cheesecake",
+        "stars": 4.8,
+        "deals": [
+            "Order online for pickup"
+        ]
+    },
+    {
+        "dessert title": "Tiger’s Blood Ice Cream",
+        "dessert type": "ice cream",
+        "dietary friendly": [],
+        "favorite": false,
+        "flavor": ["strawberry", "coconut"],
+        "image": [],
+        "reviews": [],
+        "restaurant": "Yummy Ice Cream Emporium",
+        "stars": 2.4,
+        "deals": [
+            "Free arcade games with purchase"
+        ]
+    },
+    {
+        "dessert title": "Summer Fling Crepe",
+        "dessert type": "crepe",
+        "dietary friendly": [],
+        "favorite": false,
+        "flavor": ["Nutella", "strawberry"],
+        "image": [],
+        "reviews": [],
+        "restaurant": "Roll Up Crepes",
+        "stars": 4.6,
+        "deals": [
+            "Open late until midnight"
+        ]
+    },
+    {
+        "dessert title": "Maple Bar Donut",
+        "dessert type": "donut",
+        "dietary friendly": [],
+        "favorite": false,
+        "flavor": ["maple"],
+        "image": [],
+        "reviews": [],
+        "restaurant": "Provo Bakery",
+        "stars": 3.6,
+        "deals": [
+            "Family-run for over 60 years"
+        ]
+    },
+    {
+        "dessert title": "Chocolate Dipped-Cheesecake Filled Strawberries",
+        "dessert type": "fruit",
+        "dietary friendly": [],
+        "favorite": false,
+        "flavor": ["chocolate", "strawberry"],
+        "image": [],
+        "reviews": [],
+        "restaurant": "Simply Cheesecake",
+        "stars": 4.8,
+        "deals": [
+            "Order online for pickup"
+        ]
+    },
+    {
+        "dessert title": "Bubble Gum Ice Cream",
+        "dessert type": "ice cream",
+        "dietary friendly": [],
+        "favorite": false,
+        "flavor": ["bubble gum"],
+        "image": [],
+        "reviews": [],
+        "restaurant": "Yummy Ice Cream Emporium",
+        "stars": 2.1,
+        "deals": [
+            "Free arcade games with purchase"
+        ]
+    },
+
+    {
+        "dessert title": "Nutella Brownie",
+        "dessert type": "brownie",
+        "dietary friendly": [],
+        "favorite": false,
+        "flavor": ["Nutella", "chocolate"],
+        "image": [],
+        "reviews": [],
+        "restaurant": "Dionne's Bakery",
+        "stars": 4.2,
+        "deals": [
+            "Buy 2, get 1 free on Thursdays"
+        ]
+    },
+    {
+        "dessert title": "Chocolate Raspberry Mousse Cake",
+        "dessert type": "cake",
+        "dietary friendly": [],
+        "favorite": false,
+        "flavor": ["chocolate", "raspberry"],
+        "image": [],
+        "reviews": [],
+        "restaurant": "The Chocolate",
+        "stars": 4.8,
+        "deals": [
+            "Student discount on Tuesdays"
+        ]
+    },
+    {
+        "dessert title": "Lavender Honey Ice Cream",
+        "dessert type": "ice cream",
+        "dietary friendly": [],
+        "favorite": false,
+        "flavor": ["lavender", "honey"],
+        "image": [],
+        "reviews": [],
+        "restaurant": "Rockwell Ice Cream",
+        "stars": 3.8,
+        "deals": [
+            "Handcrafted small-batch flavors"
+        ]
+    },
+    {
+        "dessert title": "Red Velvet Bundt Cake",
+        "dessert type": "cake",
+        "dietary friendly": [],
+        "favorite": false,
+        "flavor": ["red velvet"],
+        "image": [],
+        "reviews": [],
+        "restaurant": "Nothing Bundt Cakes",
+        "stars": 4.1,
+        "deals": [
+            "Free bundtlet on your birthday"
+        ]
+    },
+    {
+        "dessert title": "Blueberry Muffin",
+        "dessert type": "muffin",
+        "dietary friendly": [],
+        "favorite": false,
+        "flavor": ["blueberry"],
+        "image": [],
+        "reviews": [],
+        "restaurant": "Provo Bakery",
+        "stars": 4.4,
+        "deals": [
+            "Family-run for over 60 years"
+        ]
+    },
+    {
+        "dessert title": "S'mores Cookie",
+        "dessert type": "cookie",
+        "dietary friendly": [],
+        "favorite": false,
+        "flavor": ["graham cracker", "chocolate", "marshmallow"],
+        "image": [],
+        "reviews": [],
+        "restaurant": "Chip Cookies",
+        "stars": 2.2,
+        "deals": [
+            "Free delivery for first-time orders"
+        ]
+    },
+    {
+        "dessert title": "Peanut Butter Pie",
+        "dessert type": "pie",
+        "dietary friendly": [],
+        "favorite": false,
+        "flavor": ["peanut butter", "chocolate"],
+        "image": [],
+        "reviews": [],
+        "restaurant": "The Chocolate",
+        "stars": 3.4,
+        "deals": [
+            "Try our signature slice of the month!"
+        ]
+    },
+    {
+        "dessert title": "Chocolate Covered Strawberries",
+        "dessert type": "fruit",
+        "dietary friendly": [],
+        "favorite": false,
+        "flavor": ["chocolate", "strawberry"],
+        "image": [],
+        "reviews": [],
+        "restaurant": "Dionne's Bakery",
+        "stars": 4.2,
+        "deals": [
+            "Valentine’s Day special pricing"
+        ]
+    },
+    {
+        "dessert title": "Coconut Cream Pie",
+        "dessert type": "pie",
+        "dietary friendly": [],
+        "favorite": false,
+        "flavor": ["coconut"],
+        "image": [],
+        "reviews": [],
+        "restaurant": "Shirley's Bakery",
+        "stars": 4.5,
+        "deals": [
+            "Get a free small drink with any pie order"
+        ]
+    },
+    {
+        "dessert title": "Banana Pudding Parfait",
+        "dessert type": "pudding",
+        "dietary friendly": [],
+        "favorite": false,
+        "flavor": ["banana", "vanilla"],
+        "image": [],
+        "reviews": [],
+        "restaurant": "Sweet’s Texas BBQ",
+        "stars": 4.3,
+        "deals": [
+            "Free pudding with any family meal"
+        ]
+    },
+    {
+        "dessert title": "Carrot Cake Cupcake",
+        "dessert type": "cake",
+        "dietary friendly": [],
+        "favorite": false,
+        "flavor": ["carrot", "cinnamon"],
+        "image": [],
+        "reviews": [],
+        "restaurant": "Sweet Tooth Fairy",
+        "stars": 3.8,
+        "deals": [
+            "Cupcake happy hour 3-5 PM daily"
+        ]
+    },
+    {
+        "dessert title": "Chocolate Molten Lava Cake",
+        "dessert type": "cake",
+        "dietary friendly": [],
+        "favorite": false,
+        "flavor": ["chocolate"],
+        "image": [],
+        "reviews": [],
+        "restaurant": "Guru’s Cafe",
+        "stars": 3.7,
+        "deals": [
+            "Free dessert on birthdays"
+        ]
+    },
+    {
+        "dessert title": "Strawberry Shortcake",
+        "dessert type": "cake",
+        "dietary friendly": [],
+        "favorite": false,
+        "flavor": ["strawberry", "vanilla"],
+        "image": [],
+        "reviews": [],
+        "restaurant": "Cubby’s",
+        "stars": 4.3,
+        "deals": [
+            "Seasonal special"
+        ]
+    },
+    {
+        "dessert title": "Pumpkin Spice Cheesecake",
+        "dessert type": "cake",
+        "dietary friendly": [],
+        "favorite": false,
+        "flavor": ["pumpkin", "cinnamon"],
+        "image": [],
+        "reviews": [],
+        "restaurant": "The Cheesecake Factory",
+        "stars": 4.8,
+        "deals": [
+            "Limited-time fall special"
+        ]
+    },
+    {
+        "dessert title": "Mango Sticky Rice",
+        "dessert type": "fruit",
+        "dietary friendly": ["gluten-free"],
+        "favorite": false,
+        "flavor":["mango", "coconut"],
+        "image": [],
+        "reviews": [],
+        "restaurant": "Bangkok Grill",
+        "stars": 4.7,
+        "deals": [
+            "Authentic Thai dessert"
+        ]
+    },
+    {
+        "dessert title": "Ube Macaron",
+        "dessert type": "cookie",
+        "dietary friendly": ["gluten-free"],
+        "favorite": false,
+        "flavor": ["ube"],
+        "image": [],
+        "reviews": [],
+        "restaurant": "La Bonne Vie",
+        "stars": 3.5,
+        "deals": [
+            "Buy 5, get 1 free on Fridays"
+        ]
+    },
+    {
+        "dessert title": "Tiramisu",
+        "dessert type": "cake",
+        "dietary friendly": [],
+        "favorite": false,
+        "flavor": ["coffee", "chocolate"],
+        "image": [],
+        "reviews": [],
+        "restaurant": "Carrabba’s",
+        "stars": 2.3,
+        "deals": [
+            "Half-price desserts with entrée purchase"
+        ]
+    },
+    {
+        "dessert title": "Matcha Cheesecake",
+        "dessert type": "cake",
+        "dietary friendly": [],
+        "favorite": false,
+        "flavor": ["matcha", "vanilla"],
+        "image": [],
+        "reviews": [],
+        "restaurant": "Sakana Sushi",
+        "stars": 2.8,
+        "deals": [
+            "Pair with any tea for a discount"
+        ]
+    },
+    {
+        "dessert title": "Dole Whip",
+        "dessert type": "ice cream",
+        "dietary friendly": ["dairy-free"],
+        "favorite": false,
+        "flavor": ["pineapple"],
+        "image": [],
+        "reviews": [],
+        "restaurant": "Hokulia Shave Ice",
+        "stars": 3.6,
+        "deals": [
+            "Tropical flavor add-ons available"
+        ]
+    },
+    {
+        "dessert title": "Blackberry Cobbler",
+        "dessert type": "pie",
+        "dietary friendly": [],
+        "favorite": false,
+        "flavor": ["blackberry", "cinnamon"],
+        "image": [],
+        "reviews": [],
+        "restaurant": "Sweet’s Texas BBQ",
+        "stars": 4.7,
+        "deals": [
+            "Southern-style homemade cobbler"
+        ]
+    },
+    {
+        "dessert title": "Churro Ice Cream Sandwich",
+        "dessert type": "ice cream",
+        "dietary friendly": [],
+        "favorite": false,
+        "flavor": ["cinnamon", "vanilla"],
+        "image": [],
+        "reviews": [],
+        "restaurant": "Fiiz Drinks",
+        "stars": 3.5,
+        "deals": [
+            "Limited-time special"
+        ]
+    },
+    {
+        "dessert title": "Nutella Waffle",
+        "dessert type": "crepe",
+        "dietary friendly": [],
+        "favorite": false,
+        "flavor": ["nutella", "hazelnut"],
+        "image": [],
+        "reviews": [],
+        "restaurant": "Bruges Waffles & Frites",
+        "stars": 4.8,
+        "deals": [
+            "Belgian-style authentic waffles"
+        ]
+    }
+];
+
+
+export default dessertData;
+
+==================================================
+
+=== Load data from dessertData and initialize filteredList ===
+File Path: src\contextsGlobal\dessertDataContext.jsx
+
+import { createContext, useContext, useState, useEffect } from "react";
+import dessertData from "./dessertData";
+const dessertDataContextContext = createContext();
+export const DessertDataContext = ({ children }) => {
+ const [filteredList, setFilteredList] = useState([]);
+ useEffect(() => {
+  // Load data from dessertData and initialize filteredList
+  if (dessertData && Array.isArray(dessertData)) {
+   // Create a copy of dessertsData to initialize filteredList
+   setFilteredList([...dessertData]);
+  } else {
+   console.warn("dessertsData is not an array or is undefined. Check your data source.");
+   // Optionally initialize with an empty array or handle the error differently
+   setFilteredList([]);
+  }
+ }, []); // useEffect runs once on component mount to initialize data
+
+ //start of return
+ return (
+  <dessertDataContextContext.Provider value={{
+        filteredList, // This will be an array of dessert objects
+        setFilteredList
+      }}>
+   {children}
+  </dessertDataContextContext.Provider>
+ );
+ //end of return
+
+};
+
+export const useDessertDataContext = () => useContext(dessertDataContextContext);
+
+==================================================
+
+=== src/css/Account.css ===
+File Path: src\css\Account.css
+
+/* src/css/Account.css */
+
+.account-page {
+    background-color: #f9f9f9;  /* Light background matching your content area */
+    min-height: calc(100vh - 80px); /* Adjust according to your header/footer height */
+    padding: 2rem;
+    color: #7B4B39; /* Cocoa Brown for text */
+    font-family: Arial, sans-serif;
+  }
+  
+  .account-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #FFE6EC; /* Light Pink, similar to your header/footer theme */
+    border: 1px solid #D8A7B1; /* Dusty Rose border */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 2rem;
+  }
+  
+  .account-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .account-info {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  
+  .profile-pic {
+    flex: 0 0 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid #7B4B39;  /* Cocoa Brown border for the profile picture */
+  }
+  
+  .profile-pic img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .account-details {
+    flex: 1;
+  }
+  
+  .account-details h2 {
+    margin: 0;
+    font-size: 1.8rem;
+  }
+  
+  .account-details p {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+  }
+  
+  .account-actions {
+    margin-top: 1rem;
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .edit-btn {
+    background-color: #7B4B39;
+    color: #ffffff;
+  }
+  
+  .edit-btn:hover {
+    background-color: #5A3D2C;
+  }
+  
+  .logout-btn {
+    background-color: #D8A7B1;
+    color: #ffffff;
+  }
+  
+  .logout-btn:hover {
+    background-color: #B38B82;
+  }
+  
+
+==================================================
+
+=== Ensure children positioned absolute are relative to this container ===
+File Path: src\css\dessertCard.css
+
+.dessert-generator {
+  position: relative;           /* Ensure children positioned absolute are relative to this container */
+  text-align: center;
+  padding-top: 50px;            /* Increase top padding to leave space for the sort bar */
+}
+
+/* New styling for the sort bar */
+.sort-bar {
+  position: absolute;           /* Position absolutely within the .dessert-generator */
+  top: 5px;                     /* Adjust this value to sit closer to the top edge */
+  right: 5px;                   /* Place it on the right side */
+  background: #fff;             /* White background */
+  padding: 4px 6px;             /* Smaller padding to keep it compact */
+  border: 1px solid #ccc;       /* Light border */
+  border-radius: 4px;
+  z-index: 10;                  /* Ensure it sits above other elements */
+  display: flex;
+  gap: 4px;                     /* Small gap between elements */
+  align-items: center;
+  font-size: 12px;              /* Smaller font size */
+}
+
+/* Existing dessert styles remain unchanged */
+.dessert-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.dessert {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  background-color: #c2e7d9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 20px;
+  margin: 10px;
+  width: 85%;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.dessert h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.dessert p {
+  font-size: 14px;
+  color: #666;
+}
+
+.dessert img {
+  width: 160px;
+  height: 120px;
+  object-fit: contain;
+  display: block;
+  border-radius: 5px;
+  margin-right: 20px;
+}
+
+.dessert-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.fav-button {
+  position: relative;
+  margin-left: 10px;
+  bottom: 10px;
+  right: 10px;
+  font-size: 1.2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.fav-button i {
+  font-size: 1.5em;
+  color: #ce6378;
+}
+
+
+==================================================
+
+=== Completely Modified CSS ===
+File Path: src\css\dessertModal.css
+
+/* Completely Modified CSS */
+
+/* Dessert Grid */
+.dessert-grid-container {
+  padding: 20px;
+}
+
+.dessert-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Slightly larger min-width */
+  gap: 15px;
+}
+
+/* Dessert Card */
+.dessert-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border: 1px solid #e0e0e0; /* Softer border color */
+  border-radius: 8px; /* Slightly more rounded */
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  background-color: #fff; /* Explicit white background */
+}
+
+.dessert-card:hover {
+  transform: scale(1.08); /* Slightly more pronounced hover effect */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* More noticeable shadow */
+}
+
+/* Image in Dessert Card */
+.img {
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 5px;
+  margin-bottom: 15px;
+}
+
+/* More Dessert Info */
+.more-dessert-info {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  padding: 15px 0;
+  font-size: 0.9em; /* Slightly smaller font for extra info */
+  color: #555;
+}
+
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6); /* Slightly darker overlay */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+/* Modal Content */
+.modal-overlay .modal-content {
+  position: relative;
+  width: 90%;
+  max-width: 600px; /* Adjusted max-width */
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px; /* More rounded modal */
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25); /* More prominent modal shadow */
+}
+
+.modal-content > div {
+  margin-top: 25px; /* Increased top margin */
+  padding: 10px 0; /* Added vertical padding for sections */
+}
+
+.modal-content .review-text { /* Add this class to your review text element in HTML */
+  padding: 10px; /* Add padding around the review text */
+  border: 1px solid #eee; /* Optional: Add a light border */
+  border-radius: 4px;
+  margin-top: 10px; /* Add space above the review text */
+  background-color: #f9f9f9; /* Optional: Add a light background */
+}
+
+.modal-content strong { /* Assuming labels like "Restaurant:" are in strong tags */
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* Textarea in Modal */
+.modal-content textarea {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+  font-family: inherit;
+  resize: vertical;
+}
+
+/* Buttons in Modal (excluding close) */
+.modal-content button:not(.close-btn) {
+  padding: 12px 25px;
+  cursor: pointer;
+  border: none; /* Removed default border */
+  border-radius: 6px;
+  background-color: #007bff; /* Example primary button color */
+  color: white;
+  font-size: 1em;
+  transition: background-color 0.2s;
+}
+
+.modal-content button:not(.close-btn):hover {
+  background-color: #0056b3;
+}
+
+/* Close Button in Modal */
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  margin-top: 0;
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-size: 1.8em;
+  color: #aaa;
+  transition: color 0.2s;
+}
+
+.close-btn:hover {
+  color: #555;
+}
+
+==================================================
+
+=== Untitled Component ===
+File Path: src\css\filteredCards.css
+
+
+
+==================================================
+
+=== src/css/Footer.css ===
+File Path: src\css\Footer.css
+
+/* src/css/Footer.css */
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 2rem;            /* Slimmer vertical padding */
+  background-color: #d8a7b1;       /* Milk Pink (matches header) */
+  /* Optionally, remove the border or switch to a subtle border-top */
+  border-top: 1px solid #D8A7B1;  
+}
+
+.footer-left,
+.footer-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.footer-right {
+  align-items: flex-end;
+}
+
+/* Adjust header in the footer */
+.contact-us {
+  margin: 0;
+  font-size: 1rem;              /* Smaller headline for a slim look */
+  font-weight: 600;
+  color: #7B4B39;               /* Cocoa Brown for consistency */
+}
+
+/* Smaller text for contact info and slogan */
+.contact-info,
+.slogan {
+  font-size: 0.9rem;
+  color: #7B4B39;
+  font-weight: 500;
+}
+
+
+==================================================
+
+=== src/css/Header.css ===
+File Path: src\css\Header.css
+
+/* src/css/Header.css */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* Reduced vertical padding for a slimmer header */
+  padding: 0.5rem 2rem;
+  background-color: #d8a7b1; /* Milk Pink */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.hamburger-toggle {
+  background: #d8a7b1; /* Matches header background */
+  border: none;
+  color: #7B4B39; /* Cocoa Brown */
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.hamburger-toggle:hover {
+  background: #fddce1;
+}
+
+/* Removed the toggle label styles as it’s no longer needed if only showing icon */
+.logo {
+  width: 60px;       /* Reduced logo size for a leaner appearance */
+  margin-right: 0.75rem;
+}
+
+.search-input {
+  padding: 0.35rem 0.5rem; /* Slimmer search input */
+  font-size: 0.95rem;      /* Slightly smaller text */
+  border: 2px solid #7B4B39;
+  border-radius: 4px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #7B4B39;
+  padding: 5px 10px;
+  transition: background-color 0.3s, color 0.3s;
+  cursor: pointer;  /* Add this line */
+}
+
+.nav-link:hover {
+  color: #ffffff;
+  background-color: #fddce1;
+  border-radius: 4px;
+}
+
+
+==================================================
+
+=== General Page Layout ===
+File Path: src\css\Login.css
+
+/* General Page Layout */
+.login-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 300px;
+}
+
+/* Input Styles */
+.form-input {
+  padding: 8px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Button Styles */
+.form-button {
+  padding: 10px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  background-color: #8fe4c3;
+  color: white;
+}
+
+.form-button:hover {
+  background-color: #c2e7d9;
+}
+
+/* Error Message Styles */
+.error-text {
+  color: red;
+  font-size: 0.9rem;
+}
+
+/* Link Style */
+p {
+  margin-top: 10px;
+}
+
+.register-link {
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.register-link:hover {
+  color: darkblue;
+}
+
+
+==================================================
+
+=== Webkit-based browsers (Chrome, Safari, Edge) ===
+File Path: src\css\MainContent.css
+
+.main-content {
+  background-color: #f9f9f9;
+  display: grid;
+  column-gap: 10px;
+  row-gap: 10px;
+  height: 100%;
+  grid-template-columns: 53% 48%;
+  overflow: hidden;
+}
+
+.card-container {
+  grid-column: 1;
+  grid-row-start: 1;
+  max-height: 100vh;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+/* Webkit-based browsers (Chrome, Safari, Edge) */
+.card-container::-webkit-scrollbar {
+  width: 8px;
+}
+.card-container::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+.card-container::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.card-container::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+.card-container::-webkit-scrollbar {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.card-container:hover::-webkit-scrollbar {
+  opacity: 0.5;
+}
+
+.map-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  grid-column: 2;
+  grid-row: 1;
+  box-sizing: border-box;
+  height: 100%;
+  overflow: hidden;
+  padding-top: 0.2rem;
+  padding-left: 0.2rem;
+  padding-bottom: 1rem;
+}
+
+.search-result {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #FFE6EC;
+  border: 1px solid #D8A7B1;
+  border-radius: 4px;
+}
+
+/* === 🎯 Portrait layout fix: evenly split the vertical space === */
+@media (max-width: 768px) {
+  .main-content {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+    padding-bottom: 9rem;
+  }
+
+  .card-container {
+    flex: 0 0 35%;
+    max-height: 35%;
+    overflow-y: auto;
+    padding-right: 0;
+  }
+
+  .map-container {
+    flex: 0 0 65%;
+    max-height: 65%;
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    align-items: stretch;
+    margin: 0;
+  }
+
+  .map-container h4 {
+    margin: 0.5rem;
+    text-align: center;
+    flex: 0 0 auto;
+  }
+
+  .map-container > *:not(h4) {
+    flex: 1 1 auto;
+    height: 100%;
+    width: 100%;
+  }
+}
+
+
+==================================================
+
+=== Pastel Map Theme ===
+File Path: src\css\Map.css
+
+.map-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 1rem 2rem;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  font-weight: bold;
+  color: #333;
+}
+
+.map-filtering {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.9);
+  padding: 8px 20px;
+  border-radius: 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+  z-index: 1000;
+  font-size: 14px;
+  font-weight: 500;
+  color: #444;
+  border: 1px solid #eee;
+}
+
+.custom-popup .leaflet-popup-content {
+  margin: 12px;
+  min-width: 250px;
+  max-width: 300px;
+  max-height: 400px;
+  overflow-y: auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.popup-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.popup-title {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #2c3e50;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 8px;
+}
+
+.popup-description {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.popup-tag {
+  background: #f0f7ff;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  color: #3a6ea5;
+  border: 1px solid #d0e3ff;
+  white-space: nowrap;
+}
+
+.matching-desserts {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #eee;
+}
+
+.matching-desserts h4 {
+  margin: 0 0 8px 0;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.matching-desserts ul {
+  margin: 0;
+  padding: 0;
+  font-size: 0.9rem;
+  list-style-type: none;
+}
+
+.matching-desserts li {
+  margin-bottom: 6px;
+  padding: 6px 0;
+  border-bottom: 1px dashed #eee;
+  display: flex;
+  justify-content: space-between;
+}
+
+.matching-desserts li:last-child {
+  border-bottom: none;
+}
+
+/* Pastel Map Theme */
+.leaflet-container.pastel-map {
+  background-color: #f9f5ff;
+}
+
+.leaflet-container.pastel-map .leaflet-tile {
+  filter: 
+    hue-rotate(-5deg)
+    saturate(0.7)
+    brightness(1.1)
+    contrast(0.9);
+}
+
+.pastel-map path.leaflet-interactive[fill="rgb(170,211,223)"] {
+  fill: #b8e2f2 !important;
+}
+
+.pastel-map [fill="rgb(210,227,188)"],
+.pastel-map [fill="rgb(211,235,206)"] {
+  fill: #d8f3dc !important;
+}
+
+.pastel-map [stroke="rgb(255,255,255)"] {
+  stroke: #fff9f0 !important;
+  stroke-width: 1.5px;
+}
+
+.leaflet-marker-icon {
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
+  transition: all 0.2s ease;
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 8px !important;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.15) !important;
+}
+
+.leaflet-popup-tip {
+  background: white !important;
+}
+
+==================================================
+
+=== Styles for the overall layout ===
+File Path: src\css\personal.css
+
+/* Styles for the overall layout */
+.favorites-page {
+    display: flex;           /* Enable flexbox layout */
+    justify-content: space-between;  /* Space between the two sections */
+    padding: 20px;
+  }
+  
+  /* Style for the left side (favorite desserts) */
+  .favorites-left {
+    flex: 1;                 /* Take up equal space */
+    padding: 20px;
+    margin-right: 20px;      /* Space between left and right side */
+    border-right: 2px solid #ccc;  /* Optional: a border between the left and right */
+    overflow-y: auto;
+  }
+  
+  /* Style for the right side (reviews or other content) */
+  .favorites-right {
+    flex: 1;                 /* Take up equal space */
+    padding: 20px;
+    overflow-y: auto;
+  }
+  
+  /* Style for the dessert container */
+  .dessert-container {
+    display: flex;
+    gap: 20px;               /* Space between each dessert card */
+  }
+  
+  /* Style for individual dessert cards */
+
+  
+  /* Hover effect for dessert cards */
+  .dessert:hover {
+    transform: scale(1.05);  /* Slightly enlarge the card on hover */
+  }
+  
+  /* Style for images inside dessert cards */
+  .dessert img {
+    width: 100%;            /* Make the image take up the full width of the container */
+    border-radius: 8px;
+  }
+  
+  /* Styling for the no-results message */
+  .no-results {
+    text-align: center;
+    font-size: 18px;
+    color: #777;
+  }
+  
+
+==================================================
+
+=== src/css/PopupMenu.css ===
+File Path: src\css\PopupMenu.css
+
+/* src/css/PopupMenu.css */
+
+/* Ensure the popup is positioned relative to the header-right container */
+.header-right {
+  position: relative;
+}
+
+.popup-menu {
+  position: absolute;
+  top: 100%;   /* Places the popup directly below the header-right */
+  right: 0;
+  width: 200px;
+  padding: 1rem;
+  background-color: #FFE6EC;  /* Light Pink */
+  border: 1px solid #D8A7B1;   /* Dusty Rose */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1100;  /* High z-index so it appears above your map */
+}
+
+.popup-menu h3 {
+  margin-top: 0;
+  font-size: 1.1rem;
+  color: #7B4B39;
+}
+
+.popup-menu-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.popup-menu-list li {
+  margin-bottom: 0.5rem;
+}
+
+.popup-menu-list li a,
+.popup-menu-list li {
+  text-decoration: none;
+  color: #7B4B39;
+  cursor: pointer;
+  display: inline-block;
+  padding: 5px 10px;
+  width: 100%;
+}
+
+.popup-menu-list li.log-out:hover {
+  text-decoration: underline;
+}
+
+.popup-menu-list li:hover,
+.popup-menu-list li a:hover {
+  background-color: #D8A7B1;
+  color: white;
+}
+
+.popup-menu-list li:not(.log-out):hover {
+  text-decoration: none;
+}
+
+.popup-menu-list li a {
+  text-decoration: none;
+  color: inherit;
+}
+
+
+==================================================
+
+=== Untitled Component ===
+File Path: src\css\Register.css
+
+.register-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 300px;
+}
+
+.register-input {
+  padding: 8px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.register-button {
+  padding: 10px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  background-color: #8fe4c3;
+  color: white;
+}
+
+.register-button:hover {
+  background-color: #c2e7d9;
+}
+
+.error-text {
+  color: red;
+  font-size: 0.9rem;
+}
+.login-link {
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.login-link:hover {
+  color: darkblue;
+}
+
+
+==================================================
+
+=== src/css/Roulette.css ===
+File Path: src\css\Roulette.css
+
+/* src/css/Roulette.css */
+.roulette-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.spin-button {
+  padding: 10px 20px;
+  font-size: 1.2em;
+  cursor: pointer;
+  margin-top: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+}
+
+.spin-button:hover {
+  background-color: #e0e0e0;
+}
+
+.spin-button:disabled {
+  background-color: #ddd;
+  cursor: not-allowed;
+}
+
+.spinning {
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.roulette-result {
+  margin-top: 30px;
+  text-align: center;
+}
+
+==================================================
+
+=== src/components/Sidebar.css ===
+File Path: src\css\Sidebar.css
+
+/* src/components/Sidebar.css */
+.sidebar {
+  width: 25%;
+  height: 100vh;
+  padding: 1rem;
+  background-color: #fadadd; /* Light Pink */
+  border-right: 1px solid #D8A7B1; /* Dusty Rose */
+  overflow-y: auto;
+  overflow-x: hidden; /* Prevent horizontal scrollbar */
+  box-sizing: border-box; /* Include padding in width calculation */
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.tag-container {
+  display: flex;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+  flex-wrap: wrap;
+}
+  
+h2 {
+  margin-bottom: 20px;
+  color: "#002E5D";
+  font-size: "18px"; 
+  font-weight: "bold" ;
+}
+
+hr {
+  border: none; 
+  height: 1px; 
+  background-color: rgb(230, 232, 236); 
+}
+
+.filter-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+
+  h3 {
+    color: #7B4B39;
+    font-size: 22px;
+    font-weight: bold;
+  }
+
+  .dropdown-all {
+    border-color: none;
+    border-radius: 0px;
+    border: none;
+    background-color: none;
+    height: 50%;
+    margin-left: auto;
+    margin-right: 15px;
+    font-size: 12px;
+    color: rgb(0, 0, 0);
+    transition: transform 0.5s ease;
+  }
+  .dropdown-all:hover {
+    background-color: #c2e7d9;
+  }
+}
+
+.dropdown-button {
+  outline: none;
+  border: none;
+  background: none;
+  width: 100%;
+  font-size: 16px;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  padding-right: 8px;
+  color: #555;
+}
+
+.dropper {
+  margin-left: 10px;  /* Space between the text and the arrow */
+  font-size: 18px;  /* Set size of the arrow */
+  transition: transform 0.5s ease;
+  font-style: normal;
+}
+
+.dropper.up::before {
+  content: "\002b"; /* Unicode for upward arrow */
+}
+
+.dropper.down::before {
+  content: "\002d"; /* Unicode for downward arrow */
+}
+
+.filter-reset {
+  width: 100%;
+  padding: 10px;
+  background-color: rgb(172, 49, 49);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.filter-reset:hover {
+  background-color: rgb(139, 38, 38);
+}
+
+.buffer {
+  display: block;
+  margin-bottom: 5px;
+  color: #555;
+  font-size: 14px;
+
+  .filter-type {
+    margin-top: 10px;
+    margin-bottom: 15px;
+
+    .dropdown-items { 
+      margin-left: 10px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 8px;
+      margin-left: 10px;
+      margin-bottom: 5px;
+      color: #555;
+      font-size: 14px;
+    }
+
+  }
+}
+
+input {
+  margin-right: 8px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  color: #555;
+  font-size: 14px;
+}
+
+.sidebar::-webkit-scrollbar {
+  width: 8px; /* Adjust width of the scrollbar */
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3); /* The thumb (scroll handle) color */
+  border-radius: 4px; /* Round the corners of the scrollbar thumb */
+  transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.5); /* Change the thumb color on hover */
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1); /* Track color */
+  border-radius: 4px; /* Rounded corners for the track */
+}
+
+/* Hide the scrollbar initially and show only when user interacts with the container */
+.sidebar::-webkit-scrollbar {
+  opacity: 0; /* Make the scrollbar invisible initially */
+  transition: opacity 0.3s ease; /* Smooth transition */
+}
+
+.sidebar:hover::-webkit-scrollbar {
+  opacity: 0.5; /* Make the scrollbar visible on hover */
+}
+
+
+==================================================
+
+=== Untitled Component ===
+File Path: src\css\stars.css
+
+.bi-star-fill {
+    color: #f5c518;
+    outline-color:rgb(109, 81, 21);
+}
+
+.bi-star-half {
+    color: #f5c518;
+    outline-color:rgb(109, 81, 21);
+}
+
+.bi-star {
+    color: #f5c518;
+    outline-color:rgb(109, 81, 21);
+}
+
+==================================================
+
+=== src/components/Tag.css ===
+File Path: src\css\Tag.css
+
+/* src/components/Tag.css */
+.tag {
+    padding: 0.3rem 0.6rem;
+    background-color: #7B4B39; /* Cocoa Brown */
+    border-radius: 12px;
+    font-size: 0.9rem;
+    color: #FFFFFF; /* White text */
+  }
+  
+
+==================================================
+

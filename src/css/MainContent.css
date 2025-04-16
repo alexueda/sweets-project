@@ -67,21 +67,37 @@
   .main-content {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: 95vh;
     overflow: hidden;
+    padding-bottom: 8rem;
   }
 
   .card-container {
-    flex: 1;
-    max-height: 50vh;
+    flex: 0 0 45%;
+    max-height: 45%;
     overflow-y: auto;
     padding-right: 0;
   }
 
   .map-container {
-    flex: 1;
-    max-height: 50vh;
-    overflow: hidden;
-    margin-top: 0;
+    flex: 0 0 55%;
+    max-height: 55%;
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    align-items: stretch;
+    margin: 0;
+  }
+
+  .map-container h4 {
+    margin: 0.2rem;
+    text-align: center;
+    flex: 0 0 auto;
+  }
+
+  .map-container > *:not(h4) {
+    flex: 1 1 auto;
+    height: 100%;
+    width: 100%;
   }
 }

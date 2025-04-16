@@ -3,6 +3,8 @@ import React, { useState, useEffect, useRef, forwardRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import PopupMenu from './PopupMenu';
 import '../css/Header.css';
+import logo from '../../src/logocopy.png';
+import name from '../../src/websitename.png';
 
 const Header = forwardRef(
   ({ onSearchChange, setIsLoggedIn, isLoggedIn, toggleSidebar }, ref) => {
@@ -53,7 +55,8 @@ const Header = forwardRef(
           <button className="hamburger-toggle" onClick={toggleSidebar}>
             <i className="bi bi-list"></i>
           </button>
-          <img src="../logo.png" alt="Sweet Tooth" className="logo" />
+          <img src={logo} alt="Sweet Tooth" className="logo" />
+          <img src={name} alt="Sweet Tooth" className="name" />
           <input
             type="text"
             placeholder="Search by dessert..."
@@ -68,7 +71,7 @@ const Header = forwardRef(
             <Link to="/roulette" className="nav-link">Roulette</Link>
             <Link to="/personal" className="nav-link">Personal</Link>
             <span className="nav-link" onClick={handleLoginClick}>
-              {isLoggedIn ? 'Settings' : 'Log In'}
+              {isLoggedIn ? 'Settings' : 'Login'}
             </span>
           </nav>
           {/* Render PopupMenu if menuOpen is true */}

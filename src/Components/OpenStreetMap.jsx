@@ -332,6 +332,8 @@ const OSMMap = ({
     <MapContainer 
       center={[40.2338, -111.6585]} 
       zoom={13} 
+      scrollWheelZoom={true}
+      zoomControl={false}
       style={{ height: "100%", width: "100%" }}
       className="pastel-map"
       whenCreated={(map) => {
