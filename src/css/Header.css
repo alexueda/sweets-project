@@ -12,7 +12,7 @@
 .header-left {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0rem;
   flex: 1;
 }
 
@@ -35,7 +35,7 @@
 .logo {
   width: 30%; /* Adjust logo size */
   height: auto;
-  min-width: 250px; 
+  min-width: 150px; 
 }
 
 /* Center section: search bar */
@@ -44,9 +44,7 @@
   display: flex;
   justify-content: center;
 }
-.name {
-  width: 200px;
-}
+
 
 .search-input {
   padding: 0.35rem 0.5rem;
@@ -105,12 +103,9 @@
   .logo {
     width: 40px;
   }
-  .name {
-    width: 80px;
-  }
   .hamburger-toggle {
     font-size: 1rem; /* Even smaller */
-    padding: 0.25rem;
+    padding: 0rem;
     margin-right: 0.25rem;
   }
 }
