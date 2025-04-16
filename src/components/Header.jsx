@@ -68,7 +68,7 @@ const Header = forwardRef(
             <Link to="/roulette" className="nav-link">Roulette</Link>
             <Link to="/personal" className="nav-link">Personal</Link>
             <span className="nav-link" onClick={handleLoginClick}>
-              {isLoggedIn ? 'Settings' : 'Log In'}
+              {isLoggedIn ? 'Settings' : 'Login'}
             </span>
           </nav>
           {/* Render PopupMenu if menuOpen is true */}
