@@ -1,17 +1,17 @@
 // src/App.jsx
 import React, { useState, useEffect, useRef } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import Header from './Components/Header';
-import Footer from './Components/Footer';
-import Sidebar from './Components/Sidebar';
-import Roulette from './Components/Roulette';
-import MainContent from './Components/MainContent';
-import Login from './Components/Login';
-import Register from './Components/Register';
-import Personal from './Components/Personal';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import Sidebar from './components/Sidebar';
+import Roulette from './components/Roulette';
+import MainContent from './components/MainContent';
+import Login from './components/Login';
+import Register from './components/Register';
+import Personal from './components/Personal';
 import { DessertDataContext } from './contextsGlobal/dessertDataContext';
-import Account from './Components/Account';
-import ProtectedRoute from './Components/ProtectedRoute';
+import Account from './components/Account';
+import ProtectedRoute from './components/ProtectedRoute';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import './App.css';
