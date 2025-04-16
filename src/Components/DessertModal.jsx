@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import "../css/dessertModal.css";
-import RenderStars from "./Stars"; // Assuming you have this component
+import RenderStars from "./Stars";
+import { useDessertDataContext } from "../contextsGlobal/dessertDataContext";
 
-const DessertModal = ({ dessert, onClose, onAddReview }) => {
+const DessertModal = ({ dessert, onClose }) => {
   const [newReview, setNewReview] = useState("");
-  const [rating, setRating] = useState(0); // State for the star rating
+  const [rating, setRating] = useState(0);
+  const { filteredList, setFilteredList } = useDessertDataContext();
+  const currentUser = localStorage.getItem("currentUser");
 
   if (!dessert) return null;
 
@@ -14,9 +17,34 @@ const DessertModal = ({ dessert, onClose, onAddReview }) => {
 
   const handleReviewSubmit = () => {
     if (rating > 0 && newReview.trim() !== "") {
-      onAddReview(dessert, { rating: rating, comment: newReview });
+      const reviewData = {
+        rating,
+        comment: newReview,
+        dessertTitle: dessert["dessert title"],
+        restaurant: dessert["restaurant"],
+        user: currentUser,
+        date: new Date().toISOString()
+      };
+
+      // Save to localStorage
+      const userReviews = JSON.parse(localStorage.getItem("userReviews") || "[]");
+      userReviews.push(reviewData);
+      localStorage.setItem("userReviews", JSON.stringify(userReviews));
+
+      // Update context
+      const updatedDesserts = filteredList.map(d => {
+        if (d["dessert title"] === dessert["dessert title"]) {
+          return {
+            ...d,
+            reviews: [...(d.reviews || []), { rating, comment: newReview, user: currentUser }]
+          };
+        }
+        return d;
+      });
+      setFilteredList(updatedDesserts);
+
       setNewReview("");
-      setRating(0); // Reset rating after submission
+      setRating(0);
     } else if (rating === 0) {
       alert("Please select a star rating.");
     } else if (newReview.trim() === "") {
@@ -40,30 +68,30 @@ const DessertModal = ({ dessert, onClose, onAddReview }) => {
           </div>
           
           <div className="detail-content">
-          <p><strong>Restaurant:</strong> {dessert["restaurant"]}</p>
-          <p><strong>Flavors:</strong> {dessert["flavor"].join(", ")}</p>
-          <p><strong>Deals:</strong> {dessert["deals"].join(", ")}</p>
-          <p><strong>Dietary Preferences:</strong> {dessert["dietary friendly"].join(", ") || "None"}</p>
+            <p><strong>Restaurant:</strong> {dessert["restaurant"]}</p>
+            <p><strong>Flavors:</strong> {dessert["flavor"].join(", ")}</p>
+            <p><strong>Deals:</strong> {dessert["deals"].join(", ")}</p>
+            <p><strong>Dietary Preferences:</strong> {dessert["dietary friendly"].join(", ") || "None"}</p>
           </div>
 
           <div className="review-content">
             <h3>Reviews:</h3>
-            {dessert["reviews"].length > 0 ? (
-              <p>
+            {dessert["reviews"]?.length > 0 ? (
+              <div>
                 {dessert["reviews"].map((review, index) => (
-                  <span key={index}>
+                  <div key={index} className="review-item">
                     {review.rating && <RenderStars rating={review.rating} />}
-                    {review.comment && <><br />{review.comment}<br /></>}
-                    {!review.rating && review && <>{review}<br /></>} {/* Handle old string reviews */}
-                  </span>
+                    {review.comment && <p>{review.comment}</p>}
+                    {review.user && <p className="review-user">- {review.user}</p>}
+                    {!review.rating && review && <p>{review}<br /></p>}
+                  </div>
                 ))}
-              </p>
+              </div>
             ) : (
               <p>No reviews yet.</p>
             )}
           </div>
-          </div>
-        
+        </div>
 
         <div>
           <h4>Add a Review:</h4>

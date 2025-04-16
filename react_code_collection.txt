@@ -68,17 +68,17 @@ File Path: src\App.jsx
 // src/App.jsx
 import React, { useState, useEffect, useRef } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import Header from './components/Header';
-import Footer from './components/Footer';
-import Sidebar from './components/Sidebar';
-import Roulette from './components/Roulette';
-import MainContent from './components/MainContent';
-import Login from './components/Login';
-import Register from './components/Register';
-import Personal from './components/Personal';
+import Header from './Components/Header';
+import Footer from './Components/Footer';
+import Sidebar from './Components/Sidebar';
+import Roulette from './Components/Roulette';
+import MainContent from './Components/MainContent';
+import Login from './Components/Login';
+import Register from './Components/Register';
+import Personal from './Components/Personal';
 import { DessertDataContext } from './contextsGlobal/dessertDataContext';
-import Account from './components/Account';
-import ProtectedRoute from './components/ProtectedRoute';
+import Account from './Components/Account';
+import ProtectedRoute from './Components/ProtectedRoute';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import './App.css';
@@ -2690,88 +2690,149 @@ File Path: src\css\dessertCard.css
 
 ==================================================
 
-=== reduced size ===
+=== Completely Modified CSS ===
 File Path: src\css\dessertModal.css
 
+/* Completely Modified CSS */
+
+/* Dessert Grid */
+.dessert-grid-container {
+  padding: 20px;
+}
+
 .dessert-grid {
-    display: flex;
-    gap: 10px;
-  }
-  
-  .dessert-card {
-    padding: 15px;
-    border: 1px solid #ddd;
-    cursor: pointer;
-    transition: transform 0.2s;
-  }
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Slightly larger min-width */
+  gap: 15px;
+}
 
-  .close-btn {
-    margin-top: 20px;
-  }
-  
-  .dessert-card:hover {
-    transform: scale(1.05);
-  }
-  
-  .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(39, 16, 49, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 999;
-    .modal-content {
-        width:70%;
-        background: white;
-        padding: 20px;
-        border-radius: 8px;
-        text-align: center;
-      }
-  }
-  
+/* Dessert Card */
+.dessert-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border: 1px solid #e0e0e0; /* Softer border color */
+  border-radius: 8px; /* Slightly more rounded */
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  background-color: #fff; /* Explicit white background */
+}
 
-  .modal-content > div {
-    margin-top: 15px;
-  }
-  
-  .modal-content textarea {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-  }
-  
-  .modal-content button:not(.close-btn) {
-    padding: 8px 15px;
-    cursor: pointer;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #f9f9f9;
-  }
-  
-  .modal-content button:not(.close-btn):hover {
-    background-color: #eee;
-  }
-  
-  .img {
-    width: 120px;           /* reduced size */
-    height: auto;
-    object-fit: cover;      /* better crop if needed */
-    border-radius: 5px;
-    margin-right: 20px;
-  }
+.dessert-card:hover {
+  transform: scale(1.08); /* Slightly more pronounced hover effect */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* More noticeable shadow */
+}
 
-  .more-dessert-info {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-  }
+/* Image in Dessert Card */
+.img {
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 5px;
+  margin-bottom: 15px;
+}
+
+/* More Dessert Info */
+.more-dessert-info {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  padding: 15px 0;
+  font-size: 0.9em; /* Slightly smaller font for extra info */
+  color: #555;
+}
+
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6); /* Slightly darker overlay */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+/* Modal Content */
+.modal-overlay .modal-content {
+  position: relative;
+  width: 90%;
+  max-width: 600px; /* Adjusted max-width */
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px; /* More rounded modal */
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25); /* More prominent modal shadow */
+}
+
+.modal-content > div {
+  margin-top: 25px; /* Increased top margin */
+  padding: 10px 0; /* Added vertical padding for sections */
+}
+
+.modal-content .review-text { /* Add this class to your review text element in HTML */
+  padding: 10px; /* Add padding around the review text */
+  border: 1px solid #eee; /* Optional: Add a light border */
+  border-radius: 4px;
+  margin-top: 10px; /* Add space above the review text */
+  background-color: #f9f9f9; /* Optional: Add a light background */
+}
+
+.modal-content strong { /* Assuming labels like "Restaurant:" are in strong tags */
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* Textarea in Modal */
+.modal-content textarea {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+  font-family: inherit;
+  resize: vertical;
+}
+
+/* Buttons in Modal (excluding close) */
+.modal-content button:not(.close-btn) {
+  padding: 12px 25px;
+  cursor: pointer;
+  border: none; /* Removed default border */
+  border-radius: 6px;
+  background-color: #007bff; /* Example primary button color */
+  color: white;
+  font-size: 1em;
+  transition: background-color 0.2s;
+}
+
+.modal-content button:not(.close-btn):hover {
+  background-color: #0056b3;
+}
+
+/* Close Button in Modal */
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  margin-top: 0;
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-size: 1.8em;
+  color: #aaa;
+  transition: color 0.2s;
+}
+
+.close-btn:hover {
+  color: #555;
+}
 
 ==================================================
 
