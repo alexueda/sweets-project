@@ -63,3 +63,25 @@
   background-color: #fddce1;
   border-radius: 4px;
 }
+
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .header-left {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .nav-links {
+    width: 100%;
+    padding: 1rem 0;
+  }
+
+  .nav-link {
+    width: 100%;
+  }
+}

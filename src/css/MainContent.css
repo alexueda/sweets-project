@@ -67,9 +67,9 @@
   .main-content {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: 95vh;
     overflow: hidden;
-    padding-bottom: 9rem;
+    padding-bottom: 10rem;
   }
 
   .card-container {
