@@ -7,7 +7,7 @@
 
 .favorites-left {
   flex: 1;                 /* Take up equal space */
-  height: 80vh;            /* Responsive height based on viewport */
+  max-height: calc(100vh - 180px);  /* Dynamic height based on viewport */
   padding: 20px;
   margin-right: 20px;      /* Space between left and right side */
   border-right: 2px solid #ccc;  /* Optional: a border between the left and right */
@@ -19,7 +19,7 @@
   flex: 1;
   padding: 20px;
   overflow-y: auto;
-  max-height: calc(100vh - 150px);  /* Dynamic height based on viewport */
+  max-height: calc(100vh - 180px);  /* Dynamic height based on viewport */
 }
 
 .reviews-container {
