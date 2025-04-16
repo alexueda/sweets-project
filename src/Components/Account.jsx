@@ -18,10 +18,7 @@ function Account() {
             <h2>John Doe</h2>
             <p className="email">john.doe@example.com</p>
             <p className="phone">(123) 456-7890</p>
-            <div className="account-actions">
-              <button className="btn edit-btn">Edit Profile</button>
-              <button className="btn logout-btn">Log Out</button>
-            </div>
+            {/* Removed account-actions containing Edit Profile and Log Out */}
           </div>
         </div>
       </div>

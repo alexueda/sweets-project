@@ -77,21 +77,15 @@ function CredentialMngmt({ isLoggedIn, setIsLoggedIn, closePopup }) {
         </li>
         <li>
           <Link 
-            to="/preferences" 
+            to="#"
             className="menu-link"
-            onClick={() => closePopup && closePopup()}
-          >
-            Preferences
-          </Link>
-        </li>
-        <li>
-          <button
-            onClick={handleLogout}
-            className="menu-link"
-            style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
+            onClick={(e) => {
+              e.preventDefault();
+              handleLogout();
+            }}
           >
             Log Out
-          </button>
+          </Link>
         </li>
       </ul>
       {/* Optionally, you could add a login form or registration fields here if needed */}
