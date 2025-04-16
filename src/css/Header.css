@@ -100,9 +100,9 @@
 
 
 /* In your Header.css */
-.logo-name {
+.name {
   height: auto; /* Maintain aspect ratio */
-  width: 140px; /* Adjust this value as needed */
+  width: 200px; /* Adjust this value as needed */
   /* or use height instead if you prefer: */
   /* height: 50px; */
   /* width: auto; */
