@@ -28,18 +28,6 @@ html, body, #root {
   background-color: #f9f9f9;
 }
 
-/* Sidebar styling */
-.sidebar {
-  width: 220px;
-  background-color: #FFE6EC;    /* Light Pink */
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  z-index: 2;
-  padding: 1rem;
-  border-right: 1px solid #ebc0c8; /* Dusty Rose */
-}
 
 /* Main content area adjusts when the sidebar is open */
 .main-content-wrapper {

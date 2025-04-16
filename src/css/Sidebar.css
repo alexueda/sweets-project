@@ -1,13 +1,12 @@
 /* src/components/Sidebar.css */
+/* Sidebar styling */
 .sidebar {
-  width: 25%;
-  height: 100vh;
+  width: fit-content;
+  background-color: #FFE6EC;
   padding: 1rem;
-  background-color: #fadadd; /* Light Pink */
-  border-right: 1px solid #D8A7B1; /* Dusty Rose */
-  overflow-y: auto;
-  overflow-x: hidden; /* Prevent horizontal scrollbar */
-  box-sizing: border-box; /* Include padding in width calculation */
+  overflow-y: auto;         /* 🧠 THIS enables scrolling */
+  max-height: 100%;         /* 🧠 Prevent it from overflowing */
+  box-sizing: border-box;   /* 🧠 Ensure padding is respected */
 }
 
 .filter-group {
