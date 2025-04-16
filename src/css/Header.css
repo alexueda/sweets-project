@@ -85,3 +85,13 @@
     width: 100%;
   }
 }
+
+
+/* In your Header.css */
+.logo-name {
+  height: auto; /* Maintain aspect ratio */
+  width: 200px; /* Adjust this value as needed */
+  /* or use height instead if you prefer: */
+  /* height: 50px; */
+  /* width: auto; */
+}
