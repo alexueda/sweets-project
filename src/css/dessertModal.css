@@ -140,6 +140,20 @@
 }
 
 
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.5em;
+  flex: 1;
+}
+
+
 @media (max-width: 600px) {
   /* Grid: Reduce padding and tighten up spacing */
   .dessert-grid-container {
@@ -189,3 +203,4 @@
     right: 10px;
   }
 }
+

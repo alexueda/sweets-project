@@ -26,12 +26,10 @@ const DessertModal = ({ dessert, onClose }) => {
         date: new Date().toISOString()
       };
 
-      // Save to localStorage
       const userReviews = JSON.parse(localStorage.getItem("userReviews") || "[]");
       userReviews.push(reviewData);
       localStorage.setItem("userReviews", JSON.stringify(userReviews));
 
-      // Update context
       const updatedDesserts = filteredList.map(d => {
         if (d["dessert title"] === dessert["dessert title"]) {
           return {
@@ -55,7 +53,11 @@ const DessertModal = ({ dessert, onClose }) => {
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <h2>{dessert["dessert title"]}</h2>
+        <div className="modal-header">
+          <h2>{dessert["dessert title"]}</h2>
+          <button className="close-btn" onClick={onClose}>×</button>
+        </div>
+
         <div className="more-dessert-info">
           <div className="image-content">
             {dessert["image"] && (
@@ -66,7 +68,7 @@ const DessertModal = ({ dessert, onClose }) => {
               />
             )}
           </div>
-          
+
           <div className="detail-content">
             <p><strong>Restaurant:</strong> {dessert["restaurant"]}</p>
             <p><strong>Flavors:</strong> {dessert["flavor"].join(", ")}</p>
@@ -115,7 +117,6 @@ const DessertModal = ({ dessert, onClose }) => {
           />
           <button onClick={handleReviewSubmit}>Submit Review</button>
         </div>
-        <button className="close-btn" onClick={onClose}>Close</button>
       </div>
     </div>
   );
