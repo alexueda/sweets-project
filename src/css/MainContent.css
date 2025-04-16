@@ -69,19 +69,19 @@
     flex-direction: column;
     height: 95vh;
     overflow: hidden;
-    padding-bottom: 10rem;
+    padding-bottom: 8rem;
   }
 
   .card-container {
-    flex: 0 0 35%;
-    max-height: 35%;
+    flex: 0 0 45%;
+    max-height: 45%;
     overflow-y: auto;
     padding-right: 0;
   }
 
   .map-container {
-    flex: 0 0 65%;
-    max-height: 65%;
+    flex: 0 0 55%;
+    max-height: 55%;
     display: flex;
     flex-direction: column;
     justify-content: stretch;
@@ -90,7 +90,7 @@
   }
 
   .map-container h4 {
-    margin: 0.5rem;
+    margin: 0.2rem;
     text-align: center;
     flex: 0 0 auto;
   }
