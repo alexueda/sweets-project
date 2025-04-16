@@ -33,9 +33,10 @@
 }
 
 .logo {
-  width: 30%; /* Adjust logo size */
-  height: auto;
+  width: 100%; /* Adjust logo size */
+  height: 100%;
   min-width: 150px; 
+  max-width: 300px;
 }
 
 /* Center section: search bar */
