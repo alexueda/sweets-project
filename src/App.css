@@ -40,6 +40,6 @@ html, body, #root {
 }
 
 .content-area.sidebar-open .main-content-wrapper {
-  margin-left: 250px; /* Offset when sidebar is visible */
+
   width: calc(100% - 250px);
 }
